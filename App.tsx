@@ -1,10 +1,36 @@
 import "react-native-gesture-handler";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text } from "react-native";
-import { View } from "./components/Tailwind";
 
+import { useCallback, useLayoutEffect } from "react";
+import { useFonts } from "expo-font";
 import Navigation from "./navigation";
+import fonts from "./util/shared/fonts";
+import * as SplashScreen from "expo-splash-screen";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+
+import "./style.css";
+
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  return <Navigation />;
+  const [fontsLoaded, fontError] = useFonts(fonts);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded || fontError) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, fontError]);
+
+  useLayoutEffect(() => {
+    onLayoutRootView();
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
+
+  return (
+    <GestureHandlerRootView>
+      <Navigation />
+    </GestureHandlerRootView>
+  );
 }
