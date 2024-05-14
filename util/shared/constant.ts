@@ -23,6 +23,7 @@ export const onboarding_screen_data = [
 ];
 
 export const routes = {
-  walletSetup: "walletSetup",
+  walletSetup: "wallet Setup",
   OnboardingScreen: "Onboarding",
+  securityConfig: "Security Config",
 };

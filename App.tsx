@@ -1,5 +1,4 @@
 import "react-native-gesture-handler";
-
 import { useCallback, useLayoutEffect } from "react";
 import { useFonts } from "expo-font";
 import Navigation from "./navigation";

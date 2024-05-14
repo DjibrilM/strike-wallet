@@ -6,9 +6,13 @@ import {
   Image as NativeImage,
   TouchableHighlight as NativeTouchableHighlight,
   Button as NativeButton,
-  SafeAreaView as NativeSafeAreaView
+  SafeAreaView as NativeSafeAreaView,
+  TextInput as NativeTextInput,
+  KeyboardAvoidingView as NativeKeyboardAvoidingView,
+  Switch as NativeSwitch,
 } from "react-native";
 import { styled } from "nativewind";
+
 
 
 export const View = styled(NativeView);
@@ -19,3 +23,7 @@ export const Image = styled(NativeImage);
 export const TouchableHighlight = styled(NativeTouchableHighlight);
 export const Button = styled(NativeButton);
 export const SafeAreaView = styled(NativeSafeAreaView);
+export const TextInput = styled(NativeTextInput);
+export const KeyboardAvoidingView = styled(NativeKeyboardAvoidingView);
+export const Switch = styled(NativeSwitch);
+

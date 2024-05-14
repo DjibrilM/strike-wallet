@@ -20,7 +20,6 @@ const OnboardingScreen = () => {
   const [ViewIndex, setViewIndex] = useState<number>(0);
   const navigation = useNavigation();
 
-
   return (
     <SafeAreaView>
       <StatusBar barStyle={"default"} />
@@ -41,9 +40,13 @@ const OnboardingScreen = () => {
         horizontal
         renderItem={(item) => (
           <View style={{ height: height - 300, width: width }} className="px-5">
+            <Image
+              className="w-[300px] h-[300px] mt-14 mx-auto"
+              source={item.item.image}
+            />
             <Text
               style={{ fontFamily: "Nunito-SemiBold" }}
-              className="text-center mt-10  text-slate-700 font-black text-[25px]"
+              className="text-center mt-3  text-slate-700 font-black text-[25px]"
             >
               {item.item.title}
             </Text>
@@ -51,11 +54,6 @@ const OnboardingScreen = () => {
             <Text className="text-slate-700 w-full leading-10 mt-2  text-center text-base">
               {item.item.description}
             </Text>
-
-            <Image
-              className="w-[300px] h-[300px] mx-auto"
-              source={item.item.image}
-            />
           </View>
         )}
         data={onboarding_screen_data}

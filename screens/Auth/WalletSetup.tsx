@@ -3,14 +3,11 @@ import { View } from "../../components/Tailwind";
 import { Image, Text, SafeAreaView } from "../../components/Tailwind";
 import Button from "../../components/common/Button";
 import { useNavigation } from "@react-navigation/native";
-
+import { routes } from "../../util/shared/constant";
 
 const WalletSetup = () => {
   const navigation = useNavigation();
 
-  useLayoutEffect(() => {
-    navigation.setOptions({});
-  }, []);
   return (
     <SafeAreaView className="flex items-center h-full">
       <View className="flex items-center mt-40">
@@ -33,7 +30,7 @@ const WalletSetup = () => {
       </View>
 
       <View className="mt-10 flex-1 justify-end mb-10 w-full px-5">
-        <Button>
+        <Button onPress={()=> navigation.navigate(routes.securityConfig as never)}>
           <Text style={{ fontFamily: "Nunito-Regular" }} className="text-white">
             Import Using Seed Phare
           </Text>
