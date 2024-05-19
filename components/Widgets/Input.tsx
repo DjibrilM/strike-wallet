@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
-import {
-  TextInputProps,
-  KeyboardTypeOptions,
-  StyleSheet,
-  KeyboardType,
-} from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+
+import { TextInputProps, KeyboardTypeOptions, StyleSheet } from "react-native";
+import { TextInput as NativeTextInout } from "react-native-gesture-handler";
 import { useSharedValue, withTiming } from "react-native-reanimated";
-import Visible from "./Visibility";
+import Visible from "../common/Visibility";
 import Animated from "react-native-reanimated";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
@@ -26,10 +23,10 @@ const Input: React.FC<Props> = ({
   errorMessage,
   ...props
 }) => {
-  const top = useSharedValue(23);
+  const top = useSharedValue(28);
   const fontSize = useSharedValue(14);
-  const [value, setValue] = useState(props.defaultValue || "");
   const [hide, setHide] = useState(true);
+  const inputRef = useRef<NativeTextInout>(null);
 
   const togleFocus = () => {
     top.value = withTiming(8, { duration: 200 });
@@ -37,40 +34,37 @@ const Input: React.FC<Props> = ({
   };
 
   const onBlur = () => {
-    if (value.length < 1 && (props.value?.length || 0) < 1) {
-      top.value = withTiming(20, { duration: 200 });
+    if ((props?.value?.length || 0) < 1 && (props.value?.length || 0) < 1) {
+      top.value = withTiming(28, { duration: 200 });
       fontSize.value = withTiming(14, { duration: 200 });
     }
   };
-
 
   useEffect(() => {
     if ((props.value?.length || 0) > 0) togleFocus();
   }, []);
 
   useEffect(() => {
+    inputRef.current?.setNativeProps({ text: props.value });
     if ((props.defaultValue?.length || "".length) > 1) togleFocus();
   }, []); // focus the input if the default value is not null
 
   return (
     <View
       className={cn(
-        "w-full border relative rounded-lg h-[65px] flex flex-row items-center border-gray-300 p-3 bg-white"
+        "w-full border relative rounded-lg h-[78px] flex flex-row items-center border-gray-200 p-3 bg-white"
       )}
     >
       <TextInput
         {...props}
+        ref={inputRef}
         secureTextEntry={type === "visible-password" ? hide : false}
-        onChangeText={(text) => {
-          setValue(text);
-          props?.onChangeText && props.onChangeText(text);
-        }}
+        textContentType="password"
         onBlur={onBlur}
         onPointerCancel={onBlur}
         onFocus={togleFocus}
         placeholder=""
         style={styles.input}
-        value={props.value}
       />
 
       <Animated.Text
@@ -80,13 +74,18 @@ const Input: React.FC<Props> = ({
       </Animated.Text>
       <Text
         style={styles.Nunito_Regula}
-        className="absolute bottom-[-17px] text-slate-500 text-[12px] text-right w-full ml-2"
+        className="absolute bottom-[-17px] text-red-500 text-[12px] text-right w-full ml-2"
       >
         {errorMessage}
       </Text>
 
       <Visible condition={type === "visible-password"}>
-        <Pressable onPress={() => setHide(!hide)} className="">
+        <Pressable
+          onPress={() => {
+            setHide(!hide);
+          }}
+          className=""
+        >
           <Visible condition={hide}>
             <AntDesign name="eyeo" size={24} color="#64748b" />
           </Visible>
@@ -108,7 +107,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   Nunito_Regula: {
-    fontFamily: "Nunito-Regula",
+    fontFamily: "Nunito-Regular",
   },
   input: {
     fontFamily: "Nunito-Regular",

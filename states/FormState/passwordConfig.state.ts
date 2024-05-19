@@ -17,7 +17,7 @@ type State = {
 type Action = {
   updatePassword: (psssword: string) => void;
   updatePasswordConfirmation: (confirmation: string) => void;
-  updateTrySubmit:()=> void
+  updateTrySubmit: () => void;
 };
 
 // Create your store, which includes both state and (optionally) actions
@@ -36,7 +36,6 @@ export const usePasswordForm = create<State & Action>((set, get) => ({
   },
 
   updatePassword: (value: string) => {
-    console.log(value, "value");
     const pattern = /^(?=.*\d)[A-Za-z\d]{6,}$/; //validation pattern
 
     const newValue: State["password"] = {
@@ -58,5 +57,5 @@ export const usePasswordForm = create<State & Action>((set, get) => ({
     }));
   },
 
-  updateTrySubmit:()=> set({triedSubmit:true})
+  updateTrySubmit: () => set({ triedSubmit: true }),
 }));

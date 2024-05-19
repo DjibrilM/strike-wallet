@@ -5,6 +5,7 @@ import Navigation from "./navigation";
 import fonts from "./util/shared/fonts";
 import * as SplashScreen from "expo-splash-screen";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 import "./style.css";
 
@@ -29,7 +30,9 @@ export default function App() {
 
   return (
     <GestureHandlerRootView>
-      <Navigation />
+      <BottomSheetModalProvider>
+        <Navigation />
+      </BottomSheetModalProvider>
     </GestureHandlerRootView>
   );
 }
