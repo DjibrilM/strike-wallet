@@ -1,4 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import Checkbox from "expo-checkbox";
+import { StatusBar } from "react-native";
+
+
 import {
   View,
   Text,
@@ -7,18 +12,21 @@ import {
   Switch,
   Pressable,
 } from "../../components/Tailwind";
-import Input from "../../components/common/Input";
-import { useForm, Controller } from "react-hook-form";
+import Input from "../../components/Widgets/Input";
 import { Platform } from "react-native";
 import { cn } from "../../util/cn";
-import Checkbox from "expo-checkbox";
-import Button from "../../components/common/Button";
+
+import Button from "../../components/Widgets/Button";
 import { usePasswordForm } from "../../states/FormState/passwordConfig.state";
+import { routes } from "../../util/shared/constant";
+import { useAuthSetps } from "../../states/authSteps.state";
 
 const PaswordConfig = () => {
+  const navigation = useNavigation();
   const [includeFaceRecognition, setIncludeFaceRecognition] =
     useState<boolean>(false);
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
+  const { updateSteps } = useAuthSetps();
 
   const {
     triedSubmit,
@@ -29,23 +37,28 @@ const PaswordConfig = () => {
     updateTrySubmit,
   } = usePasswordForm();
 
-  console.log(password, "password");
   const onSubmit = () => {
     updateTrySubmit();
     if (password.valid && confirmPassword.valid) {
-
+      navigation.navigate(routes.seedPhraseSetupReminder as never);
     }
   };
 
+  useEffect(() => {
+    updateSteps(1);
+    navigation.addListener("focus", () => updateSteps(1));
+  }, []);
+
   return (
     <SafeAreaView className="px-5">
+      <StatusBar barStyle={"default"}/>
       <View
         className={cn("flex flex-col h-full", {
           "px-5": Platform.OS === "ios",
         })}
       >
         <Text
-          className="text-[18px] font-bold mt-10"
+          className="text-[18px] font-bold mt-10 text-slate-600"
           style={{ fontFamily: "Nunito-Bold" }}
         >
           Create Password
@@ -124,11 +137,11 @@ const PaswordConfig = () => {
           </Text>
         </View>
 
-        <View className="w-full h-10 self-end  pb-4 flex-1 justify-end">
+        <View className="w-full h-10 self-end  mb-10 flex-1 justify-end">
           <Button onPress={onSubmit}>
             <Text
               className="text-white font-bold"
-              style={{ fontFamily: "Nunito-Regular" }}
+              style={{ fontFamily: "Nunito-Bold" }}
             >
               Create Password
             </Text>

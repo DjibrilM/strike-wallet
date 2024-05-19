@@ -10,6 +10,7 @@ import {
   TextInput as NativeTextInput,
   KeyboardAvoidingView as NativeKeyboardAvoidingView,
   Switch as NativeSwitch,
+  ScrollView as NavtiveScrollView
 } from "react-native";
 import { styled } from "nativewind";
 
@@ -26,4 +27,5 @@ export const SafeAreaView = styled(NativeSafeAreaView);
 export const TextInput = styled(NativeTextInput);
 export const KeyboardAvoidingView = styled(NativeKeyboardAvoidingView);
 export const Switch = styled(NativeSwitch);
+export const ScrollView =  styled(NavtiveScrollView)
 

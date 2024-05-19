@@ -6,6 +6,11 @@ import WalletSetup from "../screens/Auth/WalletSetup";
 import { routes } from "../util/shared/constant";
 import { AuthScreenHeader } from "./configs";
 import SecurityConfig from "../screens/Auth/PasswordConfig";
+import SeedPhraseSetupReminder from "../screens/Auth/SeedPhraseSetupReminder";
+import SeedPhraseGeneration from "../screens/Auth/SeedPhraseGeneration";
+import SeedPhraseRevelation from "../screens/Auth/SeedPhraseRevelation";
+import SeedPhraseMatchTest from "../screens/Auth/SeedPhraseMatchTest";
+import SeedPhraseSetUpEnd from "../screens/Auth/SeedPhraseSetUpEnd";
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +40,51 @@ const Navigation = () => {
           }}
           name={routes.securityConfig}
           component={SecurityConfig}
+        />
+
+        <Stack.Screen
+          options={{
+            ...AuthScreenHeader,
+            animation: "fade_from_bottom",
+          }}
+          name={routes.seedPhraseSetupReminder}
+          component={SeedPhraseSetupReminder}
+        />
+
+        <Stack.Screen
+          options={{
+            ...AuthScreenHeader,
+            animation: "fade_from_bottom",
+          }}
+          name={routes.seedPhraseGenerationPage}
+          component={SeedPhraseGeneration}
+        />
+
+        <Stack.Screen
+          options={{
+            ...AuthScreenHeader,
+            animation: "fade_from_bottom",
+          }}
+          name={routes.seedPhraseRevelation}
+          component={SeedPhraseRevelation}
+        />
+
+        <Stack.Screen
+          options={{
+            ...AuthScreenHeader,
+            animation: "fade_from_bottom",
+          }}
+          name={routes.seedPhraseMatchTest}
+          component={SeedPhraseMatchTest}
+        />
+
+        <Stack.Screen
+          options={{
+            ...AuthScreenHeader,
+            animation: "fade_from_bottom",
+          }}
+          name={routes.SeedPhraseSetUpEnd}
+          component={SeedPhraseSetUpEnd}
         />
       </Stack.Navigator>
     </NavigationContainer>
