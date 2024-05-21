@@ -22,7 +22,12 @@ const OnboardingScreen = () => {
 
   return (
     <SafeAreaView
-      style={{ display: "flex", flexDirection: "column", height: "100%" }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        backgroundColor: "#f9fafb",
+      }}
     >
       <StatusBar barStyle="default" />
       <View className="flex gap-3 w-full  mt-5 justify-center items-center flex-col">
@@ -41,7 +46,7 @@ const OnboardingScreen = () => {
         pagingEnabled
         horizontal
         renderItem={(item) => (
-          <View style={{ height: height - 300, width: width }} className="px-6">
+          <View style={{ height: height - 300, width: width }} className="px-6 flex justify-center">
             <Image
               className="mx-auto scale-[0.8] object-contain"
               source={item.item.image}
@@ -49,7 +54,7 @@ const OnboardingScreen = () => {
 
             <Text
               style={{ fontFamily: "Nunito-SemiBold" }}
-              className="text-left mt-3  text-slate-700 font-black text-[25px]"
+              className="text-left mt-3  text-slate-700 font-semibold text-[25px]"
             >
               {item.item.title}
             </Text>
@@ -67,7 +72,7 @@ const OnboardingScreen = () => {
           {onboarding_screen_data.map((dt, index) => (
             <View
               style={{
-                backgroundColor: index === ViewIndex ? "#1e293b" : "#cbd5e1",
+                backgroundColor: index === ViewIndex ? "#1354fe" : "#cbd5e1",
               }}
               key={dt.id}
               className="w-3 h-3 rounded-lg bg-slate-400"
@@ -77,15 +82,9 @@ const OnboardingScreen = () => {
 
         <View className="px-6">
           <Button
+            label="Start"
             onPress={() => navigation.navigate(routes.walletSetup as never)}
-          >
-            <Text
-              className="font-bold text-slate-200"
-              style={{ fontFamily: "Nunito-Regular" }}
-            >
-              Start
-            </Text>
-          </Button>
+          ></Button>
         </View>
       </View>
     </SafeAreaView>

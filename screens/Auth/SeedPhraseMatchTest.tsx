@@ -97,7 +97,7 @@ const SeedPhraseMatchTest = () => {
   };
 
   return (
-    <SafeAreaView className="h-full flex-1">
+    <SafeAreaView className="h-full flex-1 bg-white">
       <StatusBar barStyle={"default"} />
 
       <ScrollView className="px-6 pb-10">
@@ -114,10 +114,11 @@ const SeedPhraseMatchTest = () => {
         >
           Select each word in the order it was presented to you
         </Text>
-        <View className="w-full mt-6 min-h-[400px] bg-white rounded-lg p-6 shadow-sm">
+        <View className="w-full mt-6 min-h-[400px] bg-white rounded-lg p-6 shadow-md border-slate-200 border">
           <View className="flex flex-wrap justify-between gap-4 flex-row mt-5">
             {selectionAre.map((seedPhrase, index) => (
               <Pressable
+                key={seedPhrase + index.toString()}
                 onPress={() => updateActiveArea(index)}
                 className={cn(
                   "flex flex-row items-center relative left-1 basis-32 h-10 mb-2"
@@ -170,7 +171,7 @@ const SeedPhraseMatchTest = () => {
               >
                 <View
                   className={cn(
-                    "basis-[30]  relative p-2 flex flex-row items-center justify-center right-1 h-10 rounded-lg shadow-sm",
+                    "basis-[30] border border-slate-200  relative p-2 flex flex-row items-center justify-center right-1 h-10 rounded-lg shadow-sm",
                     {
                       "bg-slate-300": isSeelected > -1,
                       "bg-white": isSeelected === -1,

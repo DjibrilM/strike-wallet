@@ -44,4 +44,5 @@ export const routes = {
   seedPhraseRevelation: "seedPhraseRevelation",
   seedPhraseMatchTest: "seedPhraseMatchTest",
   SeedPhraseSetUpEnd: "seedPhraseSetUpEnd",
+  seedPhraseImportantion: "seedPhraseImportantion",
 };

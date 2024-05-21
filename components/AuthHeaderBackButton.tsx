@@ -3,7 +3,6 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 import { Pressable } from "./Tailwind";
 import { useNavigation } from "@react-navigation/native";
-import { useAuthSetps } from "../states/authSteps.state";
 import { View } from "./Tailwind";
 import { cn } from "../util/cn";
 import { Platform } from "react-native";
@@ -14,7 +13,7 @@ const AuthHeaderBackButton = () => {
     <Pressable onPress={() => navigation.goBack()}>
       <View
         className={cn("mt-2 mr-3", {
-          "rounded-lg border border-slate-300 relative right-2":
+          "rounded-lg relative right-2":
             Platform.OS === "android",
         })}
       >

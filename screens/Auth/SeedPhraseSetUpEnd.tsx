@@ -12,7 +12,7 @@ const SeedPhraseSetUpEnd = () => {
     navigation.addListener("focus", () => updateSteps(6));
   }, []);
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-white">
       <View className="px-6 h-full">
         <Image
           className="mx-auto w-[200px] h-[200px] mt-20"

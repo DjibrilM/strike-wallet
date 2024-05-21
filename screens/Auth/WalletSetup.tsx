@@ -11,16 +11,19 @@ const WalletSetup = () => {
   const navigation = useNavigation();
 
   return (
-    <SafeAreaView className="flex items-center h-full">
+    <SafeAreaView className="flex items-center h-full bg-white">
       <StatusBar barStyle={"default"} />
       <View className="flex items-center mt-20">
-        <Image  className="scale-[0.7]" source={require("../../assets/images/3d-casual-life-cogwheels-and-gears-representing-settings.png")}></Image>
+        <Image
+          className="scale-[0.7]"
+          source={require("../../assets/images/3d-casual-life-cogwheels-and-gears-representing-settings.png")}
+        ></Image>
       </View>
 
-      <View className="w-full relative top-10  px-6">
+      <View className="w-full relative   px-6">
         <Text
           style={{ fontFamily: "Nunito-Regular" }}
-          className="text-3xl text-slate-800 font-semibold"
+          className="text-3xl text-slate-700"
         >
           Wallet Setup
         </Text>
@@ -38,7 +41,12 @@ const WalletSetup = () => {
           onPress={() => navigation.navigate(routes.securityConfig as never)}
         />
 
-        <Button className="mt-4 bg-slate-300 active:bg-slate-200 font-bold">
+        <Button
+          onPress={() =>
+            navigation.navigate(routes.seedPhraseImportantion as never)
+          }
+          className="mt-4 bg-slate-300 active:bg-slate-200 font-bold"
+        >
           <Text className="text-slate-600">Import Using Seed Phare</Text>
         </Button>
       </View>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Checkbox from "expo-checkbox";
 import { StatusBar } from "react-native";
-
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 import {
   View,
@@ -50,8 +50,8 @@ const PaswordConfig = () => {
   }, []);
 
   return (
-    <SafeAreaView className="px-5">
-      <StatusBar barStyle={"default"}/>
+    <SafeAreaView className="px-5 bg-white">
+      <StatusBar barStyle={"default"} />
       <View
         className={cn("flex flex-col h-full", {
           "px-5": Platform.OS === "ios",
@@ -90,6 +90,14 @@ const PaswordConfig = () => {
 
           <View className="mt-8">
             <Input
+              prefix={
+                confirmPassword.valid ? (
+                  <AntDesign name="check" size={24} color="#50a050" />
+                ) : (
+                  <></>
+                )
+              }
+              hiddePasswordView={true}
               value={confirmPassword.value}
               type={"visible-password"}
               placeholder="Confirm Password"
@@ -119,17 +127,18 @@ const PaswordConfig = () => {
 
         <View className="flex flex-row gap-3 w-full px-2 mt-5">
           <Checkbox
+            style={{ borderColor: "#1354fe" }}
             value={toggleCheckBox}
             onValueChange={() => setToggleCheckBox(!toggleCheckBox)}
-            color={toggleCheckBox ? "#475569" : undefined}
+            color={toggleCheckBox ? "#1354fe" : undefined}
           />
-          <Text style={{ fontFamily: "Nunito-Regular" }}>
+          <Text className="text-slate-700" style={{ fontFamily: "Nunito-Regular" }}>
             I under stand that Cryptooly cannot recover this password for me.
-            Learn{" "}
-            <Pressable>
+            Learn
+            <Pressable className="pt-1  top-[0.8px]">
               <Text
-                style={{ fontFamily: "Nunito-Regular" }}
-                className="font-bold text-red-600 underline"
+                style={{ fontFamily: "Nunito-Bold" }}
+                className="underline text-blueDefault relative top-[2px] left-2"
               >
                 more
               </Text>
@@ -138,7 +147,10 @@ const PaswordConfig = () => {
         </View>
 
         <View className="w-full h-10 self-end  mb-10 flex-1 justify-end">
-          <Button onPress={onSubmit}>
+          <Button
+            disabled={!(password.valid && confirmPassword.valid)}
+            onPress={onSubmit}
+          >
             <Text
               className="text-white font-bold"
               style={{ fontFamily: "Nunito-Bold" }}

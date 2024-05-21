@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
 import Octicons from "@expo/vector-icons/Octicons";
 import { useNavigation } from "@react-navigation/native";
-import { View, Text } from "../../components/Tailwind";
+import { View, Text,SafeAreaView } from "../../components/Tailwind";
 import { StatusBar } from "react-native";
 
 import { useAuthSetps } from "../../states/authSteps.state";
-import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "../../components/Widgets/Button";
 import { ScrollView } from "../../components/Tailwind";
 import { routes } from "../../util/shared/constant";
@@ -18,7 +17,7 @@ const SeedPhraseGeneration = () => {
     navigation.addListener("focus", () => updateSteps(3));
   }, []);
   return (
-    <SafeAreaView>
+    <SafeAreaView className="bg-white">
       <StatusBar barStyle={"default"} />
       <ScrollView className="flex px-4 flex-col h-full">
         <Text
@@ -33,7 +32,7 @@ const SeedPhraseGeneration = () => {
           <Text className="text-blue-500">Why is it important?</Text>
         </View>
 
-        <View className="bg-white  mt-5 p-4 shadow-sm rounded-[10px] w-full">
+        <View className="bg-white border border-slate-200  mt-5 p-4 shadow-sm rounded-[10px] w-full">
           <Text
             style={{ fontFamily: "Nunito-SemiBold" }}
             className=" leading-5 text-slate-600"

@@ -27,7 +27,7 @@ const AuthHeaderStep = () => {
         style={{
           width: width as any,
           height: 10,
-          backgroundColor: "#1e293b",
+          backgroundColor: "#1354fe",
           borderRadius: 1000,
         }}
       ></Animated.View>
@@ -38,13 +38,14 @@ const AuthHeaderStep = () => {
 const styles = StyleSheet.create({
   stepsContainer: {
     marginTop: Platform.OS === "android" ? 10 : "auto",
-    width: "75%",
     marginHorizontal: 10,
+    width:'100%',
     position: "relative",
     right: Platform.OS === "ios" ? 10 : "auto",
     left: Platform.OS === "android" ? 7 : "auto",
     backgroundColor: "#cbd5e1",
     borderRadius: 100,
+    objectFit:'cover'
   },
 });
 
