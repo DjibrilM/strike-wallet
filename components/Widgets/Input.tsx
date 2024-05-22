@@ -13,31 +13,38 @@ import { cn } from "../../util/cn";
 
 interface Props extends TextInputProps {
   className?: string;
-  type?: KeyboardTypeOptions;
+  InputType?: KeyboardTypeOptions;
   errorMessage?: string;
+  hiddePasswordView?: boolean;
+  prefix?: React.JSX.Element;
 }
 
 const Input: React.FC<Props> = ({
   className,
-  type,
+  InputType,
   errorMessage,
+  hiddePasswordView,
+  prefix,
   ...props
 }) => {
-  const top = useSharedValue(28);
+  const top = useSharedValue(25);
   const fontSize = useSharedValue(14);
   const [hide, setHide] = useState(true);
   const inputRef = useRef<NativeTextInout>(null);
+  const [focused, setFocused] = useState<boolean>(false);
 
   const togleFocus = () => {
     top.value = withTiming(8, { duration: 200 });
     fontSize.value = withTiming(10, { duration: 200 });
+    setFocused(true);
   };
 
   const onBlur = () => {
     if ((props?.value?.length || 0) < 1 && (props.value?.length || 0) < 1) {
-      top.value = withTiming(28, { duration: 200 });
+      top.value = withTiming(25, { duration: 200 });
       fontSize.value = withTiming(14, { duration: 200 });
     }
+    setFocused(false);
   };
 
   useEffect(() => {
@@ -52,13 +59,16 @@ const Input: React.FC<Props> = ({
   return (
     <View
       className={cn(
-        "w-full border relative rounded-lg h-[78px] flex flex-row items-center border-gray-200 p-3 bg-white"
+        "w-full border relative rounded-lg h-[70px] flex flex-row items-center border-gray-200 p-3 bg-white",
+        {
+          "border-blueDefault": focused,
+        }
       )}
     >
       <TextInput
         {...props}
         ref={inputRef}
-        secureTextEntry={type === "visible-password" ? hide : false}
+        secureTextEntry={InputType === "visible-password" ? hide : false}
         textContentType="password"
         onBlur={onBlur}
         onPointerCancel={onBlur}
@@ -79,12 +89,12 @@ const Input: React.FC<Props> = ({
         {errorMessage}
       </Text>
 
-      <Visible condition={type === "visible-password"}>
+      <Visible condition={InputType === "visible-password" && !hiddePasswordView}>
         <Pressable
           onPress={() => {
             setHide(!hide);
           }}
-          className=""
+          className="mr-2"
         >
           <Visible condition={hide}>
             <AntDesign name="eyeo" size={24} color="#64748b" />
@@ -95,6 +105,8 @@ const Input: React.FC<Props> = ({
           </Visible>
         </Pressable>
       </Visible>
+
+      <Visible condition={!!prefix}>{prefix}</Visible>
     </View>
   );
 };
@@ -114,7 +126,7 @@ const styles = StyleSheet.create({
     height: "100%",
     zIndex: 2,
     flex: 1,
-    marginTop: 5,
+    marginTop: 20,
   },
 });
 

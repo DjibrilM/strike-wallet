@@ -9,7 +9,7 @@ import { Platform } from "react-native";
 
 export const AuthScreenHeader: NativeStackNavigationOptions = {
   headerStyle: {
-    backgroundColor: "#F3F2F2",
+    backgroundColor: "#fff",
   },
 
   headerShadowVisible: false,
@@ -28,7 +28,7 @@ export const AuthScreenHeader: NativeStackNavigationOptions = {
       </View>
     );
   },
-  headerTitle: () => <AuthHeaderStep />,
+  headerTitle:()=>  <View className="bg-red h-7 w-full"></View>,
 
   headerBackVisible: false,
   headerLeft: () => <AuthHeaderBackButton />,

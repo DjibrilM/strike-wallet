@@ -3,7 +3,6 @@ import { useNavigation } from "@react-navigation/native";
 import Checkbox from "expo-checkbox";
 import { StatusBar } from "react-native";
 
-
 import { View, SafeAreaView, Image, Text } from "../../components/Tailwind";
 import { useAuthSetps } from "../../states/authSteps.state";
 import Button from "../../components/Widgets/Button";
@@ -25,7 +24,7 @@ const SeedPhraseSetupReminder = () => {
   }, []);
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-white">
       <StatusBar barStyle={"default"} />
 
       <View className="flex px-6 flex-col h-full">
@@ -76,7 +75,7 @@ const SeedPhraseSetupReminder = () => {
       </View>
 
       <CustomBottomSheet
-        customSnapPoints={["52%"]}
+        customSnapPoints={["65%"]}
         ref={seedPharseExplanationBottomSheet}
       >
         <View className="px-6 flex h-full flex-col">
@@ -108,7 +107,7 @@ const SeedPhraseSetupReminder = () => {
             even Cryptooly can help you recover it.
           </Text>
 
-          <View className="mb-5 flex-1 self-end  justify-end  w-full">
+          <View className="flex-1 self-end mb-7  justify-end  w-full">
             <Button
               onPress={() => {
                 navigation.navigate(routes.seedPhraseGenerationPage as never);
@@ -130,7 +129,7 @@ const SeedPhraseSetupReminder = () => {
         customSnapPoints={["34%"]}
         ref={securityReminderBottomSheet}
       >
-        <View className="px-4 h-full flex flex-col w-full">
+        <View className="px-6 h-full flex flex-col w-full">
           <Text className="my-5 font-bold text-[18px] text-slate-700">
             Skip Account Security?
           </Text>
@@ -154,36 +153,19 @@ const SeedPhraseSetupReminder = () => {
 
           <View className="pb-10 flex-1  flex flex-row items-center justify-center gap-4">
             <Button
+              label="Skip"
               disabled={!constinueWithoutSecurity}
-              className={cn(
-                "basis-[50] self-end bg-slate-200 active:bg-slate-300",
-                {
-                  "bg-slate-100": !constinueWithoutSecurity,
-                }
-              )}
-            >
-              <Text
-                className="font-bold text-slate-900"
-                style={{ fontFamily: "Nunito-Bold" }}
-              >
-                Skip
-              </Text>
-            </Button>
+              className={cn("basis-[50] self-end")}
+            />
 
             <Button
+              label="Secure Now"
               onPress={() => {
                 securityReminderBottomSheet.current?.close();
                 seedPharseExplanationBottomSheet.current?.open();
               }}
               className="basis-[46] self-end"
-            >
-              <Text
-                className="text-white font-bold"
-                style={{ fontFamily: "Nunito-Bold" }}
-              >
-                Secure Now
-              </Text>
-            </Button>
+            />
           </View>
         </View>
       </CustomBottomSheet>

@@ -22,7 +22,7 @@ const SeedPhraseRevelation = () => {
   }, []);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className="bg-white">
       <StatusBar barStyle={"default"} />
       <View className="items-center h-full flex px-6 w-full mt-10">
         <Text
@@ -76,7 +76,7 @@ const SeedPhraseRevelation = () => {
           {seedPhrase.current.map((phrase, index) => (
             <View
               key={"seed-phrase-" + index}
-              className="p-4 z-20 w-[44%] relative right-2 flex flex-row  justify-center items-center rounded-lg flex-2  bg-white"
+              className="p-4 z-20 border border-slate-400 w-[44%] relative right-2 flex flex-row  justify-center items-center rounded-lg flex-2  bg-white"
             >
               <Text
                 style={{ fontFamily: "Nunito-Regular" }}
