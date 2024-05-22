@@ -130,7 +130,7 @@ const ImportExistingSeedPhrase = () => {
                   )
                 }
                 hiddePasswordView={key === "passwordConfirmation"}
-                type={
+                InputType={
                   form[
                     key as "password" | "seedPhrase" | "passwordConfirmation"
                   ].type

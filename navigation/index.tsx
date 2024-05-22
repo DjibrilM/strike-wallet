@@ -38,10 +38,7 @@ const Navigation = () => {
           component={OnboardingScreen}
         />
         <Stack.Screen
-          options={{
-            ...AuthScreenHeader,
-            animation: "fade_from_bottom",
-          }}
+          options={{ headerShown: false }}
           name={routes.securityConfig}
           component={SecurityConfig}
         />
@@ -97,11 +94,7 @@ const Navigation = () => {
               const { goBack } = useNavigation();
               return Platform.OS === "android" ? (
                 <Pressable onPress={goBack}>
-                  <View
-                    className={
-                      "mt-2 p-[3px] relative"
-                    }
-                  >
+                  <View className={"mt-2 p-[3px] relative"}>
                     <Ionicons
                       name="chevron-back-outline"
                       size={25}
@@ -115,7 +108,7 @@ const Navigation = () => {
             },
 
             headerShadowVisible: false,
-            animation: Platform.OS === 'ios' ? "slide_from_bottom":'default',
+            animation: Platform.OS === "ios" ? "slide_from_bottom" : "default",
             fullScreenGestureEnabled: true,
             gestureDirection: "vertical",
             gestureEnabled: true,

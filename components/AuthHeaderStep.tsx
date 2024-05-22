@@ -39,13 +39,13 @@ const styles = StyleSheet.create({
   stepsContainer: {
     marginTop: Platform.OS === "android" ? 10 : "auto",
     marginHorizontal: 10,
-    width:'100%',
+    width: "100%",
     position: "relative",
     right: Platform.OS === "ios" ? 10 : "auto",
     left: Platform.OS === "android" ? 7 : "auto",
     backgroundColor: "#cbd5e1",
     borderRadius: 100,
-    objectFit:'cover'
+    objectFit: "cover",
   },
 });
 

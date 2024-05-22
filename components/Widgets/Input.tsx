@@ -13,7 +13,7 @@ import { cn } from "../../util/cn";
 
 interface Props extends TextInputProps {
   className?: string;
-  type?: KeyboardTypeOptions;
+  InputType?: KeyboardTypeOptions;
   errorMessage?: string;
   hiddePasswordView?: boolean;
   prefix?: React.JSX.Element;
@@ -21,7 +21,7 @@ interface Props extends TextInputProps {
 
 const Input: React.FC<Props> = ({
   className,
-  type,
+  InputType,
   errorMessage,
   hiddePasswordView,
   prefix,
@@ -68,7 +68,7 @@ const Input: React.FC<Props> = ({
       <TextInput
         {...props}
         ref={inputRef}
-        secureTextEntry={type === "visible-password" ? hide : false}
+        secureTextEntry={InputType === "visible-password" ? hide : false}
         textContentType="password"
         onBlur={onBlur}
         onPointerCancel={onBlur}
@@ -89,7 +89,7 @@ const Input: React.FC<Props> = ({
         {errorMessage}
       </Text>
 
-      <Visible condition={type === "visible-password" && !hiddePasswordView}>
+      <Visible condition={InputType === "visible-password" && !hiddePasswordView}>
         <Pressable
           onPress={() => {
             setHide(!hide);

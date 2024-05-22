@@ -74,7 +74,8 @@ const PaswordConfig = () => {
         <KeyboardAvoidingView className="mt-10" behavior="padding">
           <View>
             <Input
-              type={"visible-password"}
+              onChange={(e) => console.log(e.nativeEvent.text)}
+              InputType={"visible-password"}
               value={password.value}
               placeholder="Password"
               onChangeText={(value) => updatePassword(value)}
@@ -99,7 +100,7 @@ const PaswordConfig = () => {
               }
               hiddePasswordView={true}
               value={confirmPassword.value}
-              type={"visible-password"}
+              InputType={"visible-password"}
               placeholder="Confirm Password"
               onChangeText={(value) => updatePasswordConfirmation(value)}
               errorMessage={
@@ -127,12 +128,16 @@ const PaswordConfig = () => {
 
         <View className="flex flex-row gap-3 w-full px-2 mt-5">
           <Checkbox
-            style={{ borderColor: "#1354fe" }}
+             
+            style={{ borderColor: "#1354fe",top:5 }}
             value={toggleCheckBox}
             onValueChange={() => setToggleCheckBox(!toggleCheckBox)}
             color={toggleCheckBox ? "#1354fe" : undefined}
           />
-          <Text className="text-slate-700" style={{ fontFamily: "Nunito-Regular" }}>
+          <Text
+            className="text-slate-700"
+            style={{ fontFamily: "Nunito-Regular" }}
+          >
             I under stand that Cryptooly cannot recover this password for me.
             Learn
             <Pressable className="pt-1  top-[0.8px]">
