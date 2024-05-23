@@ -54,12 +54,12 @@ const OnboardingScreen = () => {
 
             <Text
               style={{ fontFamily: "Nunito-SemiBold" }}
-              className="text-left mt-3  text-slate-700 font-semibold text-[25px]"
+              className="mt-3 relative bottom-8  text-slate-600 font-semibold mb-4 text-center text-[25px]"
             >
               {item.item.title}
             </Text>
 
-            <Text className="text-slate-700 w-full leading-10 mt-2  text-left text-base">
+            <Text className="text-slate-500 relative bottom-6 text-center w-full leading-10 mt-2  text-base">
               {item.item.description}
             </Text>
           </View>
