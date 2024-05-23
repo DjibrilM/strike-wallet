@@ -45,8 +45,7 @@ const Navigation = () => {
 
         <Stack.Screen
           options={{
-            ...AuthScreenHeader,
-            animation: "fade_from_bottom",
+            headerShown: false,
           }}
           name={routes.seedPhraseSetupReminder}
           component={SeedPhraseSetupReminder}
@@ -54,8 +53,7 @@ const Navigation = () => {
 
         <Stack.Screen
           options={{
-            ...AuthScreenHeader,
-            animation: "fade_from_bottom",
+            headerShown: false,
           }}
           name={routes.seedPhraseGenerationPage}
           component={SeedPhraseGeneration}
@@ -63,8 +61,7 @@ const Navigation = () => {
 
         <Stack.Screen
           options={{
-            ...AuthScreenHeader,
-            animation: "fade_from_bottom",
+            headerShown: false,
           }}
           name={routes.seedPhraseRevelation}
           component={SeedPhraseRevelation}
@@ -72,8 +69,7 @@ const Navigation = () => {
 
         <Stack.Screen
           options={{
-            ...AuthScreenHeader,
-            animation: "fade_from_bottom",
+            headerShown: false,
           }}
           name={routes.seedPhraseMatchTest}
           component={SeedPhraseMatchTest}
@@ -81,8 +77,7 @@ const Navigation = () => {
 
         <Stack.Screen
           options={{
-            ...AuthScreenHeader,
-            animation: "fade_from_bottom",
+            headerShown: false,
           }}
           name={routes.SeedPhraseSetUpEnd}
           component={SeedPhraseSetUpEnd}

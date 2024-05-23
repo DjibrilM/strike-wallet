@@ -1,25 +1,32 @@
 import React, { useEffect } from "react";
 import Octicons from "@expo/vector-icons/Octicons";
 import { useNavigation } from "@react-navigation/native";
-import { View, Text,SafeAreaView } from "../../components/Tailwind";
-import { StatusBar } from "react-native";
+import { View, Text, SafeAreaView } from "../../components/Tailwind";
+import AuthHeader from "../../components/AuthHeader";
+import { Platform, StatusBar } from "react-native";
 
 import { useAuthSetps } from "../../states/authSteps.state";
 import Button from "../../components/Widgets/Button";
 import { ScrollView } from "../../components/Tailwind";
 import { routes } from "../../util/shared/constant";
+import { cn } from "../../util/cn";
 
 const SeedPhraseGeneration = () => {
   const navigation = useNavigation();
   const { updateSteps } = useAuthSetps();
 
   useEffect(() => {
-    navigation.addListener("focus", () => updateSteps(3));
+    navigation.addListener("focus", () => updateSteps(2));
   }, []);
   return (
-    <SafeAreaView className="bg-white">
+    <SafeAreaView className="bg-white px-6">
       <StatusBar barStyle={"default"} />
-      <ScrollView className="flex px-4 flex-col h-full">
+      <AuthHeader />
+      <ScrollView
+        className={cn("flex  flex-col h-full", {
+          "px-6": Platform.OS === "ios",
+        })}
+      >
         <Text
           style={{ fontFamily: "Nunito-Bold" }}
           className="text-slate-600 text-[18px] mt-10 font-bold"

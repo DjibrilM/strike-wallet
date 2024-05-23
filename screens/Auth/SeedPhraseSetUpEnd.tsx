@@ -3,17 +3,24 @@ import { useNavigation } from "@react-navigation/native";
 import { View, SafeAreaView, Image, Text } from "../../components/Tailwind";
 import Button from "../../components/Widgets/Button";
 import { useAuthSetps } from "../../states/authSteps.state";
+import AuthHeader from "../../components/AuthHeader";
+import { cn } from "../../util/cn";
+import { Platform } from "react-native";
 
 const SeedPhraseSetUpEnd = () => {
   const navigation = useNavigation();
   const { updateSteps } = useAuthSetps();
+  
 
   useEffect(() => {
-    navigation.addListener("focus", () => updateSteps(6));
+    navigation.addListener("focus", () => updateSteps(4));
   }, []);
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <View className="px-6 h-full">
+    <SafeAreaView className="flex-1 px-6 bg-white">
+      <AuthHeader />
+      <View className={cn("h-full flex-1", {
+        "px-6": Platform.OS === 'ios'
+      })}>
         <Image
           className="mx-auto w-[200px] h-[200px] mt-20"
           source={require("../../assets/images/3d-fluency-partying-face.png")}

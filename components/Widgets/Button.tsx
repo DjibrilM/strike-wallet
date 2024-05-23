@@ -31,7 +31,7 @@ const Primary: React.FC<PrimaryProps> = ({
       {label ? (
         <Text
           style={{ fontFamily: "Nunito-Bold" }}
-          className={cn("opacity-50 text-white font-bold opacity-1000", {
+          className={cn("opacity-50 text-white  opacity-1000", {
             "text-slate-500": props.disabled,
           })}
         >

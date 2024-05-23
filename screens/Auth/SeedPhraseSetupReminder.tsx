@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Checkbox from "expo-checkbox";
-import { StatusBar } from "react-native";
+import { Platform, StatusBar } from "react-native";
 
 import { View, SafeAreaView, Image, Text } from "../../components/Tailwind";
 import { useAuthSetps } from "../../states/authSteps.state";
+import AuthHeader from "../../components/AuthHeader";
 import Button from "../../components/Widgets/Button";
 import CustomBottomSheet from "../../components/Widgets/BottomSheet";
 import { CustomeBottomSheetRef } from "../../util/shared/types";
@@ -19,36 +20,42 @@ const SeedPhraseSetupReminder = () => {
   const [constinueWithoutSecurity, setConstinueWithoutSecurity] =
     useState(false);
 
-  useEffect(() => {
-    navigation.addListener("focus", () => updateSteps(2));
-  }, []);
+    useEffect(() => {
+      navigation.addListener("focus", () => updateSteps(1));
+    }, []);
+    
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 px-6 bg-white">
       <StatusBar barStyle={"default"} />
+      <AuthHeader />
 
-      <View className="flex px-6 flex-col h-full">
-        <Text
-          className="mt-10 text-lg font-bold text-gray-700"
-          style={{ fontFamily: "Nunito-Bold" }}
-        >
-          Secure Your Wallet
-        </Text>
-        <View className="w-full items-center mt-20">
-          <Image source={require("../../assets/images/security.png")}></Image>
+      <View className={cn("flex flex-col flex-1 justify-between h-full", {
+        'px-6':Platform.OS === 'ios'
+      })}>
+        <View className="">
+          <Text
+            className="mt-10 text-lg font-bold text-gray-700"
+            style={{ fontFamily: "Nunito-Bold" }}
+          >
+            Secure Your Wallet
+          </Text>
+          <View className="w-full items-center mt-20">
+            <Image source={require("../../assets/images/security.png")}></Image>
+          </View>
+
+          <Text
+            style={{ lineHeight: 30 }}
+            className="leading-8 mt-9 text-slate-600 text-base"
+          >
+            Don't risk losing your funds. protect your wallet by saving your
+            <Text className="font-bold  text-[16px]"> seed phrase</Text> in a
+            place you trust. It's the only way to recover your wallet if you get
+            locked out of the app or get a new device.
+          </Text>
         </View>
 
-        <Text
-          style={{ lineHeight: 30 }}
-          className="leading-8 mt-9 text-slate-600 text-base"
-        >
-          Don't risk losing your funds. protect your wallet by saving your
-          <Text className="font-bold  text-[16px]"> seed phrase</Text> in a
-          place you trust. It's the only way to recover your wallet if you get
-          locked out of the app or get a new device.
-        </Text>
-
-        <View className="flex-1 flex justify-end gap-4 mb-10">
+        <View className="flex pb-10 gap-4">
           <Button
             onPress={securityReminderBottomSheet.current?.open}
             className="bg-slate-400 font-bold active:bg-slate-300"

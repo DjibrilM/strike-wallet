@@ -1,8 +1,9 @@
 import React, { useMemo, useState, useEffect } from "react";
-import { StatusBar, Vibration } from "react-native";
+import { Platform, StatusBar, Vibration } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Button from "../../components/Widgets/Button";
 import { useAuthSetps } from "../../states/authSteps.state";
+import AuthHeader from "../../components/AuthHeader";
 
 import { Text } from "../../components/Tailwind";
 import { routes, seedPhrase } from "../../util/shared/constant";
@@ -39,10 +40,6 @@ const SeedPhraseMatchTest = () => {
   }, []);
 
   const { updateSteps } = useAuthSetps();
-
-  useEffect(() => {
-    navigation.addListener("focus", () => updateSteps(5));
-  }, []);
 
   const toogleSelectArea = (word: string) => {
     const prevMatch = [...selectionAre];
@@ -96,11 +93,20 @@ const SeedPhraseMatchTest = () => {
     setSelectionArea([...prevMatch]);
   };
 
+  useEffect(() => {
+    navigation.addListener("focus", () => updateSteps(3));
+  }, []);
+
   return (
-    <SafeAreaView className="h-full flex-1 bg-white">
+    <SafeAreaView className="h-full px-6 flex-1 bg-white">
+      <AuthHeader />
       <StatusBar barStyle={"default"} />
 
-      <ScrollView className="px-6 pb-10">
+      <ScrollView
+        className={cn("pb-10", {
+          "px-6": Platform.OS === "ios",
+        })}
+      >
         <Text
           style={{ fontFamily: "Nunito-Bold" }}
           className="text-slate-600 text-[18px] font-bold mt-10"
