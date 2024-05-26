@@ -16,17 +16,16 @@ const SeedPhraseGeneration = () => {
   const { updateSteps } = useAuthSetps();
 
   useEffect(() => {
-    navigation.addListener("focus", () => updateSteps(2));
+    navigation.addListener("focus", () => updateSteps(1));
   }, []);
   return (
-    <SafeAreaView className="bg-white px-6">
+    <SafeAreaView className="bg-white flex-1">
       <StatusBar barStyle={"default"} />
-      <AuthHeader />
-      <ScrollView
-        className={cn("flex  flex-col h-full", {
-          "px-6": Platform.OS === "ios",
-        })}
-      >
+      <View className="px-6">
+        <AuthHeader />
+      </View>
+
+      <ScrollView className={cn("flex-1 px-6", {})}>
         <Text
           style={{ fontFamily: "Nunito-Bold" }}
           className="text-slate-600 text-[18px] mt-10 font-bold"
@@ -97,6 +96,8 @@ const SeedPhraseGeneration = () => {
             ></Button>
           </View>
         </View>
+
+        <View className="h-6"></View>
       </ScrollView>
     </SafeAreaView>
   );

@@ -21,10 +21,11 @@ const Primary: React.FC<PrimaryProps> = ({
       {...props}
       android_ripple={{ color: "#ffffff33" }}
       className={cn(
-        " bg-blueDefault justify-center shadow-md  flex items-center rounded-[15px] min-h-[70px] active:bg-blueDark",
+        " bg-blueDefault justify-center shadow-md  flex items-center rounded-[10px] min-h-[70px] active:bg-blueDark",
         {
-          "h-[60px]": Platform.OS === "android",
+          "min-h-[60px]": Platform.OS === "android",
           "bg-slate-400": props.disabled,
+          "rounded-[15px]":Platform.OS === 'ios'
         }
       )}
     >

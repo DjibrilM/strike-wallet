@@ -5,7 +5,13 @@ import Feather from "@expo/vector-icons/Feather";
 import { useNavigation } from "@react-navigation/native";
 
 import { useAuthSetps } from "../../states/authSteps.state";
-import { View, SafeAreaView, Text, Pressable } from "../../components/Tailwind";
+import {
+  View,
+  SafeAreaView,
+  Text,
+  Pressable,
+  Image,
+} from "../../components/Tailwind";
 import Visible from "../../components/common/Visibility";
 import Button from "../../components/Widgets/Button";
 import { routes } from "../../util/shared/constant";
@@ -20,16 +26,23 @@ const SeedPhraseRevelation = () => {
   const seedPhrase = useRef(constantSeedPhrase);
 
   useEffect(() => {
-    navigation.addListener("focus", () => updateSteps(3));
+    navigation.addListener("focus", () => updateSteps(2));
   }, []);
 
   return (
     <SafeAreaView className="bg-white flex-1 px-6">
-      <AuthHeader />
+      <View
+        className={cn({
+          "px-6": Platform.OS === "ios",
+        })}
+      >
+        <AuthHeader />
+      </View>
+
       <StatusBar barStyle={"default"} />
       <View
         className={cn(
-          "items-center  justify-between h-full flex-1 flex w-full mt-10",
+          "items-center  justify-between h-full flex-1 flex w-full ",
           {
             "px-6": Platform.OS === "ios",
           }
@@ -37,15 +50,15 @@ const SeedPhraseRevelation = () => {
       >
         <View>
           <Text
-            className="text-[18px] w-full text-left font-bold text-slate-600"
-            style={{ fontFamily: "Nunito-ExtraBold" }}
+            className="text-[18px] w-full text-left  text-slate-600"
+            style={{ fontFamily: "Nunito-Bold" }}
           >
             Write Down Your Seed Phrase
           </Text>
 
           <Text
             style={{ fontFamily: "Nunito-SemiBold" }}
-            className="mt-5 leading-6 text-slate-600"
+            className="mt-3 leading-6 text-slate-600"
           >
             This is your seed phrase. Write it down on a paper and keep it in a
             safe place. You'll be asked to re-enter this phrase (in order) on
@@ -75,19 +88,14 @@ const SeedPhraseRevelation = () => {
             </Visible>
 
             <Visible condition={hidelPhrase}>
-              <View className="absolute  z-40 w-full  h-full">
-                <BlurView
-                  style={styles.blur}
-                  intensity={30}
-                  tint="dark"
-                ></BlurView>
-              </View>
+              <View className="absolute  z-40 w-full bg-slate-500  h-full"></View>
             </Visible>
 
             {seedPhrase.current.map((phrase, index) => (
               <View
+                style={{borderStyle:'dashed'}}
                 key={"seed-phrase-" + index}
-                className="p-4 z-20 border border-slate-400 w-[44%] relative right-2 flex flex-row  justify-center items-center rounded-lg flex-2  bg-white"
+                className="p-4 z-20 border border-slate-300 w-[44%] relative right-2 flex flex-row  justify-center items-center rounded-lg flex-2  bg-white"
               >
                 <Text
                   style={{ fontFamily: "Nunito-Regular" }}
@@ -106,7 +114,7 @@ const SeedPhraseRevelation = () => {
           </View>
         </View>
 
-        <View className="w-full mb-10">
+        <View className="w-full mb-5">
           <Button
             onPress={() =>
               navigation.navigate(routes.seedPhraseMatchTest as never)

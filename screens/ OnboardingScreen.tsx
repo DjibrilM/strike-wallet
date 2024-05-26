@@ -24,19 +24,12 @@ const OnboardingScreen = () => {
     <SafeAreaView
       style={{
         display: "flex",
-        flexDirection: "column",
+        justifyContent: "space-between",
         height: "100%",
         backgroundColor: "#f9fafb",
       }}
     >
       <StatusBar barStyle="default" />
-      <View className="flex gap-3 w-full  mt-5 justify-center items-center flex-col">
-        <Image
-          source={require("../assets/images/logo.png")}
-          className="w-12 h-12"
-        />
-      </View>
-
       <FlatList
         onViewableItemsChanged={(e) =>
           setViewIndex(e.viewableItems[0]?.index || 0)
@@ -46,20 +39,29 @@ const OnboardingScreen = () => {
         pagingEnabled
         horizontal
         renderItem={(item) => (
-          <View style={{ height: height - 300, width: width }} className="px-6 flex justify-center">
-            <Image
-              className="mx-auto scale-[0.8] object-contain"
-              source={item.item.image}
-            />
+          <View
+            style={{ height: height - 200, width: width }}
+            className="px-6 flex justify-center"
+          >
+            <View className="w-[70%] relative top-4 h-[70%] flex justify-center items-center mx-auto">
+              <Image
+                resizeMode="contain"
+                className=" object-contain w-full h-full relative top-3"
+                source={item.item.image}
+              />
+            </View>
 
             <Text
-              style={{ fontFamily: "Nunito-SemiBold" }}
-              className="mt-3 relative bottom-8  text-slate-600 font-semibold mb-4 text-center text-[25px]"
+              style={{ fontFamily: "Nunito-Bold" }}
+              className="mt-3 relative   text-slate-600 font-semibold mb-8 text-center text-2xl"
             >
               {item.item.title}
             </Text>
 
-            <Text className="text-slate-500 relative bottom-6 text-center w-full leading-10 mt-2  text-base">
+            <Text
+              style={{ fontFamily: "Nunito-Regular" }}
+              className="text-slate-500 relative bottom-6 text-center w-full leading-10 mt-2  text-base"
+            >
               {item.item.description}
             </Text>
           </View>
@@ -67,7 +69,7 @@ const OnboardingScreen = () => {
         data={onboarding_screen_data}
       ></FlatList>
 
-      <View className="pb-10">
+      <View className="pb-5 mt-4">
         <View className="justify-center mb-10 items-center flex-row gap-3 w-full mx-auto">
           {onboarding_screen_data.map((dt, index) => (
             <View

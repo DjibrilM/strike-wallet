@@ -7,7 +7,7 @@ import { useAuthSetps } from "../states/authSteps.state";
 import { Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const steps = 4;
+const steps = 3;
 
 const AuthHeader = () => {
   const { currentStep } = useAuthSetps();
@@ -15,9 +15,10 @@ const AuthHeader = () => {
 
   return (
     <View
-      className={cn("w-full mt-6 relative mb-14 h-4 flex   top-0 ", {
-        "px-6": Platform.OS === "ios",
-      })}
+      className={cn(
+        "w-full flex-row justify-between  mt-6 relative mb-5 flex top-0 ",
+        {}
+      )}
     >
       <Pressable onPress={goBack} className={"h-6 relative bottom-1"}>
         <Ionicons
@@ -28,7 +29,22 @@ const AuthHeader = () => {
         />
       </Pressable>
 
-      <View className="mt-8 relative flex justify-between flex-row items-center">
+      <View className="w-10/12   relative flex justify-between flex-row items-center">
+        <View className="absolute justify-between flex flex-row w-full">
+          {Array.from({ length: 2 }).map((_, index) => (
+            <View
+              className={cn(
+                "h-[3px] w-[47%] flex relative right  bg-slate-300 rounded-full",
+                {
+                  " bg-blueDefault": currentStep - index >= index,
+                }
+              )}
+            >
+              <Text>{index}:oo</Text>
+            </View>
+          ))}
+        </View>
+
         {Array.from({ length: steps }).map((_, index) => (
           <View
             className={cn(
@@ -50,21 +66,6 @@ const AuthHeader = () => {
             </Text>
           </View>
         ))}
-
-        <View className="absolute justify-between flex flex-row w-full">
-          {Array.from({ length: 3 }).map((_, index) => (
-            <View
-              className={cn(
-                "h-[3px] w-[33%] flex relative right  bg-slate-300 rounded-full",
-                {
-                  " bg-blueDefault": currentStep - index >= index,
-                }
-              )}
-            >
-              <Text>{index}:oo</Text>
-            </View>
-          ))}
-        </View>
       </View>
     </View>
   );
