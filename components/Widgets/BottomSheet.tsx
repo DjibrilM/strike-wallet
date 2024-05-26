@@ -5,10 +5,10 @@ import React, {
   useImperativeHandle,
   useMemo,
 } from "react";
-import { Pressable, StyleSheet, Text } from "react-native";
+import { Pressable } from "react-native";
 import { BottomSheetView, BottomSheetModal } from "@gorhom/bottom-sheet";
 
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import Animated from "react-native-reanimated";
 
 interface Props {
   children: React.ReactNode | React.ReactNode[];
@@ -17,7 +17,7 @@ interface Props {
 }
 
 const CustomBottomSheet = forwardRef(
-  ({ children, customSnapPoints, onChange }: Props, ref) => {
+  ({ children, onChange, ...props }: Props, ref) => {
     const bottomSheetRef = useRef<BottomSheetModal>(null);
 
     const handleClose = useCallback(() => {
@@ -39,15 +39,11 @@ const CustomBottomSheet = forwardRef(
       []
     );
 
-    const snapPoints = useMemo(
-      () => customSnapPoints || ["50%"],
-      [customSnapPoints]
-    );
-
     return (
       <BottomSheetModal
+        {...props}
+        enableDynamicSizing
         onMagicTap={handleClose}
-        snapPoints={snapPoints}
         ref={bottomSheetRef}
         onChange={onChange}
         backdropComponent={({ style }) => (

@@ -7,8 +7,8 @@ export const useAuthSetps = create<{
 
   updateSteps: (step: number) => void;
 }>((set, get) => ({
-  currentStep: 4,
-  maxSteps: 4,
+  currentStep: 1,
+  maxSteps: 3,
   previousStep: 0,
   updateSteps: (step: number) =>
     set({ currentStep: step, previousStep: get().currentStep }),

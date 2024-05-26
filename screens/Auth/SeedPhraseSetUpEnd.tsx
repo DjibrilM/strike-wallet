@@ -1,34 +1,39 @@
 import React, { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { View, SafeAreaView, Image, Text } from "../../components/Tailwind";
+import {
+  View,
+  SafeAreaView,
+  Image,
+  Text,
+  Pressable,
+} from "../../components/Tailwind";
 import Button from "../../components/Widgets/Button";
 import { useAuthSetps } from "../../states/authSteps.state";
-import AuthHeader from "../../components/AuthHeader";
 import { cn } from "../../util/cn";
 import { Platform } from "react-native";
 
 const SeedPhraseSetUpEnd = () => {
   const navigation = useNavigation();
   const { updateSteps } = useAuthSetps();
-  
 
   useEffect(() => {
     navigation.addListener("focus", () => updateSteps(4));
   }, []);
   return (
     <SafeAreaView className="flex-1 px-6 bg-white">
-      <AuthHeader />
-      <View className={cn("h-full flex-1", {
-        "px-6": Platform.OS === 'ios'
-      })}>
+      <View
+        className={cn("h-full flex-1", {
+          "px-6": Platform.OS === "ios",
+        })}
+      >
         <Image
-          className="mx-auto w-[200px] h-[200px] mt-20"
+          className="mx-auto w-[150px] h-[150px] mt-20 mb-4"
           source={require("../../assets/images/3d-fluency-partying-face.png")}
         />
 
         <Text
           style={{ fontFamily: "Nunito-Bold" }}
-          className="text-[18px] font-bold mb-3 text-slate-800"
+          className="text-[18px] mb-3 text-slate-800"
         >
           Congratulations
         </Text>
@@ -57,14 +62,14 @@ const SeedPhraseSetUpEnd = () => {
 
         <Text
           style={{ fontFamily: "Nunito-Bold" }}
-          className="mt-5 text-[16px] font-bold text-black"
+          className="mt-5 text-[16px] text-black"
         >
           Setting {">"} Security & Privacy
         </Text>
 
         <Text
           style={{ fontFamily: "Nunito-Bold" }}
-          className="my-6 text-blue-500 font-bold text-[17px]"
+          className="my-6 text-blue-500 text-[17px]"
         >
           Learn more
         </Text>

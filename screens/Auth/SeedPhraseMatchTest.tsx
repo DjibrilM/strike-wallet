@@ -99,7 +99,15 @@ const SeedPhraseMatchTest = () => {
 
   return (
     <SafeAreaView className="h-full px-6 flex-1 bg-white">
-      <AuthHeader />
+      <View
+        className={cn({
+          "px-6": Platform.OS === "ios",
+        })}
+      >
+        <AuthHeader />
+      </View>
+
+
       <StatusBar barStyle={"default"} />
 
       <ScrollView

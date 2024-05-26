@@ -15,6 +15,8 @@ import SeedPhraseSetUpEnd from "../screens/Auth/SeedPhraseSetUpEnd";
 import ImportExistingSeedPhrase from "../screens/Auth/ImportExistingSeedPhrase";
 import { View } from "../components/Tailwind";
 import { Platform, Pressable } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const Stack = createNativeStackNavigator();
 
@@ -24,9 +26,22 @@ const Navigation = () => {
       <Stack.Navigator initialRouteName={routes.OnboardingScreen}>
         <Stack.Screen
           options={{
-            ...AuthScreenHeader,
-            headerTitle: () => <></>,
-            headerRight: () => <></>,
+            header: () => {
+              const { goBack } = useNavigation();
+              return (
+                <SafeAreaView style={{ backgroundColor: "white" }}>
+                  <View className="border-b flex justify-center px-4 border-slate-200 h-[70px]">
+                    <Pressable onPress={goBack}>
+                      <Ionicons
+                        name="chevron-back-outline"
+                        size={25}
+                        color="#1354fe"
+                      />
+                    </Pressable>
+                  </View>
+                </SafeAreaView>
+              );
+            },
           }}
           name={routes.walletSetup}
           component={WalletSetup}
@@ -38,7 +53,24 @@ const Navigation = () => {
           component={OnboardingScreen}
         />
         <Stack.Screen
-          options={{ headerShown: false }}
+          options={{
+            header: () => {
+              const { goBack } = useNavigation();
+              return (
+                <SafeAreaView style={{ backgroundColor: "white" }}>
+                  <View className="border-b flex justify-center px-4 border-slate-200 h-16">
+                    <TouchableOpacity onPress={goBack}>
+                      <Ionicons
+                        name="chevron-back-outline"
+                        size={25}
+                        color="#1354fe"
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </SafeAreaView>
+              );
+            },
+          }}
           name={routes.securityConfig}
           component={SecurityConfig}
         />
@@ -85,18 +117,20 @@ const Navigation = () => {
 
         <Stack.Screen
           options={{
-            headerLeft: () => {
+            header: () => {
               const { goBack } = useNavigation();
               return Platform.OS === "android" ? (
-                <Pressable onPress={goBack}>
-                  <View className={"mt-2 p-[3px] relative"}>
-                    <Ionicons
-                      name="chevron-back-outline"
-                      size={25}
-                      color="#475569"
-                    />
+                <SafeAreaView style={{ backgroundColor: "white" }}>
+                  <View className="border-b flex justify-center px-4 border-slate-200 h-[70px]">
+                    <TouchableOpacity onPress={goBack}>
+                      <Ionicons
+                        name="chevron-back-outline"
+                        size={25}
+                        color="#1354fe"
+                      />
+                    </TouchableOpacity>
                   </View>
-                </Pressable>
+                </SafeAreaView>
               ) : (
                 <></>
               );

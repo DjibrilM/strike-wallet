@@ -3,7 +3,6 @@ import { useNavigation } from "@react-navigation/native";
 import Checkbox from "expo-checkbox";
 import { StatusBar } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import AuthHeader from "../../components/AuthHeader";
 
 import {
   View,
@@ -67,14 +66,14 @@ const PaswordConfig = () => {
           </Text>
 
           <Text
-            className="w-[80%] text-slate-700 mt-5"
+            className="w-[80%] text-slate-700 mt-2"
             style={{ fontFamily: "Nunito-Regular" }}
           >
             This password will unlock your Cryptooly wallet only on this
             service.
           </Text>
 
-          <KeyboardAvoidingView className="mt-10" behavior="padding">
+          <KeyboardAvoidingView className="mt-5" behavior="padding">
             <View>
               <Input
                 onChange={(e) => console.log(e.nativeEvent.text)}
@@ -117,10 +116,10 @@ const PaswordConfig = () => {
             </View>
           </KeyboardAvoidingView>
 
-          <View className="justify-between flex flex-row w-full mt-10">
+          <View className="justify-between items-center flex flex-row w-full mt-6">
             <Text
               style={{ fontFamily: "Nunito-Regular" }}
-              className="text-[17px] text-slate-700"
+              className="text-regular text-slate-700"
             >
               Sign in with Face ID?
             </Text>
@@ -131,8 +130,10 @@ const PaswordConfig = () => {
               }
             />
           </View>
+        </View>
 
-          <View className="flex flex-row gap-3 w-full px-2 mt-5">
+        <View className="w-full mb-5">
+          <View className="flex flex-row gap-3 mb-6 w-full px-2 mt-5">
             <Checkbox
               style={{ borderColor: "#1354fe", top: 5 }}
               value={toggleCheckBox}
@@ -155,9 +156,7 @@ const PaswordConfig = () => {
               </Pressable>
             </Text>
           </View>
-        </View>
 
-        <View className="w-full mb-10">
           <Button
             label=" Create Password"
             disabled={!(password.valid && confirmPassword.valid)}
