@@ -68,7 +68,7 @@ const SeedPhraseSetupReminder = () => {
 
         <View className="flex pb-5 gap-4">
           <Button
-            onPress={securityReminderBottomSheet.current?.open}
+            onPress={()=> securityReminderBottomSheet.current?.open()}
             className="bg-slate-400 font-bold active:bg-slate-300"
           >
             <Text

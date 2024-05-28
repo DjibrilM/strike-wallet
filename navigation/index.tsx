@@ -17,13 +17,14 @@ import { View } from "../components/Tailwind";
 import { Platform, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import BottomTab from "./BottomTab";
 
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName={routes.OnboardingScreen}>
+    <NavigationContainer >
+      <Stack.Navigator initialRouteName={routes.home}>
         <Stack.Screen
           options={{
             header: () => {
@@ -147,6 +148,14 @@ const Navigation = () => {
           }}
           name={routes.seedPhraseImportantion}
           component={ImportExistingSeedPhrase}
+        />
+
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name={routes.home}
+          component={BottomTab}
         />
       </Stack.Navigator>
     </NavigationContainer>
