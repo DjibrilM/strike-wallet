@@ -16,7 +16,6 @@ const CurrencyHomeList = () => {
     fetcher
   );
 
-  console.log(data, "data");
 
   return (
     <View className="">

@@ -21,7 +21,7 @@ const HomeHeader = () => {
 
         <Text
           style={{ fontFamily: "Nunito-Bold" }}
-          className="text-[18px] text-slate-700"
+          className="text-[18px] relative left-6 text-slate-700"
         >
           {route.name}
         </Text>
