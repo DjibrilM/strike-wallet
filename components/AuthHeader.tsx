@@ -4,7 +4,6 @@ import { cn } from "../util/cn";
 
 import { View, Text, Pressable } from "./Tailwind";
 import { useAuthSetps } from "../states/authSteps.state";
-import { Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 const steps = 3;
@@ -33,6 +32,7 @@ const AuthHeader = () => {
         <View className="absolute justify-between flex flex-row w-full">
           {Array.from({ length: 2 }).map((_, index) => (
             <View
+              key={"auth-header-steps-dott-" + index}
               className={cn(
                 "h-[3px] w-[47%] flex relative right  bg-slate-300 rounded-full",
                 {
@@ -47,6 +47,7 @@ const AuthHeader = () => {
 
         {Array.from({ length: steps }).map((_, index) => (
           <View
+            key={"auth-header-steps-" + index}
             className={cn(
               "h-7 z-30 flex items-center border-[2px] border-slate-300 justify-center w-7 bg-white rounded-full",
               {

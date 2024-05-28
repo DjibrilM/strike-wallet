@@ -88,7 +88,7 @@ const SeedPhraseRevelation = () => {
             </Visible>
 
             <Visible condition={hidelPhrase}>
-              <View className="absolute  z-40 w-full bg-slate-500  h-full"></View>
+              <View className="absolute  z-40 w-full bg-black  h-full"></View>
             </Visible>
 
             {seedPhrase.current.map((phrase, index) => (

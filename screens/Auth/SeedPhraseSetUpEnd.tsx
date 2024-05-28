@@ -11,6 +11,7 @@ import Button from "../../components/Widgets/Button";
 import { useAuthSetps } from "../../states/authSteps.state";
 import { cn } from "../../util/cn";
 import { Platform } from "react-native";
+import { routes } from "../../util/shared/constant";
 
 const SeedPhraseSetUpEnd = () => {
   const navigation = useNavigation();
@@ -75,7 +76,7 @@ const SeedPhraseSetUpEnd = () => {
         </Text>
 
         <View className="flex-1 justify-end mb-4">
-          <Button label="Continute" />
+          <Button onPress={()=> navigation.navigate(routes.home as never)} label="Continute" />
         </View>
       </View>
     </SafeAreaView>
