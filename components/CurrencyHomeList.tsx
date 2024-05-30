@@ -3,15 +3,17 @@ import useSWR from "swr";
 import { ActivityIndicator } from "react-native";
 
 import { Pressable } from "./Tailwind";
-import { currencies } from "../util/shared/constant";
+import { currencies, routes } from "../util/shared/constant";
 import { View, Text, Image } from "./Tailwind";
 import Visible from "./common/Visibility";
 import { cn } from "../util/cn";
 import { CurrencyData } from "../util/shared/types";
+import { useNavigation } from "@react-navigation/native";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const CurrencyHomeList = () => {
+  const navigation = useNavigation();
   const { data, error, isLoading } = useSWR<CurrencyData[]>(
     "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,tether,binancecoin,cardano,ripple,solana,polkadot,dogecoin,shiba-inu,polygon,uniswap,litecoin,chainlink,bitcoin-cash,stellar&order=market_cap_desc&per_page=16&page=1&sparkline=true",
     fetcher
@@ -36,8 +38,16 @@ const CurrencyHomeList = () => {
         </View>
       </Visible>
 
-      {currencies?.map((dta, index) => (
+      {currencies?.map((dta) => (
         <Pressable
+          onPress={() =>
+            navigation.navigate(
+              (routes.currencyDetailPage,
+              {
+                ...dta,
+              } as never)
+            ) as never
+          }
           android_ripple={{ color: "#ffffff33" }}
           id={dta.id}
           className="flex mb-10 flex-row gap-2"

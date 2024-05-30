@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { StatusBar } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import CurrencyHomeList from "../components/CurrencyHomeList";
+
+
+
 import Animated, {
   useScrollViewOffset,
   useAnimatedRef,
@@ -80,7 +83,7 @@ const Home = () => {
       <Animated.ScrollView
         onScroll={scrollView}
         ref={animatedRef}
-        style={{ paddingHorizontal: 16 }}
+        style={{ paddingHorizontal: 20 }}
       >
         <Pressable
           onPress={() => {}}
@@ -128,51 +131,60 @@ const Home = () => {
             />
           </TouchableOpacity>
 
-          <TouchableOpacity className="bg-slate-200 p-2 rounded-lg">
-            <Feather name="copy" size={18} color="#64748b" />
-          </TouchableOpacity>
+          <View className="flex flex-row gap-3">
+            <TouchableOpacity className="bg-slate-200 p-2 rounded-lg">
+              <AntDesign name="scan1" size={18} color="#64748b" />
+            </TouchableOpacity>
+
+            <TouchableOpacity className="bg-slate-200 p-2 rounded-lg">
+              <Feather name="copy" size={18} color="#64748b" />
+            </TouchableOpacity>
+          </View>
         </View>
 
         <View className="flex-row mx-auto gap-2 relative justify-between   items-center w-full mt-5">
-          <View className="flex  flex-col flex-1 rounded-[20px] justify-center items-center min-h-[90px] bg-blueDefault ">
-            <View className="bg-white p-1 rounded-full">
-              <AntDesign name="arrowup" size={20} color="#475569" />
+          <View className="flex  flex-col justify-center items-center">
+            <View className=" bg-blueDefault p-3  rounded-full">
+              <AntDesign name="arrowup" size={20} color="#ffff" />
             </View>
-            <Text className="text-white" style={{ fontFamily: "Nunito-Bold" }}>
+            <Text
+              className="text-blueDefault mt-2"
+              style={{ fontFamily: "Nunito-Bold" }}
+            >
               Send
             </Text>
           </View>
 
-          <View className="flex  flex-col flex-1 rounded-[20px] justify-center items-center min-h-[90px] bg-[#3b83f62b] ">
-            <View className="bg-blueDefault p-1 rounded-full">
-              <AntDesign name="arrowdown" size={20} color="white" />
+          <View className="flex  flex-col rounded-[20px] justify-center items-center">
+            <View className="bg-[#3b83f62b] p-3 rounded-full">
+              <AntDesign name="arrowdown" size={20} color="#1354fe" />
             </View>
             <Text
-              className="text-blueDefault"
+              className="text-blueDefault mt-2"
               style={{ fontFamily: "Nunito-Bold" }}
             >
               Receive
             </Text>
           </View>
 
-          <View className="flex  flex-col flex-1 rounded-[20px] justify-center items-center min-h-[90px] bg-[#3b83f62b] ">
-            <View className="bg-blueDefault p-1  rounded-full">
-              <AntDesign name="plus" size={20} color="white" />
+          <View className="flex  flex-col justify-center items-center">
+            <View className="bg-[#3b83f62b] p-3  rounded-full">
+              <AntDesign name="plus" size={20} color="#1354fe" />
             </View>
             <Text
-              className="text-blueDefault"
+              className="text-blueDefault mt-2"
               style={{ fontFamily: "Nunito-Bold" }}
             >
               Buy
             </Text>
           </View>
 
-          <View className="flex  flex-col flex-1 rounded-[20px] justify-center items-center min-h-[90px] bg-[#3b83f62b]">
-            <View className="bg-blueDefault w-[30px]  justify-center items-center h-[30px] p-1 rounded-full">
-              <FontAwesome name="exchange" size={15} color="white" />
+          <View className="flex  flex-col  justify-center items-center">
+            <View className="bg-[#3b83f62b] w-[45px]   justify-center items-center h-[45px] rounded-full">
+              <FontAwesome name="exchange" size={15} color="#1354fe" />
             </View>
             <Text
-              className="text-blueDefault"
+              className="text-blueDefault mt-3"
               style={{ fontFamily: "Nunito-Bold" }}
             >
               History

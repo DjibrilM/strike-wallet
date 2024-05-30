@@ -5,7 +5,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import WalletSetup from "../screens/Auth/WalletSetup";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { routes } from "../util/shared/constant";
-import { AuthScreenHeader } from "./configs";
 import SecurityConfig from "../screens/Auth/PasswordConfig";
 import SeedPhraseSetupReminder from "../screens/Auth/SeedPhraseSetupReminder";
 import SeedPhraseGeneration from "../screens/Auth/SeedPhraseGeneration";
@@ -18,12 +17,13 @@ import { Platform, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import BottomTab from "./BottomTab";
+import CurrencyDetailPage from "../screens/CurrencyDetailPage";
 
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
   return (
-    <NavigationContainer >
+    <NavigationContainer>
       <Stack.Navigator initialRouteName={routes.home}>
         <Stack.Screen
           options={{
@@ -156,6 +156,28 @@ const Navigation = () => {
           }}
           name={routes.home}
           component={BottomTab}
+        />
+
+        <Stack.Screen
+          options={{
+            headerLeft: () => {
+              const { goBack } = useNavigation();
+              return (
+                <Pressable onPress={goBack}>
+                  <Ionicons
+                    name="chevron-back-outline"
+                    size={25}
+                    color="#1354fe"
+                  />
+                </Pressable>
+              );
+            },
+            headerShadowVisible: false,
+            headerStyle: { backgroundColor: "white" },
+            animation: "slide_from_right",
+          }}
+          name={routes.currencyDetailPage}
+          component={CurrencyDetailPage}
         />
       </Stack.Navigator>
     </NavigationContainer>
