@@ -37,7 +37,8 @@
     "react-native-screens": "3.31.1",
     "swr": "^2.2.5",
     "tailwind-merge": "^2.3.0",
-    "zustand": "^4.5.2"
+    "zustand": "^4.5.2",
+    "react-native-svg": "15.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -15,7 +15,6 @@ export default function BottomTab() {
       sceneContainerStyle={{ backgroundColor: "white" }}
       screenOptions={{
         tabBarStyle: {
-          height:80,
           shadowColor: "transparent",
           borderTopColor: "#cbd5e1",
         },
@@ -28,7 +27,7 @@ export default function BottomTab() {
         options={{
           tabBarLabel:()=> null,
           tabBarIcon: ({ color }) => (
-            <Ionicons name="wallet" size={30} color={color} />
+            <Ionicons name="wallet" size={25} color={color} />
           ),
         }}
         name="Wallet"
@@ -38,7 +37,7 @@ export default function BottomTab() {
         options={{
           tabBarLabel: () => null,
           tabBarIcon: ({ color }) => (
-            <TouchableOpacity className=" bg-blueDefault rounded-[20px] flex items-center justify-center w-[70px] h-[65px] relative bottom-6">
+            <TouchableOpacity className=" bg-blueDefault rounded-full flex items-center justify-center w-[70px] h-[70px] relative bottom-4">
               <Image
                 className="w-[40%] h-[40%]"
                 source={require("../assets/images/two-arrow.png")}
@@ -53,7 +52,7 @@ export default function BottomTab() {
         options={{
           tabBarLabel:()=> null,
           tabBarIcon: ({ color }) => (
-            <AntDesign name="setting" size={30} color={color} />
+            <AntDesign name="setting" size={25} color={color} />
           ),
         }}
         name="Setting"

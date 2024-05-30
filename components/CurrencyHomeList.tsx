@@ -2,6 +2,7 @@ import React from "react";
 import useSWR from "swr";
 import { ActivityIndicator } from "react-native";
 
+import { Pressable } from "./Tailwind";
 import { currencies } from "../util/shared/constant";
 import { View, Text, Image } from "./Tailwind";
 import Visible from "./common/Visibility";
@@ -16,11 +17,10 @@ const CurrencyHomeList = () => {
     fetcher
   );
 
-
   return (
     <View className="">
       <Visible condition={!isLoading && !error}>
-        <View  className="h-[80px] flex justify-center">
+        <View className="h-[80px] flex justify-center">
           <Text
             style={{ fontFamily: "Nunito-Bold" }}
             className="text-[20px] text-slate-600"
@@ -36,8 +36,12 @@ const CurrencyHomeList = () => {
         </View>
       </Visible>
 
-      {currencies?.map((dta) => (
-        <View className="flex f mb-10 flex-row gap-2">
+      {currencies?.map((dta, index) => (
+        <Pressable
+          android_ripple={{ color: "#ffffff33" }}
+          id={dta.id}
+          className="flex mb-10 flex-row gap-2"
+        >
           <Image
             source={{
               width: 35,
@@ -73,10 +77,20 @@ const CurrencyHomeList = () => {
           </View>
 
           <View className="flex-1 flex justify-center items-end">
-            <Text className="text-slate-600"   style={{ fontFamily: "Nunito-Regular" }}>0</Text>
-            <Text className="text-slate-600 text-sm"   style={{ fontFamily: "Nunito-Regular" }}>$0.00</Text>
+            <Text
+              className="text-slate-600"
+              style={{ fontFamily: "Nunito-Regular" }}
+            >
+              0
+            </Text>
+            <Text
+              className="text-slate-600 text-sm"
+              style={{ fontFamily: "Nunito-Regular" }}
+            >
+              $0.00
+            </Text>
           </View>
-        </View>
+        </Pressable>
       ))}
     </View>
   );
