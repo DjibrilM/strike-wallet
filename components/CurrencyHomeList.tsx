@@ -2,25 +2,27 @@ import React from "react";
 import useSWR from "swr";
 import { ActivityIndicator } from "react-native";
 
-import { currencies } from "../util/shared/constant";
+import { Pressable } from "./Tailwind";
+import { currencies, routes } from "../util/shared/constant";
 import { View, Text, Image } from "./Tailwind";
 import Visible from "./common/Visibility";
 import { cn } from "../util/cn";
 import { CurrencyData } from "../util/shared/types";
+import { useNavigation } from "@react-navigation/native";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const CurrencyHomeList = () => {
+  const navigation = useNavigation();
   const { data, error, isLoading } = useSWR<CurrencyData[]>(
     "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,tether,binancecoin,cardano,ripple,solana,polkadot,dogecoin,shiba-inu,polygon,uniswap,litecoin,chainlink,bitcoin-cash,stellar&order=market_cap_desc&per_page=16&page=1&sparkline=true",
     fetcher
   );
 
-
   return (
     <View className="">
       <Visible condition={!isLoading && !error}>
-        <View  className="h-[80px] flex justify-center">
+        <View className="h-[80px] flex justify-center">
           <Text
             style={{ fontFamily: "Nunito-Bold" }}
             className="text-[20px] text-slate-600"
@@ -37,7 +39,19 @@ const CurrencyHomeList = () => {
       </Visible>
 
       {currencies?.map((dta) => (
-        <View className="flex f mb-10 flex-row gap-2">
+        <Pressable
+          onPress={() =>
+            navigation.navigate(
+              (routes.currencyDetailPage,
+              {
+                ...dta,
+              } as never)
+            ) as never
+          }
+          android_ripple={{ color: "#ffffff33" }}
+          id={dta.id}
+          className="flex mb-10 flex-row gap-2"
+        >
           <Image
             source={{
               width: 35,
@@ -73,10 +87,20 @@ const CurrencyHomeList = () => {
           </View>
 
           <View className="flex-1 flex justify-center items-end">
-            <Text className="text-slate-600"   style={{ fontFamily: "Nunito-Regular" }}>0</Text>
-            <Text className="text-slate-600 text-sm"   style={{ fontFamily: "Nunito-Regular" }}>$0.00</Text>
+            <Text
+              className="text-slate-600"
+              style={{ fontFamily: "Nunito-Regular" }}
+            >
+              0
+            </Text>
+            <Text
+              className="text-slate-600 text-sm"
+              style={{ fontFamily: "Nunito-Regular" }}
+            >
+              $0.00
+            </Text>
           </View>
-        </View>
+        </Pressable>
       ))}
     </View>
   );

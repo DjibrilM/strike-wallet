@@ -48,6 +48,7 @@ export const routes = {
   SeedPhraseSetUpEnd: "seedPhraseSetUpEnd",
   seedPhraseImportantion: "seedPhraseImportantion",
   home: "Home",
+  currencyDetailPage: 'currencyDetailPage'
 };
 
 export const currencies:CurrencyData[] = [
