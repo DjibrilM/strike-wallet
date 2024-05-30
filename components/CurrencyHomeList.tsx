@@ -13,11 +13,12 @@ import { useNavigation } from "@react-navigation/native";
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const CurrencyHomeList = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation() as any;
   const { data, error, isLoading } = useSWR<CurrencyData[]>(
     "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,tether,binancecoin,cardano,ripple,solana,polkadot,dogecoin,shiba-inu,polygon,uniswap,litecoin,chainlink,bitcoin-cash,stellar&order=market_cap_desc&per_page=16&page=1&sparkline=true",
     fetcher
   );
+
 
   return (
     <View className="">
@@ -41,12 +42,12 @@ const CurrencyHomeList = () => {
       {currencies?.map((dta) => (
         <Pressable
           onPress={() =>
-            navigation.navigate(
-              (routes.currencyDetailPage,
-              {
+            navigation.navigate(routes.currencyDetailPage as never, {
+              name: routes.currencyDetailPage,
+              data: {
                 ...dta,
-              } as never)
-            ) as never
+              },
+            })
           }
           android_ripple={{ color: "#ffffff33" }}
           id={dta.id}
@@ -107,3 +108,5 @@ const CurrencyHomeList = () => {
 };
 
 export default CurrencyHomeList;
+
+
