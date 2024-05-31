@@ -1,3 +1,4 @@
+import { address } from "bitcoinjs-lib";
 export type CustomeBottomSheetRef = {
   close: () => void;
   open: () => void;
@@ -37,4 +38,20 @@ export type CurrencyData = {
   sparkline_in_7d: {
     price: number[];
   };
+};
+
+export type Address = `0x${string}`
+
+export type Transaction = {
+  Blockno: number | string,
+  "DateTime (UTC)": string,
+  "Parent Transaction Hash":
+  Address,
+  Status: string,
+  Type: string,
+  From: Address,
+  From_Nametag: string,
+  To: Address,
+  To_Nametag: string,
+  Value: string,
 };
