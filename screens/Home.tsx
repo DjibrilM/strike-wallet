@@ -103,7 +103,7 @@ const Home = () => {
           </Text>
         </Pressable>
 
-        <View className="flex flex-row items-center justify-between">
+        <View className="flex mt-5 flex-row items-center justify-between">
           <TouchableOpacity
             onPress={() => setHideBalance(!hideBalance)}
             className="flex relative left-2 flex-row gap-2 items-center"

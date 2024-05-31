@@ -19,7 +19,10 @@ const ListTile: React.FC<Props> = ({
 }) => {
   return (
     <View
-      className={cn("flex items-center flex-row  justify-between", conatinerClassName)}
+      className={cn(
+        "flex items-center flex-row  justify-between",
+        conatinerClassName
+      )}
     >
       <View className="flex flex-row gap-3">
         <View>{leading}</View>

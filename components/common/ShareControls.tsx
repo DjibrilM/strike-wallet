@@ -32,6 +32,18 @@ const ShareControls = () => {
         </Text>
       </View>
 
+      <View className="flex  flex-col rounded-[20px] justify-center items-center">
+        <View className="bg-[#3b83f62b] p-3 rounded-full">
+          <FontAwesome name="bank" size={20} color="#1354fe" />
+        </View>
+        <Text
+          className="text-blueDefault mt-2"
+          style={{ fontFamily: "Nunito-Bold" }}
+        >
+          Sell
+        </Text>
+      </View>
+
       <View className="flex  flex-col justify-center items-center">
         <View className="bg-[#3b83f62b] p-3  rounded-full">
           <AntDesign name="plus" size={20} color="#1354fe" />

@@ -3,9 +3,11 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { shortAddress } from "../util/shortAddress";
 
+
 import ShareControls from "../components/common/ShareControls";
 import { randomTransactions } from "../util/shared/constant";
 import TransactioElement from "../components/common/TransactionElement";
+
 
 import {
   SafeAreaView,
@@ -57,22 +59,19 @@ const CurrencyDetailPage = () => {
           </Text>
         </View>
 
-        <View className="mt-10 px-14 pb-5 border-[#00000016] border-b">
+        <View className="mt-10 px-6 pb-5 border-[#00000016] border-b">
           <ShareControls />
         </View>
 
-        <View className="px-6">
+        <View className="px-4">
           {randomTransactions.map((tr, index) => (
             <TransactioElement
+              current_price={params.data.current_price}
               key={"currency-detail-transaction-element-" + index}
               {...tr}
             />
           ))}
         </View>
-
-        <Text>
-          {shortAddress("0x902179cd6984bab78a6017c08386e3be0b601933")}
-        </Text>
       </ScrollView>
     </SafeAreaView>
   );
