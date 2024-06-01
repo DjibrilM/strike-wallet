@@ -143,10 +143,11 @@ const Home = () => {
           </View>
         </View>
 
-        <View className="mt-10 px-5">
+        <View className="mt-10 px-3">
           <ShareControls />
         </View>
 
+        <View className="mt-4" />
         <CurrencyHomeList />
       </Animated.ScrollView>
     </SafeAreaView>

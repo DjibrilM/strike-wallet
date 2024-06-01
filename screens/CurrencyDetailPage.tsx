@@ -13,7 +13,7 @@ import Animated, {
 import { LineChart } from "react-native-chart-kit";
 
 import ShareControls from "../components/common/ShareControls";
-import { randomTransactions } from "../util/shared/constant";
+import { randomTransactions, routes } from "../util/shared/constant";
 import TransactioElement from "../components/common/TransactionElement";
 
 import {
@@ -34,7 +34,7 @@ interface Params {
 const CurrencyDetailPage = () => {
   const route = useRoute();
   const params = route.params as Params;
-  const navigation = useNavigation();
+  const navigation = useNavigation() as any;
   const animatedRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollViewOffset(animatedRef);
   const opacity = useSharedValue(0);
@@ -63,7 +63,11 @@ const CurrencyDetailPage = () => {
     <SafeAreaView className="flex-1  bg-white">
       <StatusBar />
       <Animated.View
-        style={{ borderBottomWidth: 0.9, borderColor: "#1b1b1b12", opacity: opacity }}
+        style={{
+          borderBottomWidth: 0.9,
+          borderColor: "#1b1b1b12",
+          opacity: opacity,
+        }}
       ></Animated.View>
       <ScrollView onScroll={scrollView} ref={animatedRef}>
         <View className="mx-auto mt-10 flex items-center justify-center">
@@ -83,7 +87,16 @@ const CurrencyDetailPage = () => {
         </View>
 
         <View className="mt-10 px-6 pb-5 border-[#00000016] border-b">
-          <ShareControls />
+          <ShareControls
+            onExchange={() =>
+              navigation.navigate(routes.sendToken as never, {
+                name: routes.sendToken,
+                data: {
+                  ...params.data,
+                },
+              })
+            }
+          />
         </View>
 
         <View className="px-4">

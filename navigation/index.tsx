@@ -18,6 +18,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import BottomTab from "./BottomTab";
 import CurrencyDetailPage from "../screens/CurrencyDetailPage";
+import SendToken from "../screens/SendToken";
 
 const Stack = createNativeStackNavigator();
 
@@ -175,11 +176,35 @@ const Navigation = () => {
               );
             },
             headerShadowVisible: false,
-            headerStyle: { backgroundColor: "white", },
+            headerStyle: { backgroundColor: "white" },
             animation: "slide_from_right",
           }}
           name={routes.currencyDetailPage}
           component={CurrencyDetailPage}
+        />
+
+        <Stack.Screen
+          options={{
+            headerTitleStyle: { fontFamily: "Nunito-SemiBold" },
+            headerTitleAlign: "center",
+            headerLeft: () => {
+              const { goBack } = useNavigation();
+              return (
+                <Pressable onPress={goBack}>
+                  <Ionicons
+                    name="chevron-back-outline"
+                    size={25}
+                    color="#1354fe"
+                  />
+                </Pressable>
+              );
+            },
+            headerShadowVisible: false,
+            headerStyle: { backgroundColor: "white" },
+            animation: "slide_from_right",
+          }}
+          name={routes.sendToken}
+          component={SendToken}
         />
       </Stack.Navigator>
     </NavigationContainer>
