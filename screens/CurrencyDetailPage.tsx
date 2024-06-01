@@ -37,7 +37,7 @@ const CurrencyDetailPage = () => {
   const navigation = useNavigation();
   const animatedRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollViewOffset(animatedRef);
-  const top = useSharedValue(-100);
+  const opacity = useSharedValue(0);
   const [showTopBorder, setshowTopBorder] = useState(false);
 
   useLayoutEffect(() => {
@@ -53,20 +53,18 @@ const CurrencyDetailPage = () => {
 
   const scrollView = () => {
     if (scrollOffset.value > 30) {
-      setshowTopBorder(true);
+      opacity.value = withTiming(100);
     } else {
-      setshowTopBorder(false);
+      opacity.value = withTiming(0, { duration: 10 });
     }
   };
 
   return (
     <SafeAreaView className="flex-1  bg-white">
       <StatusBar />
-      <View
-        className={cn("border-b border-slate-200 opacity-0", {
-          "opacity-100": showTopBorder,
-        })}
-      ></View>
+      <Animated.View
+        style={{ borderBottomWidth: 0.9, borderColor: "#1b1b1b12", opacity: opacity }}
+      ></Animated.View>
       <ScrollView onScroll={scrollView} ref={animatedRef}>
         <View className="mx-auto mt-10 flex items-center justify-center">
           <Image source={{ uri: params.data.image, width: 60, height: 60 }} />
