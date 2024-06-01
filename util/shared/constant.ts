@@ -39,6 +39,7 @@ export const seedPhrase = [
 ];
 
 export const routes = {
+  sendToken:'sendToken',
   walletSetup: "wallet Setup",
   OnboardingScreen: "Onboarding",
   securityConfig: "Security Config",

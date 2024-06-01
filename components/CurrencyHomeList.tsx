@@ -19,7 +19,6 @@ const CurrencyHomeList = () => {
     fetcher
   );
 
-
   return (
     <View className="">
       <Visible condition={!isLoading && !error}>
@@ -39,8 +38,9 @@ const CurrencyHomeList = () => {
         </View>
       </Visible>
 
-      {currencies?.map((dta) => (
+      {currencies?.map((dta, index) => (
         <Pressable
+          key={"home-currency-element-" + index}
           onPress={() =>
             navigation.navigate(routes.currencyDetailPage as never, {
               name: routes.currencyDetailPage,
@@ -108,5 +108,3 @@ const CurrencyHomeList = () => {
 };
 
 export default CurrencyHomeList;
-
-
