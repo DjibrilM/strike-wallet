@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { StatusBar } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -7,6 +6,7 @@ import EvilIcons from "@expo/vector-icons/EvilIcons";
 
 import CurrencyHomeList from "../components/CurrencyHomeList";
 import ShareControls from "../components/common/ShareControls";
+import { StatusBar } from "../components/common/StatusBar";
 
 import Animated, {
   useScrollViewOffset,
@@ -40,8 +40,7 @@ const Home = () => {
 
   return (
     <SafeAreaView className="flex-1 relative bg-white">
-      <StatusBar barStyle={"default"} />
-
+      <StatusBar />
       <Animated.View
         style={{
           paddingHorizontal: 10,
@@ -84,26 +83,24 @@ const Home = () => {
         </TouchableOpacity>
       </Animated.View>
 
-      <Animated.ScrollView
-        onScroll={scrollView}
-        ref={animatedRef}
-        style={{ paddingHorizontal: 20 }}
-      >
-        <Pressable
-          onPress={() => {}}
-          android_ripple={{ color: "#ffffff33" }}
-          className="h-12 bg-slate-100 flex-row flex px-4 items-center my-6 rounded-lg"
-        >
-          <EvilIcons name="search" size={24} color="#64748b" />
-          <Text
-            style={{ fontFamily: "Nunito-Regular" }}
-            className="text-slate-500 ml-2"
+      <Animated.ScrollView onScroll={scrollView} ref={animatedRef}>
+        <View className="px-4">
+          <Pressable
+            onPress={() => {}}
+            android_ripple={{ color: "#ffffff33" }}
+            className="h-12 bg-slate-100 flex-row flex px-4 items-center my-6 rounded-lg"
           >
-            Search
-          </Text>
-        </Pressable>
+            <EvilIcons name="search" size={24} color="#64748b" />
+            <Text
+              style={{ fontFamily: "Nunito-Regular" }}
+              className="text-slate-500 ml-2"
+            >
+              Search
+            </Text>
+          </Pressable>
+        </View>
 
-        <View className="flex mt-5 flex-row items-center justify-between">
+        <View className="flex mt-5 px-5 flex-row items-center justify-between">
           <TouchableOpacity
             onPress={() => setHideBalance(!hideBalance)}
             className="flex relative left-2 flex-row gap-2 items-center"
@@ -146,7 +143,7 @@ const Home = () => {
           </View>
         </View>
 
-        <View className="mt-10">
+        <View className="mt-10 px-5">
           <ShareControls />
         </View>
 

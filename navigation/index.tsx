@@ -160,6 +160,8 @@ const Navigation = () => {
 
         <Stack.Screen
           options={{
+            headerTitleStyle: { fontFamily: "Nunito-SemiBold" },
+            headerTitleAlign: "center",
             headerLeft: () => {
               const { goBack } = useNavigation();
               return (
@@ -173,7 +175,7 @@ const Navigation = () => {
               );
             },
             headerShadowVisible: false,
-            headerStyle: { backgroundColor: "white" },
+            headerStyle: { backgroundColor: "white", },
             animation: "slide_from_right",
           }}
           name={routes.currencyDetailPage}

@@ -6,6 +6,7 @@ import { Text, TouchableOpacity, Image, View } from "../components/Tailwind";
 import HomeHeader from "../components/HomeHeader";
 import Home from "../screens/Home";
 import Setting from "../screens/Setting";
+import { Platform } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
@@ -15,8 +16,8 @@ export default function BottomTab() {
       sceneContainerStyle={{ backgroundColor: "white" }}
       screenOptions={{
         tabBarStyle: {
-          shadowColor: "transparent",
-          borderTopColor: "#cbd5e1",
+          height: Platform.OS === "android" ? 66 : 80,
+          borderTopColor: Platform.OS === 'ios' ? "#cbd5e1":'transparent',
         },
         tabBarInactiveTintColor: "#8e8e8e",
         tabBarActiveTintColor: "#1354fe",
@@ -25,7 +26,7 @@ export default function BottomTab() {
     >
       <Tab.Screen
         options={{
-          tabBarLabel:()=> null,
+          tabBarLabel: () => null,
           tabBarIcon: ({ color }) => (
             <Ionicons name="wallet" size={25} color={color} />
           ),
@@ -50,7 +51,7 @@ export default function BottomTab() {
       />
       <Tab.Screen
         options={{
-          tabBarLabel:()=> null,
+          tabBarLabel: () => null,
           tabBarIcon: ({ color }) => (
             <AntDesign name="setting" size={25} color={color} />
           ),
