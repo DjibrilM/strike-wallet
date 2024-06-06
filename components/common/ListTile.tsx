@@ -1,8 +1,10 @@
 import React from "react";
-import { View } from "../Tailwind";
+import { PressableProps } from "react-native";
+import { Button, View } from "../Tailwind";
 import { cn } from "../../util/cn";
+import { Pressable } from "../Tailwind";
 
-interface Props {
+interface Props extends PressableProps  {
   leading?: React.JSX.Element;
   title?: React.JSX.Element;
   subtitle?: React.JSX.Element;
@@ -16,11 +18,14 @@ const ListTile: React.FC<Props> = ({
   conatinerClassName,
   title,
   subtitle,
+  ...props
 }) => {
   return (
-    <View
+    <Pressable
+      {...props}
+      android_ripple={{color:'#0000003b'}}
       className={cn(
-        "flex items-center flex-row  justify-between",
+        "flex py-2 items-center flex-row  justify-between",
         conatinerClassName
       )}
     >
@@ -33,7 +38,7 @@ const ListTile: React.FC<Props> = ({
       </View>
 
       <View className="">{trailing}</View>
-    </View>
+    </Pressable>
   );
 };
 

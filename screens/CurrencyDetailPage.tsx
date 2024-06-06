@@ -38,7 +38,6 @@ const CurrencyDetailPage = () => {
   const animatedRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollViewOffset(animatedRef);
   const opacity = useSharedValue(0);
-  const [showTopBorder, setshowTopBorder] = useState(false);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -99,7 +98,7 @@ const CurrencyDetailPage = () => {
           />
         </View>
 
-        <View className="px-4">
+        <View className="">
           {randomTransactions.map((tr, index) => (
             <TransactioElement
               current_price={params.data.current_price}
@@ -109,7 +108,7 @@ const CurrencyDetailPage = () => {
           ))}
         </View>
       </ScrollView>
-      <View className="border-t overflow-hidden flex-row h-18 flex  px-4 items-center  border-[#0000001e]">
+      <View className="border-t overflow-hidden flex-row h-20 flex  px-4 items-center  border-[#0000001e]">
         <View>
           <Text style={{ fontFamily: "Nunito-SemiBold" }} className="text-base">
             {params.data.name}
@@ -170,9 +169,9 @@ const CurrencyDetailPage = () => {
           }}
         />
 
-        <View className="flex-1 flex-row items-center justify-end h-full">
+        {/* <View className="flex-1 flex-row items-center justify-end h-full">
           <Entypo name="chevron-small-up" size={24} color="#2e2e2e" />
-        </View>
+        </View> */}
       </View>
     </SafeAreaView>
   );
