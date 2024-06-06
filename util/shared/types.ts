@@ -47,7 +47,7 @@ export type Transaction = {
   "DateTime (UTC)": string,
   "Parent Transaction Hash":
   Address,
-  Status: string,
+  Status: 'Success' | 'Fail',
   Type: string,
   From: Address,
   From_Nametag: string,
