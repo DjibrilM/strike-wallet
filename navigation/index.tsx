@@ -25,7 +25,7 @@ const Stack = createNativeStackNavigator();
 const Navigation = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={routes.home}>
+      <Stack.Navigator initialRouteName={routes.OnboardingScreen}>
         <Stack.Screen
           options={{
             header: () => {
