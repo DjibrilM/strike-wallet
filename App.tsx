@@ -1,11 +1,14 @@
+import "reflect-metadata";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import * as SplashScreen from "expo-splash-screen";
 import "react-native-gesture-handler";
-
 import { useCallback, useLayoutEffect } from "react";
 import { useFonts } from "expo-font";
+
 import Navigation from "./navigation";
 import fonts from "./util/shared/fonts";
-import * as SplashScreen from "expo-splash-screen";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import DatabaseConnectionProvider from "./data/connection";
 
 import "./style.css";
 
@@ -29,8 +32,12 @@ export default function App() {
   }
 
   return (
-    <GestureHandlerRootView>
-      <Navigation />
-    </GestureHandlerRootView>
+    <DatabaseConnectionProvider>
+      <GestureHandlerRootView>
+        <BottomSheetModalProvider>
+          <Navigation />
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
+    </DatabaseConnectionProvider>
   );
 }
