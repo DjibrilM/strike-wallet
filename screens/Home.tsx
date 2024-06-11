@@ -119,8 +119,8 @@ const Home = () => {
 
             <Visible condition={hideBalance}>
               <View className=" text-slate-700 flex flex-row gap-2">
-                {Array.from({ length: 7 }).map(() => (
-                  <View className="h-2 w-2 bg-black/60 rounded-full" />
+                {Array.from({ length: 7 }).map((_,index) => (
+                  <View key={'hide-dots-'+ index} className="h-2 w-2 bg-black/60 rounded-full" />
                 ))}
               </View>
             </Visible>

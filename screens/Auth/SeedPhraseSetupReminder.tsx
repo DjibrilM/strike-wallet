@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Checkbox from "expo-checkbox";
 import { Platform, StatusBar } from "react-native";
@@ -11,20 +11,37 @@ import {
   Text,
   TouchableOpacity,
 } from "../../components/Tailwind";
-import { useAuthSetps } from "../../states/authSteps.state";
+
 import Button from "../../components/Widgets/Button";
 import CustomBottomSheet from "../../components/Widgets/BottomSheet";
 import { CustomeBottomSheetRef } from "../../util/shared/types";
 import { cn } from "../../util/cn";
 import { routes } from "../../util/shared/constant";
+import { DatabaseConnectionContext } from "../../data/connection";
+import { usePasswordForm } from "../../states/FormState/passwordConfig.state";
 
 const SeedPhraseSetupReminder = () => {
-  const { updateSteps } = useAuthSetps();
+  const { password } = usePasswordForm();
   const navigation = useNavigation();
+  const { SettingsEntity } = useContext(DatabaseConnectionContext);
   const seedPharseExplanationBottomSheet = useRef<CustomeBottomSheetRef>();
   const securityReminderBottomSheet = useRef<CustomeBottomSheetRef>();
   const [constinueWithoutSecurity, setConstinueWithoutSecurity] =
     useState(false);
+
+  const createSettings = async () => {
+    if (SettingsEntity) {
+      try {
+        const settings = new SettingsEntity();
+        settings.password = password.value;
+        settings.AllowBiomtricCrediential = false;
+        settings.hasConfirguredWallet = true;
+        await settings.save();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   return (
     <SafeAreaView className="flex-1 px-6 bg-white">
@@ -68,7 +85,7 @@ const SeedPhraseSetupReminder = () => {
 
         <View className="flex pb-5 gap-4">
           <Button
-            onPress={()=> securityReminderBottomSheet.current?.open()}
+            onPress={() => securityReminderBottomSheet.current?.open()}
             className="bg-slate-400 font-bold active:bg-slate-300"
           >
             <Text
@@ -175,6 +192,7 @@ const SeedPhraseSetupReminder = () => {
             })}
           >
             <Button
+              onPress={createSettings}
               label="Skip"
               disabled={!constinueWithoutSecurity}
               className={cn("w-[50%] self-end")}
