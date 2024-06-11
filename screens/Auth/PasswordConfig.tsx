@@ -3,6 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import Checkbox from "expo-checkbox";
 import { StatusBar } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { checkIfConfigIsValid } from "react-native-reanimated/lib/typescript/reanimated2/animation/springUtils";
 
 import {
   View,
@@ -23,12 +24,13 @@ import { useAuthSetps } from "../../states/authSteps.state";
 
 const PaswordConfig = () => {
   const navigation = useNavigation();
-  const [includeFaceRecognition, setIncludeFaceRecognition] =
+  const [accesptsTermsAndConditions, setAccesptsTermsAndConditions] =
     useState<boolean>(false);
-  const [toggleCheckBox, setToggleCheckBox] = useState(false);
   const { updateSteps } = useAuthSetps();
 
   const {
+    allowBiometricAthentication,
+    updateBiometricConfigurationsAggreements,
     triedSubmit,
     password,
     confirmPassword,
@@ -124,9 +126,11 @@ const PaswordConfig = () => {
               Sign in with Face ID?
             </Text>
             <Switch
-              value={includeFaceRecognition}
+              value={allowBiometricAthentication}
               onChange={() =>
-                setIncludeFaceRecognition(!includeFaceRecognition)
+                updateBiometricConfigurationsAggreements(
+                  !allowBiometricAthentication
+                )
               }
             />
           </View>
@@ -136,9 +140,11 @@ const PaswordConfig = () => {
           <View className="flex flex-row gap-3 mb-6 w-full px-2 mt-5">
             <Checkbox
               style={{ borderColor: "#1354fe", top: 5 }}
-              value={toggleCheckBox}
-              onValueChange={() => setToggleCheckBox(!toggleCheckBox)}
-              color={toggleCheckBox ? "#1354fe" : undefined}
+              value={accesptsTermsAndConditions}
+              onValueChange={() =>
+                setAccesptsTermsAndConditions(!accesptsTermsAndConditions)
+              }
+              color={accesptsTermsAndConditions ? "#1354fe" : undefined}
             />
             <Text
               className="text-slate-700"
@@ -159,7 +165,7 @@ const PaswordConfig = () => {
 
           <Button
             label=" Create Password"
-            disabled={!(password.valid && confirmPassword.valid)}
+            disabled={!(password.valid && confirmPassword.valid && accesptsTermsAndConditions)}
             onPress={onSubmit}
           />
         </View>

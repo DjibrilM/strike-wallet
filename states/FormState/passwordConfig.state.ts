@@ -1,6 +1,8 @@
 import { create } from "zustand";
 
 type State = {
+  updateBiometricConfigurationsAggreements: (value: boolean) => void;
+  allowBiometricAthentication: boolean;
   triedSubmit: boolean;
   password: {
     value: string;
@@ -22,6 +24,7 @@ type Action = {
 
 // Create your store, which includes both state and (optionally) actions
 export const usePasswordForm = create<State & Action>((set, get) => ({
+  allowBiometricAthentication: false,
   triedSubmit: false,
   password: {
     value: "",
@@ -58,4 +61,6 @@ export const usePasswordForm = create<State & Action>((set, get) => ({
   },
 
   updateTrySubmit: () => set({ triedSubmit: true }),
+  updateBiometricConfigurationsAggreements: (value: boolean) =>
+    set({ allowBiometricAthentication: value }),
 }));

@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { useContext } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import * as SplashScreen from "expo-splash-screen";
@@ -16,6 +17,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts(fonts);
+
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded || fontError) {
