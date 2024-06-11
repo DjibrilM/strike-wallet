@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Feather from "@expo/vector-icons/Feather";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 
 import CurrencyHomeList from "../components/CurrencyHomeList";

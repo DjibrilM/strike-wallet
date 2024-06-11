@@ -2,7 +2,7 @@ import { createContext, useLayoutEffect, useState } from "react";
 import { DataSource } from "typeorm";
 import { WalletEntity } from "./wallet/wallet.entity";
 import * as SQLite from "expo-sqlite/legacy";
-import { Settings } from "./credentials/settings";
+import { Settings } from "./settings/settings";
 
 interface Entities {
   WalletEntity: typeof WalletEntity | null | undefined;
