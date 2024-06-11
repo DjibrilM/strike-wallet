@@ -22,7 +22,7 @@ import CurrencyDetailPage from "../screens/CurrencyDetailPage";
 import SendToken from "../screens/SendToken";
 import OnboardingScreen from "../screens/ OnboardingScreen";
 import Visible from "../components/common/Visibility";
-import { Settings } from "../data/credentials/settings";
+import { Settings } from "../data/settings/settings";
 import { DatabaseConnectionContext } from "../data/connection";
 
 //stack navigator
