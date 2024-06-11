@@ -15,6 +15,9 @@ export class Credentials {
   @Column()
   password: string;
 
-  @Column()
-  seedPhrase: string;
+  @Column({ default: false })
+  hasConfirguredWallet: boolean;
+
+  @Column({default:true})
+  AllowBiomtricCrediential:boolean
 }
