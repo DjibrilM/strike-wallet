@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert } from "typeorm";
 
 @Entity("credentials")
-export class Credentials {
+export class Settings {
   @BeforeInsert()
   genarate() {
     this.id = uuidv4();

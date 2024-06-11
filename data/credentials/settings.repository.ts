@@ -1,5 +1,5 @@
 import { Repository, Connection, FindOptionsWhere } from "typeorm";
-import { Credentials } from "./credential.entity";
+import { Settings } from "./settings";
 
 export interface CredentialsType {
   password: string;
@@ -7,15 +7,14 @@ export interface CredentialsType {
 }
 
 export class CredentialRepository {
-  private ormRepository: Repository<Credentials>;
+  private ormRepository: Repository<Settings>;
   construct(connection: Connection) {
-    this.ormRepository = connection.getRepository(Credentials);
+    this.ormRepository = connection.getRepository(Settings);
   }
 
   async create({ password, seedPhrase }: CredentialsType) {
     return await this.ormRepository.create({
       password: password,
-      seedPhrase: seedPhrase,
     });
   }
 
@@ -23,17 +22,16 @@ export class CredentialRepository {
     return await this.ormRepository.find();
   }
 
-  async finById(id: FindOptionsWhere<Credentials>) {
+  async finById(id: FindOptionsWhere<Settings>) {
     return this.ormRepository.findBy(id);
   }
 
   async findOne(
     searchQuery:
-      | FindOptionsWhere<Credentials>
-      | FindOptionsWhere<Credentials>[]
+      | FindOptionsWhere<Settings>
+      | FindOptionsWhere<Settings>[]
       | undefined
   ) {
     return this.ormRepository.findOne({ where: searchQuery });
   }
-    
 }

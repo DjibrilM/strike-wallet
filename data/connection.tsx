@@ -1,8 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 import { Connection, createConnection } from "typeorm";
-import * as SQLite from 'expo-sqlite/legacy';
-import {Credentials} from './credentials/credential.entity'
-import { CredentialRepository } from "./credentials/credential.repository";
+import * as SQLite from "expo-sqlite/legacy";
+import { Settings } from "./credentials/settings";
+import { CredentialRepository } from "./credentials/settings.repository";
 interface DatabaseConnectionContextData {
   credentialRepository: CredentialRepository;
 }
@@ -24,7 +24,7 @@ const DatabaseConnectionProvider = ({
         type: "expo",
         database: "strikeWallet.db",
         driver: SQLite,
-        entities: [Credentials],
+        entities: [Settings],
         synchronize: false,
       });
 
