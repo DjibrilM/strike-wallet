@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { TextInputProps, KeyboardTypeOptions, StyleSheet } from "react-native";
 import { TextInput as NativeTextInout } from "react-native-gesture-handler";
 import { useSharedValue, withTiming } from "react-native-reanimated";
-import Visible from "../common/Visibility";
+import Visible from "../Common/Visibility";
 import Animated from "react-native-reanimated";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
@@ -89,7 +89,9 @@ const Input: React.FC<Props> = ({
         {errorMessage}
       </Text>
 
-      <Visible condition={InputType === "visible-password" && !hiddePasswordView}>
+      <Visible
+        condition={InputType === "visible-password" && !hiddePasswordView}
+      >
         <Pressable
           onPress={() => {
             setHide(!hide);

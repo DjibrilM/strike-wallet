@@ -5,7 +5,7 @@ import { ActivityIndicator } from "react-native";
 import { Pressable } from "./Tailwind";
 import { currencies, routes } from "../util/shared/constant";
 import { View, Text, Image } from "./Tailwind";
-import Visible from "./common/Visibility";
+import Visible from "./Common/Visibility";
 import { cn } from "../util/cn";
 import { CurrencyData } from "../util/shared/types";
 import { useNavigation } from "@react-navigation/native";

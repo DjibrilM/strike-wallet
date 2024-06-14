@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useState } from "react";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { SafeAreaView, Text, View } from "../components/Tailwind";
-import { StatusBar } from "../components/common/StatusBar";
+import { StatusBar } from "../components/Common/StatusBar";
 import { CurrencyData } from "../util/shared/types";
 import { Pressable } from "../components/Tailwind";
 import Button from "../components/Widgets/Button";
@@ -40,7 +40,6 @@ const SendToken = () => {
     prevValue.value = value;
     setAddress(prevValue);
   };
-
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -98,7 +97,10 @@ const SendToken = () => {
       </View>
 
       <View className="flex-1 justify-end pb-10 px-4">
-        <Button disabled={!amount.isValid || !address.isValid} label="Continue" />
+        <Button
+          disabled={!amount.isValid || !address.isValid}
+          label="Continue"
+        />
       </View>
     </SafeAreaView>
   );

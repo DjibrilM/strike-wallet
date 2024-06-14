@@ -1,5 +1,5 @@
 import { createContext, useLayoutEffect, useState } from "react";
-import { DataSource } from "typeorm";
+import { DataSource,createConnection } from "typeorm";
 import { WalletEntity } from "./wallet/wallet.entity";
 import * as SQLite from "expo-sqlite/legacy";
 import { Settings } from "./settings/settings";
@@ -25,8 +25,9 @@ const DatabaseConnectionProvider = ({
         type: "expo",
         database: "strikeWallet.db",
         driver: SQLite,
+        logging:true,
         entities: [Settings],
-        synchronize: false, //remove in production
+        synchronize: true, //remove in production
       });
 
       await dataSource.initialize();
@@ -35,6 +36,7 @@ const DatabaseConnectionProvider = ({
         SettingsEntity: Settings,
         WalletEntity: WalletEntity,
       });
+
     } catch (error) {
       console.log(error);
     }
