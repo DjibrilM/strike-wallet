@@ -107,7 +107,6 @@ const SeedPhraseMatchTest = () => {
         <AuthHeader />
       </View>
 
-
       <StatusBar barStyle={"default"} />
 
       <ScrollView
@@ -161,11 +160,10 @@ const SeedPhraseMatchTest = () => {
             }
             label="Continue"
             disabled={
-              false
-              //   !(
-              //     seedPhrase.join("") ===
-              //     selectionAre.map((obj) => obj.match).join("")
-              //   )
+              !(
+                seedPhrase.join("") ===
+                selectionAre.map((obj) => obj.match).join("")
+              )
             }
             className="mt-5"
           />

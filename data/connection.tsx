@@ -1,5 +1,5 @@
 import { createContext, useLayoutEffect, useState } from "react";
-import { DataSource,createConnection } from "typeorm";
+import { DataSource } from "typeorm";
 import { WalletEntity } from "./wallet/wallet.entity";
 import * as SQLite from "expo-sqlite/legacy";
 import { Settings } from "./settings/settings";
@@ -27,7 +27,7 @@ const DatabaseConnectionProvider = ({
         driver: SQLite,
         logging:true,
         entities: [Settings],
-        synchronize: true, //remove in production
+        synchronize: true,
       });
 
       await dataSource.initialize();

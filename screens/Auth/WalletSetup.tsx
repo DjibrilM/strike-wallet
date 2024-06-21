@@ -14,7 +14,7 @@ const WalletSetup = () => {
     <SafeAreaView className="flex items-center h-full bg-white">
       <StatusBar barStyle={"default"} />
       <View className="h-full  flex justify-between px-6 flex-col">
-        <View className="flex items-center w-[50%] h-[40%] mx-auto">
+        <View className="flex justify-end items-center w-[60%] h-[50%] mx-auto">
           <Image
             style={{ aspectRatio: 4 / 4, objectFit: "contain" }}
             className="bottom-4 h-[90%] relative  top-4 left-9"
