@@ -37,6 +37,7 @@ const SeedPhraseSetupReminder = () => {
         settings.AllowBiomtricCrediential = false;
         settings.hasConfirguredWallet = true;
         await settings.save();
+        navigation.navigate(routes.home as never);
       } catch (error) {
         console.log(error);
       }

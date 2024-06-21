@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { cn } from "../util/cn";
 
 import { Text, TouchableOpacity, Image, View } from "../components/Tailwind";
 import HomeHeader from "../components/HomeHeader";
@@ -16,6 +17,7 @@ export default function BottomTab() {
       sceneContainerStyle={{ backgroundColor: "white" }}
       screenOptions={{
         tabBarStyle: {
+          height: Platform.OS === "android" ? 65 : 85,
           borderTopColor: Platform.OS === "ios" ? "#cbd5e1" : "transparent",
         },
         tabBarInactiveTintColor: "#8e8e8e",
@@ -25,14 +27,7 @@ export default function BottomTab() {
     >
       <Tab.Screen
         options={{
-          tabBarLabel: ({ color }) => (
-            <Text
-              style={{ fontFamily: "Nunito-Regular", color: color }}
-              className="text-[12px] relative bottom-[3px]"
-            >
-              Home
-            </Text>
-          ),
+          tabBarLabel: () => null,
           tabBarIcon: ({ color }) => (
             <Ionicons name="wallet" size={25} color={color} />
           ),
@@ -44,7 +39,7 @@ export default function BottomTab() {
         options={{
           tabBarLabel: () => null,
           tabBarIcon: ({ color }) => (
-            <TouchableOpacity className=" bg-blueDefault rounded-full flex items-center justify-center w-[45px] h-[45px] relative">
+            <TouchableOpacity className=" bg-blueDefault rounded-full top-1 flex items-center justify-center w-[50px] h-[50px] relative">
               <Image
                 className="w-[40%] h-[40%]"
                 source={require("../assets/images/two-arrow.png")}
@@ -57,14 +52,7 @@ export default function BottomTab() {
       />
       <Tab.Screen
         options={{
-          tabBarLabel: ({ color }) => (
-            <Text
-              style={{ fontFamily: "Nunito-Regular", color: color }}
-              className="text-[12px] relative bottom-[3px]"
-            >
-              Settings
-            </Text>
-          ),
+          tabBarLabel: () => null,
           tabBarIcon: ({ color }) => (
             <AntDesign name="setting" size={25} color={color} />
           ),

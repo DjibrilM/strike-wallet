@@ -47,7 +47,6 @@ const NumPad: React.FC<Props> = ({
   });
   return (
     <>
-      <View className="flex-1"></View>
       <View className="flex max-w-[400px] pb-4 w-full mx-auto justify-center">
         {Object.keys(rows.current).map((key, index) => (
           <View
