@@ -31,9 +31,9 @@ To get started with the Wallet Application, follow these steps:
    npm install
 3. **Lunch on IOS:**
       ```bash
-   npm start i
+    npm run ios
 4. **Lunch on Android:**
       ```bash
-   npm start a
+   npm run abdroid
 
 
