@@ -100,7 +100,7 @@ const Home = () => {
             </Pressable>
           </View>
 
-          <View className="flex mt-5 px-5 flex-row items-center justify-between">
+          <View className="flex mt-5 px-7 flex-row items-center justify-between">
             <TouchableOpacity
               onPress={() => setHideBalance(!hideBalance)}
               className="flex relative left-2 flex-row gap-2 items-center"
@@ -110,7 +110,7 @@ const Home = () => {
                   <Text className="text-[17px] text-slate-600">$</Text>
                   <Text
                     style={{ fontFamily: "Nunito-ExtraBold" }}
-                    className="text-[25px] text-slate-500"
+                    className="text-[30px] text-slate-500"
                   >
                     {10000.0}
                   </Text>
@@ -146,7 +146,7 @@ const Home = () => {
             </View>
           </View>
 
-          <View className="mt-10 px-3">
+          <View className="mt-10 px-5">
             <ShareControls />
           </View>
 

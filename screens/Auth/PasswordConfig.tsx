@@ -3,7 +3,6 @@ import { useNavigation } from "@react-navigation/native";
 import Checkbox from "expo-checkbox";
 import { StatusBar } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { checkIfConfigIsValid } from "react-native-reanimated/lib/typescript/reanimated2/animation/springUtils";
 
 import {
   View,
@@ -78,6 +77,7 @@ const PaswordConfig = () => {
           <KeyboardAvoidingView className="mt-5" behavior="padding">
             <View>
               <Input
+                keyboardType="numeric"
                 onChange={(e) => console.log(e.nativeEvent.text)}
                 InputType={"visible-password"}
                 value={password.value}
@@ -91,6 +91,13 @@ const PaswordConfig = () => {
                     : ""
                 }
               />
+              <Text
+                className={cn("text-slate-400 relative left-1", {
+                  "text-blueDefault": password.valid,
+                })}
+              >
+                {password.value.length}/5
+              </Text>
             </View>
 
             <View className="mt-8">
@@ -102,6 +109,7 @@ const PaswordConfig = () => {
                     <></>
                   )
                 }
+                keyboardType='numeric'
                 hiddePasswordView={true}
                 value={confirmPassword.value}
                 InputType={"visible-password"}
@@ -165,7 +173,13 @@ const PaswordConfig = () => {
 
           <Button
             label=" Create Password"
-            disabled={!(password.valid && confirmPassword.valid && accesptsTermsAndConditions)}
+            disabled={
+              !(
+                password.valid &&
+                confirmPassword.valid &&
+                accesptsTermsAndConditions
+              )
+            }
             onPress={onSubmit}
           />
         </View>

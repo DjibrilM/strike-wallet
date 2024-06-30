@@ -29,7 +29,7 @@ export const usePasswordForm = create<State & Action>((set, get) => ({
   password: {
     value: "",
     valid: false,
-    errorMessage: "Minimum 6 characters, 1 number",
+    errorMessage: "Must be five digits",
   },
 
   confirmPassword: {
@@ -39,7 +39,7 @@ export const usePasswordForm = create<State & Action>((set, get) => ({
   },
 
   updatePassword: (value: string) => {
-    const pattern = /^(?=.*\d)[A-Za-z\d]{6,}$/; //validation pattern
+    const pattern = /^.{5}$/; //validation pattern
 
     const newValue: State["password"] = {
       valid: pattern.test(value),

@@ -17,7 +17,7 @@ export default function BottomTab() {
       sceneContainerStyle={{ backgroundColor: "white" }}
       screenOptions={{
         tabBarStyle: {
-          height: Platform.OS === "android" ? 65 : 85,
+          height: Platform.OS === "android" ? 80 : 90,
           borderTopColor: Platform.OS === "ios" ? "#cbd5e1" : "transparent",
         },
         tabBarInactiveTintColor: "#8e8e8e",
@@ -39,7 +39,7 @@ export default function BottomTab() {
         options={{
           tabBarLabel: () => null,
           tabBarIcon: ({ color }) => (
-            <TouchableOpacity className=" bg-blueDefault rounded-full top-1 flex items-center justify-center w-[50px] h-[50px] relative">
+            <TouchableOpacity className="top-[3px] bg-blueDefault rounded-full  flex items-center justify-center w-[58px] h-[58px] relative">
               <Image
                 className="w-[40%] h-[40%]"
                 source={require("../assets/images/two-arrow.png")}
