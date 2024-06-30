@@ -43,7 +43,7 @@ const Home = () => {
         <StatusBar />
         <Animated.View
           style={{
-            paddingHorizontal: 10,
+            paddingHorizontal: 15,
             backgroundColor: "white",
             borderBottomWidth: 0.5,
             borderColor: "#0000001a",
@@ -88,7 +88,7 @@ const Home = () => {
             <Pressable
               onPress={() => {}}
               android_ripple={{ color: "#ffffff33" }}
-              className="h-12 bg-slate-100 flex-row flex px-4 items-center my-6 rounded-lg"
+              className="h-14 bg-slate-100 flex-row flex px-4 items-center my-6 rounded-lg"
             >
               <EvilIcons name="search" size={24} color="#64748b" />
               <Text
@@ -107,7 +107,7 @@ const Home = () => {
             >
               <Visible condition={!hideBalance}>
                 <View className="flex flex-row items-center">
-                  <Text className="text-[17px] text-slate-600">$</Text>
+                  <Text className="text-[34px] text-slate-600">$</Text>
                   <Text
                     style={{ fontFamily: "Nunito-ExtraBold" }}
                     className="text-[30px] text-slate-500"

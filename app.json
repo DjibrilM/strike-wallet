@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "assets":".assets",
+    "assets": ".assets",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash.png",
@@ -25,7 +25,14 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow Strike wallet to use Face ID.",
+          "NSFaceIDUsageDescription":"Protect your funds with Face ID, ensuring only you can access your crypto wallet."
+        }
+      ]
     ]
   }
 }
