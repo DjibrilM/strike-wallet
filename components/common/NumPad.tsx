@@ -32,7 +32,7 @@ const NumPad: React.FC<Props> = ({
     2: [
       { value: 4, type: "number" },
       { value: 5, type: "number" },
-      { value: 5, type: "number" },
+      { value: 6, type: "number" },
     ],
     3: [
       { value: 7, type: "number" },

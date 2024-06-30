@@ -35,9 +35,10 @@ const SeedPhraseSetupReminder = () => {
         const settings = new SettingsEntity();
         settings.password = password.value;
         settings.AllowBiomtricCrediential = false;
-        settings.hasConfirguredWallet = true;
+        settings.hasConfirguredWallet = false;
         await settings.save();
         navigation.navigate(routes.home as never);
+        securityReminderBottomSheet.current?.close();
       } catch (error) {
         console.log(error);
       }

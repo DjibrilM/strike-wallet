@@ -2,11 +2,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useRef, useState, useContext } from "react";
 import { ActivityIndicator } from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { Text } from "../components/Tailwind";
 
 import { routes } from "../util/shared/constant";
 import { SafeAreaView } from "../components/Tailwind";
 import WalletSetup from "../screens/Auth/WalletSetup";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import SecurityConfig from "../screens/Auth/PasswordConfig";
 import SeedPhraseSetupReminder from "../screens/Auth/SeedPhraseSetupReminder";
 import SeedPhraseGeneration from "../screens/Auth/SeedPhraseGeneration";
@@ -24,6 +25,7 @@ import OnboardingScreen from "../screens/ OnboardingScreen";
 import Visible from "../components/Common/Visibility";
 import { DatabaseConnectionContext } from "../data/connection";
 import LockScreen from "../components/Hoc/LockCheckerScreen";
+import { useSettings } from "../states/settings";
 
 //stack navigator
 const Stack = createNativeStackNavigator();
@@ -33,16 +35,21 @@ const RootStckNavigator = () => {
   const [loading, setLoading] = useState(true);
   const initialRouteName = useRef("");
   const databaseContext = useContext(DatabaseConnectionContext);
+  const {setSetting} = useSettings();
 
   const getPassword = async () => {
     try {
       const passwordsCount = await databaseContext.SettingsEntity?.count();
+      const configurations = await databaseContext.SettingsEntity?.find();
+      
+
       if (!Boolean(passwordsCount)) {
         initialRouteName.current = routes.OnboardingScreen;
         setLoading(false);
       } else {
         initialRouteName.current = routes.home;
         setLoading(false);
+        setSetting(configurations![0]);
       }
     } catch (error) {
       console.log(error);
@@ -57,7 +64,10 @@ const RootStckNavigator = () => {
     <>
       <Visible condition={loading}>
         <SafeAreaView className="flex flex-1 items-center justify-center flex-row">
-          <ActivityIndicator />
+          <View>
+            <ActivityIndicator size={30} color={"#1354fe"} />
+            <Text className="text-slate-600 mt-4 text-center">..loading</Text>
+          </View>
         </SafeAreaView>
       </Visible>
 
