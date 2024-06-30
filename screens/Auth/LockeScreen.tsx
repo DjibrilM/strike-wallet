@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import * as LocalAuthentication from "expo-local-authentication";
 import { FadeOutDown, FadeInDown, FadeOut } from "react-native-reanimated";
 import { StyleSheet } from "react-native";
 import Animated from "react-native-reanimated";
@@ -144,6 +145,13 @@ const LockeScreen = () => {
     }
   }, [valueRef.current]);
 
+  const authorizeWithBiometricCredentials = async () => {
+    const authorize = await LocalAuthentication.authenticateAsync();
+    if (authorize.success) {
+      unlockApplication();
+    }
+  };
+
   return (
     <SafeAreaView className="flex-1 flex flex-columns justify-between">
       <View className="justify-center flex-col gap-6 flex-1 mt-7">
@@ -169,10 +177,7 @@ const LockeScreen = () => {
       <NumPad
         onDelete={handleDelete}
         onChange={handleInputChange}
-        onpressBiomtricAuthorization={() => {
-          shake();
-          setIsInvalid(true);
-        }}
+        onpressBiomtricAuthorization={authorizeWithBiometricCredentials}
       />
     </SafeAreaView>
   );
