@@ -31,8 +31,8 @@ const HomeHeader = () => {
             <AntDesign name="plus" size={20} color="#737272" />
           </Pressable>
 
-          <Pressable className="h-[45px] w-[45px] flex items-center justify-center  bg-slate-100 rounded-lg ">
-            <Ionicons name="notifications-outline" size={24} color="#737272" />
+          <Pressable className="h-[45px] w-[45px] flex items-center justify-center  bg-slate-100 rounded-full ">
+            <Text className="text-[17px]">🤠</Text>
           </Pressable>
         </View>
       </View>
