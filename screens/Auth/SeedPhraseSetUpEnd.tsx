@@ -1,6 +1,8 @@
 import React, { useEffect, useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { DatabaseConnectionContext } from "../../data/connection";
+import { reloadAppAsync } from "expo";
+
 import {
   View,
   SafeAreaView,
@@ -29,7 +31,7 @@ const SeedPhraseSetUpEnd = () => {
         settings.AllowBiomtricCrediential = false;
         settings.hasConfirguredWallet = true;
         await settings.save();
-        navigation.navigate(routes.home as never);
+        await reloadAppAsync();
       } catch (error) {
         console.log(error);
       }

@@ -9,7 +9,7 @@ export const useAppStateStore = create<{
   isApplicationLocked: boolean;
 }>((set) => ({
   currentApplication: "active",
-  isApplicationLocked: false,
+  isApplicationLocked: true,
   updateCurrentApplicationState: (incomingState: ApplocationState) => {
     if (incomingState === "background") {
       set({ currentApplication: incomingState, isApplicationLocked: true });
