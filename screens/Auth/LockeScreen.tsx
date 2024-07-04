@@ -5,7 +5,7 @@ import { StyleSheet } from "react-native";
 import Animated from "react-native-reanimated";
 import NumPad from "../../components/Common/NumPad";
 import { useAnimatedShake } from "../../util/hooks/useShakeAnimation";
-import { SafeAreaView, Text, View } from "../../components/Tailwind";
+import { Modal, SafeAreaView, Text, View } from "../../components/Tailwind";
 import Visible from "../../components/Common/Visibility";
 import { cn } from "../../util/cn";
 import { useSettings } from "../../states/settings";
@@ -62,7 +62,7 @@ const passcodeAreaInitialValue: {
   { value: null, focused: false, filled: false },
 ];
 
-const LockeScreen = () => {
+const LockeScreen = ({ visible }: { visible: boolean }) => {
   const { shake, rStyle } = useAnimatedShake();
   const [isInvalid, setIsInvalid] = useState(false);
   const [isvalid, setIsValid] = useState(false);
@@ -83,7 +83,7 @@ const LockeScreen = () => {
     ]);
     valueRef.current = null;
     setIsInvalid(false);
-    setIsInvalid(false);
+    setIsValid(false);
   };
 
   const handleInputChange = (value: number) => {
@@ -138,14 +138,10 @@ const LockeScreen = () => {
     if (valueRef.current === password) {
       setIsValid(true);
       setTimeout(() => {
-        unlockApplication();
         clearInputs();
+        unlockApplication();
       }, 100);
     }
-
-    // if (valueRef.current && valueRef.current.toString().length < 5) {
-    //   setIsValid(false);
-    // }
   }, [valueRef.current]);
 
   const authorizeWithBiometricCredentials = async () => {
@@ -156,7 +152,10 @@ const LockeScreen = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 flex flex-columns justify-between">
+    <Modal
+      visible={visible}
+      className="flex-1 flex flex-columns justify-between"
+    >
       <View className="justify-center flex-col gap-6 flex-1 mt-7">
         <Text style={{ fontFamily: "Nunito-SemiBold" }} className="text-center">
           Enter passcode
@@ -182,7 +181,7 @@ const LockeScreen = () => {
         onChange={handleInputChange}
         onpressBiomtricAuthorization={authorizeWithBiometricCredentials}
       />
-    </SafeAreaView>
+    </Modal>
   );
 };
 

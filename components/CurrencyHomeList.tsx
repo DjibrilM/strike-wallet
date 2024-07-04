@@ -55,6 +55,7 @@ const CurrencyHomeList = () => {
         >
           <Image
             source={{
+              cache:'force-cache',
               width: 40,
               height: 40,
               uri: dta.image,

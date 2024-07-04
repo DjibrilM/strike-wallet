@@ -1,7 +1,5 @@
 import { useAppStateStore } from "../../states/appState";
 import LockeScreen from "../../screens/Auth/LockeScreen";
-import Visible from "../Common/Visibility";
-
 import React from "react";
 
 const LockCheckerScreen = ({
@@ -13,16 +11,11 @@ const LockCheckerScreen = ({
 }) => {
   const { isApplicationLocked } = useAppStateStore();
 
-  return enableLockScreen ? (
+  return (
     <>
-      <Visible condition={isApplicationLocked}>
-        <LockeScreen />
-      </Visible>
-
-      <Visible condition={!isApplicationLocked}>{children}</Visible>
+      <LockeScreen visible={isApplicationLocked && enableLockScreen} />
+      {children}
     </>
-  ) : (
-    <>{children}</>
   );
 };
 
