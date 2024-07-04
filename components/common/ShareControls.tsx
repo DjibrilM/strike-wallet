@@ -18,7 +18,7 @@ interface Props {
 
 const ShareControls: React.FC<Props> = ({ onExchange }) => {
   return (
-    <View className="flex-row mx-auto justify-between   items-center w-full">
+    <View className="flex-row mx-auto justify-between px-1   items-center w-full">
       <Pressable onPress={onExchange} className="flex  flex-col justify-center items-center">
         <View className="bg-gray-400 p-4  rounded-full">
           <AntDesign name="arrowup" size={20} color="#ffff" />

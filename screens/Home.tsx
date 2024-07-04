@@ -84,7 +84,7 @@ const Home = () => {
         </Animated.View>
 
         <Animated.ScrollView onScroll={scrollView} ref={animatedRef}>
-          <View className="px-4">
+          <View className="px-6">
             <Pressable
               onPress={() => {}}
               android_ripple={{ color: "#ffffff33" }}

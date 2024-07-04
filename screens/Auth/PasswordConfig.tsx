@@ -106,6 +106,7 @@ const PaswordConfig = () => {
           <KeyboardAvoidingView className="mt-5" behavior="padding">
             <View>
               <Input
+                maxLength={5}
                 keyboardType="numeric"
                 onChange={(e) => console.log(e.nativeEvent.text)}
                 InputType={"visible-password"}
@@ -131,6 +132,7 @@ const PaswordConfig = () => {
 
             <View className="mt-8">
               <Input
+                maxLength={5}
                 prefix={
                   confirmPassword.valid ? (
                     <AntDesign name="check" size={24} color="#50a050" />

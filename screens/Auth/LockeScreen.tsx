@@ -66,24 +66,30 @@ const LockeScreen = () => {
   const { shake, rStyle } = useAnimatedShake();
   const [isInvalid, setIsInvalid] = useState(false);
   const [isvalid, setIsValid] = useState(false);
-  const [passcodeArea, setPassCodeArea] = useState(passcodeAreaInitialValue);
+  const [passcodeArea, setPassCodeArea] = useState([
+    ...passcodeAreaInitialValue,
+  ]);
   const valueRef = useRef<number | null | string>(0);
   const { password } = useSettings();
   const { unlockApplication } = useStore(useAppStateStore);
 
-  console.log(valueRef.current);
-
   const clearInputs = () => {
-    let preValue = [...passcodeArea];
-    preValue = preValue.map((currentElement) => ({
-      ...currentElement,
-      value: null,
-    }));
-    setPassCodeArea(passcodeArea);
+    setPassCodeArea([
+      { value: null, focused: false, filled: false },
+      { value: null, focused: false, filled: false },
+      { value: null, focused: false, filled: false },
+      { value: null, focused: false, filled: false },
+      { value: null, focused: false, filled: false },
+    ]);
     valueRef.current = null;
+    setIsInvalid(false);
+    setIsInvalid(false);
   };
 
   const handleInputChange = (value: number) => {
+    if (valueRef.current && valueRef.current?.toString().length >= 5) return;
+    setIsInvalid(false);
+
     const preValue = [...passcodeArea];
     const findEmptyField = preValue.findIndex((el) => el.value === null);
 
@@ -99,18 +105,17 @@ const LockeScreen = () => {
   };
 
   const handleDelete = () => {
-    let preValue = [...passcodeArea];
-    const findEmptyField = preValue.findLastIndex((el) => el.value !== null);
-
-    //clear if completed and invalid
     if (
       valueRef.current &&
       isInvalid &&
-      valueRef.current.toString().length === 5
+      valueRef.current.toString().length >= 5
     ) {
       clearInputs();
-      console.log("clear inputs");
+      return;
     }
+
+    let preValue = [...passcodeArea];
+    const findEmptyField = preValue.findLastIndex((el) => el.value !== null);
 
     if (findEmptyField !== -1) {
       preValue[findEmptyField].value = null;
@@ -120,16 +125,14 @@ const LockeScreen = () => {
   };
 
   useEffect(() => {
-    setIsInvalid(false);
-    console.log(valueRef.current, "key stroke");
-    console.log(password, "password");
-
     if (
-      valueRef.current?.toString().length === 5 &&
+      valueRef.current &&
+      valueRef.current?.toString().length >= 5 &&
       valueRef.current.toString() !== password.toString()
     ) {
       setIsInvalid(true);
       shake();
+      return;
     }
 
     if (valueRef.current === password) {
@@ -140,9 +143,9 @@ const LockeScreen = () => {
       }, 100);
     }
 
-    if (valueRef.current && valueRef.current.toString().length < 5) {
-      setIsValid(false);
-    }
+    // if (valueRef.current && valueRef.current.toString().length < 5) {
+    //   setIsValid(false);
+    // }
   }, [valueRef.current]);
 
   const authorizeWithBiometricCredentials = async () => {

@@ -25,7 +25,7 @@ const DatabaseConnectionProvider = ({
         type: "expo",
         database: "strikeWallet.db",
         driver: SQLite,
-        logging:true,
+        logging:false,
         entities: [Settings],
         synchronize: true,
       });

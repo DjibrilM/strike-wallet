@@ -35,13 +35,13 @@ const RootStckNavigator = () => {
   const [loading, setLoading] = useState(true);
   const initialRouteName = useRef("");
   const databaseContext = useContext(DatabaseConnectionContext);
-  const {setSetting} = useSettings();
+  const { setSetting } = useSettings();
+  const [enableLockScreen, setEnableLockScreen] = useState(false);
 
   const getPassword = async () => {
     try {
       const passwordsCount = await databaseContext.SettingsEntity?.count();
       const configurations = await databaseContext.SettingsEntity?.find();
-      
 
       if (!Boolean(passwordsCount)) {
         initialRouteName.current = routes.OnboardingScreen;
@@ -50,6 +50,7 @@ const RootStckNavigator = () => {
         initialRouteName.current = routes.home;
         setLoading(false);
         setSetting(configurations![0]);
+        setEnableLockScreen(true);
       }
     } catch (error) {
       console.log(error);
@@ -72,7 +73,7 @@ const RootStckNavigator = () => {
       </Visible>
 
       <Visible condition={!loading}>
-        <LockScreen>
+        <LockScreen enableLockScreen={enableLockScreen}>
           <Stack.Navigator initialRouteName={initialRouteName.current}>
             <Stack.Screen
               options={{

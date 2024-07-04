@@ -4,10 +4,16 @@ import Visible from "../Common/Visibility";
 
 import React from "react";
 
-const LockCheckerScreen = ({ children }: { children: React.ReactNode }) => {
+const LockCheckerScreen = ({
+  children,
+  enableLockScreen,
+}: {
+  children: React.ReactNode;
+  enableLockScreen: boolean;
+}) => {
   const { isApplicationLocked } = useAppStateStore();
 
-  return (
+  return enableLockScreen ? (
     <>
       <Visible condition={isApplicationLocked}>
         <LockeScreen />
@@ -15,6 +21,8 @@ const LockCheckerScreen = ({ children }: { children: React.ReactNode }) => {
 
       <Visible condition={!isApplicationLocked}>{children}</Visible>
     </>
+  ) : (
+    <>{children}</>
   );
 };
 

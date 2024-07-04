@@ -3,6 +3,8 @@ import { useNavigation } from "@react-navigation/native";
 import Checkbox from "expo-checkbox";
 import { Platform, StatusBar } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { reloadAppAsync } from "expo";
+import * as Updates from "expo-updates";
 
 import {
   View,
@@ -37,8 +39,9 @@ const SeedPhraseSetupReminder = () => {
         settings.AllowBiomtricCrediential = false;
         settings.hasConfirguredWallet = false;
         await settings.save();
-        navigation.navigate(routes.home as never);
         securityReminderBottomSheet.current?.close();
+
+        await reloadAppAsync();
       } catch (error) {
         console.log(error);
       }
