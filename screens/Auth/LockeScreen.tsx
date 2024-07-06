@@ -171,9 +171,6 @@ const LockeScreen = ({ visible }: { visible: boolean }) => {
             />
           ))}
         </Animated.View>
-        <Text className="text-center" style={{ fontFamily: "Nunito-Regular" }}>
-          Extra layer of security
-        </Text>
       </View>
 
       <NumPad
