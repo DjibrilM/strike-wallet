@@ -9,7 +9,6 @@ import * as SplashScreen from "expo-splash-screen";
 import "react-native-gesture-handler";
 
 
-
 import Navigation from "./navigation";
 import fonts from "./util/shared/fonts";
 import { useAppStateStore } from "./states/appState";
