@@ -1,14 +1,16 @@
-import { createContext, useEffect, useState } from "react";
-import { Connection, createConnection } from "typeorm";
+import { createContext, useLayoutEffect, useState } from "react";
+import { DataSource } from "typeorm";
+import { WalletEntity } from "./wallet/wallet.entity";
 import * as SQLite from "expo-sqlite/legacy";
-import { Settings } from "./credentials/settings";
-import { CredentialRepository } from "./credentials/settings.repository";
-interface DatabaseConnectionContextData {
-  credentialRepository: CredentialRepository;
+import { Settings } from "./settings/settings";
+
+interface Entities {
+  WalletEntity: typeof WalletEntity | null | undefined;
+  SettingsEntity: typeof Settings | null | undefined;
 }
 
-const DatabaseConnectionContext = createContext<DatabaseConnectionContextData>(
-  {} as DatabaseConnectionContextData
+export const DatabaseConnectionContext = createContext<Entities>(
+  {} as Entities
 );
 
 const DatabaseConnectionProvider = ({
@@ -16,35 +18,42 @@ const DatabaseConnectionProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [connection, setConnection] = useState<Connection | null>(null);
-
+  const [entities, setEntities] = useState<Entities>();
   const connect = async () => {
     try {
-      const createdConnection = await createConnection({
+      const dataSource = new DataSource({
         type: "expo",
         database: "strikeWallet.db",
         driver: SQLite,
+        logging:false,
         entities: [Settings],
-        synchronize: false,
+        synchronize: true,
       });
 
-      setConnection(createdConnection);
+      await dataSource.initialize();
+      setEntities({
+        ...entities,
+        SettingsEntity: Settings,
+        WalletEntity: WalletEntity,
+      });
+
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
-    if (!connection) {
-      connect();
-    }
-  }, [connection, connect]);
+  useLayoutEffect(() => {
+    connect();
+  }, []);
 
   return (
     <DatabaseConnectionContext.Provider
-      value={{ credentialRepository: new CredentialRepository() }}
+      value={{
+        SettingsEntity: entities?.SettingsEntity,
+        WalletEntity: WalletEntity,
+      }}
     >
-      {children}
+      {entities && children}
     </DatabaseConnectionContext.Provider>
   );
 };

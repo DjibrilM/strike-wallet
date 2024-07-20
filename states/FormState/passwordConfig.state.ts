@@ -1,6 +1,8 @@
 import { create } from "zustand";
 
 type State = {
+  updateBiometricConfigurationsAggreements: (value: boolean) => void;
+  allowBiometricAthentication: boolean;
   triedSubmit: boolean;
   password: {
     value: string;
@@ -22,11 +24,12 @@ type Action = {
 
 // Create your store, which includes both state and (optionally) actions
 export const usePasswordForm = create<State & Action>((set, get) => ({
+  allowBiometricAthentication: false,
   triedSubmit: false,
   password: {
     value: "",
     valid: false,
-    errorMessage: "Minimum 6 characters, 1 number",
+    errorMessage: "Must be five digits",
   },
 
   confirmPassword: {
@@ -36,7 +39,7 @@ export const usePasswordForm = create<State & Action>((set, get) => ({
   },
 
   updatePassword: (value: string) => {
-    const pattern = /^(?=.*\d)[A-Za-z\d]{6,}$/; //validation pattern
+    const pattern = /^.{5}$/; //validation pattern
 
     const newValue: State["password"] = {
       valid: pattern.test(value),
@@ -58,4 +61,6 @@ export const usePasswordForm = create<State & Action>((set, get) => ({
   },
 
   updateTrySubmit: () => set({ triedSubmit: true }),
+  updateBiometricConfigurationsAggreements: (value: boolean) =>
+    set({ allowBiometricAthentication: value }),
 }));

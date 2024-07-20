@@ -29,7 +29,7 @@ const OnboardingScreen = () => {
         backgroundColor: "#f9fafb",
       }}
     >
-      <StatusBar barStyle="default" />
+      <StatusBar barStyle="light-content" />
       <FlatList
         onViewableItemsChanged={(e) =>
           setViewIndex(e.viewableItems[0]?.index || 0)

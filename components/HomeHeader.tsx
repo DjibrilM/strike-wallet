@@ -14,14 +14,14 @@ const HomeHeader = () => {
       <View className="px-6 flex justify-between items-center flex-row bg-white border-b border-slate-200 h-20">
         <View>
           <Image
-            className="w-[50px] h-[50px]"
+            className="w-[100px] h-[33px] scale-75"
             source={require("../assets/images/logo.png")}
           />
         </View>
 
         <Text
           style={{ fontFamily: "Nunito-Bold" }}
-          className="text-[18px] relative left-6 text-slate-700"
+          className="text-[18px] relative  text-slate-700"
         >
           {route.name}
         </Text>
@@ -31,8 +31,8 @@ const HomeHeader = () => {
             <AntDesign name="plus" size={20} color="#737272" />
           </Pressable>
 
-          <Pressable className="h-[45px] w-[45px] flex items-center justify-center  bg-slate-100 rounded-lg ">
-            <Ionicons name="notifications-outline" size={24} color="#737272" />
+          <Pressable className="h-[45px] w-[45px] flex items-center justify-center  bg-slate-100 rounded-full ">
+            <Text className="text-[17px]">🤠</Text>
           </Pressable>
         </View>
       </View>

@@ -1,9 +1,8 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Dimensions } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { StatusBar } from "../components/common/StatusBar";
-import Entypo from "@expo/vector-icons/Entypo";
+import { StatusBar } from "../components/Common/StatusBar";
+
 import Animated, {
   useScrollViewOffset,
   useAnimatedRef,
@@ -12,9 +11,9 @@ import Animated, {
 } from "react-native-reanimated";
 import { LineChart } from "react-native-chart-kit";
 
-import ShareControls from "../components/common/ShareControls";
+import ShareControls from "../components/Common/ShareControls";
 import { randomTransactions, routes } from "../util/shared/constant";
-import TransactioElement from "../components/common/TransactionElement";
+import TransactioElement from "../components/Common/TransactionElement";
 
 import {
   SafeAreaView,

@@ -5,7 +5,7 @@ import { ActivityIndicator } from "react-native";
 import { Pressable } from "./Tailwind";
 import { currencies, routes } from "../util/shared/constant";
 import { View, Text, Image } from "./Tailwind";
-import Visible from "./common/Visibility";
+import Visible from "./Common/Visibility";
 import { cn } from "../util/cn";
 import { CurrencyData } from "../util/shared/types";
 import { useNavigation } from "@react-navigation/native";
@@ -22,7 +22,7 @@ const CurrencyHomeList = () => {
   return (
     <View className="">
       <Visible condition={!isLoading && !error}>
-        <View className="h-[80px] px-4 flex justify-center">
+        <View className="h-[80px] px-6 flex justify-center">
           <Text
             style={{ fontFamily: "Nunito-Bold" }}
             className="text-[20px] text-slate-600"
@@ -51,12 +51,13 @@ const CurrencyHomeList = () => {
           }
           android_ripple={{ color: "#0000003f" }}
           id={dta.id}
-          className="flex mb-5 py-2 px-4 flex-row gap-2"
+          className="flex mb-5 py-2 px-6 flex-row gap-2"
         >
           <Image
             source={{
-              width: 35,
-              height: 35,
+              cache:'force-cache',
+              width: 40,
+              height: 40,
               uri: dta.image,
             }}
           />

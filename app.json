@@ -5,12 +5,12 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "assets":".assets",
+    "assets": ".assets",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#fff"
+      "backgroundColor": "#5A8DFE"
     },
     "ios": {
       "supportsTablet": true
@@ -18,14 +18,21 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#5A8DFE"
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow Strike wallet to use Face ID.",
+          "NSFaceIDUsageDescription":"Protect your funds with Face ID, ensuring only you can access your crypto wallet."
+        }
+      ]
     ]
   }
 }

@@ -4,6 +4,21 @@ export type CustomeBottomSheetRef = {
   open: () => void;
 };
 
+export enum TokenSelectionScreenActions {
+  Send = "send",
+  Receive = "receive",
+  Buy = "buy",
+  Sell = "sell",
+  History = "history",
+}
+
+export type TokenSelectionScreenAction =
+  keyof typeof TokenSelectionScreenActions;
+export type TokenSelectionParams = {
+  title: string;
+  tokenSelectionScreenAction: TokenSelectionScreenAction;
+};
+
 export type CurrencyData = {
   id: string;
   symbol: string;
@@ -30,9 +45,9 @@ export type CurrencyData = {
   atl_change_percentage: number;
   atl_date: string;
   roi: null | {
-    times: number,
-    currency: string,
-    percentage: number,
+    times: number;
+    currency: string;
+    percentage: number;
   };
   last_updated: string;
   sparkline_in_7d: {
@@ -40,18 +55,17 @@ export type CurrencyData = {
   };
 };
 
-export type Address = `0x${string}`
+export type Address = `0x${string}`;
 
 export type Transaction = {
-  Blockno: number | string,
-  "DateTime (UTC)": string,
-  "Parent Transaction Hash":
-  Address,
-  Status: 'Success' | 'Fail',
-  Type: string,
-  From: Address,
-  From_Nametag: string,
-  To: Address,
-  To_Nametag: string,
-  Value: string,
+  Blockno: number | string;
+  "DateTime (UTC)": string;
+  "Parent Transaction Hash": Address;
+  Status: "Success" | "Fail";
+  Type: string;
+  From: Address;
+  From_Nametag: string;
+  To: Address;
+  To_Nametag: string;
+  Value: string;
 };

@@ -1,5 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { DatabaseConnectionContext } from "../../data/connection";
+import { reloadAppAsync } from "expo";
+
 import {
   View,
   SafeAreaView,
@@ -12,10 +15,28 @@ import { useAuthSetps } from "../../states/authSteps.state";
 import { cn } from "../../util/cn";
 import { Platform } from "react-native";
 import { routes } from "../../util/shared/constant";
+import { usePasswordForm } from "../../states/FormState/passwordConfig.state";
 
 const SeedPhraseSetUpEnd = () => {
   const navigation = useNavigation();
   const { updateSteps } = useAuthSetps();
+  const { SettingsEntity } = useContext(DatabaseConnectionContext);
+  const { password } = usePasswordForm();
+
+  const createSettings = async () => {
+    if (SettingsEntity) {
+      try {
+        const settings = new SettingsEntity();
+        settings.password = password.value;
+        settings.AllowBiomtricCrediential = false;
+        settings.hasConfirguredWallet = true;
+        await settings.save();
+        await reloadAppAsync();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   useEffect(() => {
     navigation.addListener("focus", () => updateSteps(4));
@@ -76,7 +97,10 @@ const SeedPhraseSetUpEnd = () => {
         </Text>
 
         <View className="flex-1 justify-end mb-4">
-          <Button onPress={()=> navigation.navigate(routes.home as never)} label="Continute" />
+          <Button
+            onPress={() => navigation.navigate(routes.home as never)}
+            label="Continute"
+          />
         </View>
       </View>
     </SafeAreaView>

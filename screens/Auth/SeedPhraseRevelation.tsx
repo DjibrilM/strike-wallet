@@ -12,7 +12,7 @@ import {
   Pressable,
   Image,
 } from "../../components/Tailwind";
-import Visible from "../../components/common/Visibility";
+import Visible from "../../components/Common/Visibility";
 import Button from "../../components/Widgets/Button";
 import { routes } from "../../util/shared/constant";
 import AuthHeader from "../../components/AuthHeader";
@@ -93,7 +93,7 @@ const SeedPhraseRevelation = () => {
 
             {seedPhrase.current.map((phrase, index) => (
               <View
-                style={{borderStyle:'dashed'}}
+                style={{ borderStyle: "dashed" }}
                 key={"seed-phrase-" + index}
                 className="p-4 z-20 border border-slate-300 w-[44%] relative right-2 flex flex-row  justify-center items-center rounded-lg flex-2  bg-white"
               >
