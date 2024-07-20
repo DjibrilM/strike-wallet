@@ -1,9 +1,8 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Dimensions } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { StatusBar } from "../components/Common/StatusBar";
-import Entypo from "@expo/vector-icons/Entypo";
+
 import Animated, {
   useScrollViewOffset,
   useAnimatedRef,

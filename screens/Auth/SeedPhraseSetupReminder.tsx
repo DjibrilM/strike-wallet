@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Checkbox from "expo-checkbox";
 import { Platform, StatusBar } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { reloadAppAsync } from "expo";
-import * as Updates from "expo-updates";
+
 
 import {
   View,

@@ -147,6 +147,7 @@ const LockeScreen = ({ visible }: { visible: boolean }) => {
   const authorizeWithBiometricCredentials = async () => {
     const authorize = await LocalAuthentication.authenticateAsync();
     if (authorize.success) {
+      clearInputs();
       unlockApplication();
     }
   };
@@ -171,9 +172,6 @@ const LockeScreen = ({ visible }: { visible: boolean }) => {
             />
           ))}
         </Animated.View>
-        <Text className="text-center" style={{ fontFamily: "Nunito-Regular" }}>
-          Extra layer of security
-        </Text>
       </View>
 
       <NumPad

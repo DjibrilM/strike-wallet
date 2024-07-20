@@ -25,12 +25,12 @@ import OnboardingScreen from "../screens/ OnboardingScreen";
 import Visible from "../components/Common/Visibility";
 import { DatabaseConnectionContext } from "../data/connection";
 import LockScreen from "../components/Hoc/LockCheckerScreen";
+import TokenSelection from "../screens/TokenSelection";
 import { useSettings } from "../states/settings";
 
 //stack navigator
 const Stack = createNativeStackNavigator();
 //
-
 const RootStckNavigator = () => {
   const [loading, setLoading] = useState(true);
   const initialRouteName = useRef("");
@@ -97,7 +97,6 @@ const RootStckNavigator = () => {
               name={routes.walletSetup}
               component={WalletSetup}
             />
-
             <Stack.Screen
               options={{ headerShown: false }}
               name={routes.OnboardingScreen}
@@ -125,7 +124,6 @@ const RootStckNavigator = () => {
               name={routes.securityConfig}
               component={SecurityConfig}
             />
-
             <Stack.Screen
               options={{
                 headerShown: false,
@@ -133,7 +131,6 @@ const RootStckNavigator = () => {
               name={routes.seedPhraseSetupReminder}
               component={SeedPhraseSetupReminder}
             />
-
             <Stack.Screen
               options={{
                 headerShown: false,
@@ -141,7 +138,6 @@ const RootStckNavigator = () => {
               name={routes.seedPhraseGenerationPage}
               component={SeedPhraseGeneration}
             />
-
             <Stack.Screen
               options={{
                 headerShown: false,
@@ -149,7 +145,6 @@ const RootStckNavigator = () => {
               name={routes.seedPhraseRevelation}
               component={SeedPhraseRevelation}
             />
-
             <Stack.Screen
               options={{
                 headerShown: false,
@@ -157,7 +152,6 @@ const RootStckNavigator = () => {
               name={routes.seedPhraseMatchTest}
               component={SeedPhraseMatchTest}
             />
-
             <Stack.Screen
               options={{
                 headerShown: false,
@@ -165,7 +159,6 @@ const RootStckNavigator = () => {
               name={routes.SeedPhraseSetUpEnd}
               component={SeedPhraseSetUpEnd}
             />
-
             <Stack.Screen
               options={{
                 header: () => {
@@ -200,7 +193,6 @@ const RootStckNavigator = () => {
               name={routes.seedPhraseImportantion}
               component={ImportExistingSeedPhrase}
             />
-
             <Stack.Screen
               options={{
                 headerShown: false,
@@ -208,7 +200,6 @@ const RootStckNavigator = () => {
               name={routes.home}
               component={BottomTab}
             />
-
             <Stack.Screen
               options={{
                 headerTitleStyle: { fontFamily: "Nunito-SemiBold" },
@@ -231,6 +222,30 @@ const RootStckNavigator = () => {
               }}
               name={routes.currencyDetailPage}
               component={CurrencyDetailPage}
+            />
+
+            <Stack.Screen
+              options={{
+                headerTitleStyle: { fontFamily: "Nunito-SemiBold" },
+                headerTitleAlign: "center",
+                headerLeft: () => {
+                  const { goBack } = useNavigation();
+                  return (
+                    <Pressable onPress={goBack}>
+                      <Ionicons
+                        name="chevron-back-outline"
+                        size={25}
+                        color="#1354fe"
+                      />
+                    </Pressable>
+                  );
+                },
+                headerShadowVisible: false,
+                headerStyle: { backgroundColor: "white" },
+                animation: "slide_from_right",
+              }}
+              name={routes.tokenSelection}
+              component={TokenSelection}
             />
 
             <Stack.Screen
