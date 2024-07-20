@@ -51,6 +51,7 @@ export const routes = {
   seedPhraseImportantion: "seedPhraseImportantion",
   home: "Home",
   currencyDetailPage: "currencyDetailPage",
+  tokenSelection:'tokenSelction'
 };
 
 export const currencies: CurrencyData[] = [

@@ -147,6 +147,7 @@ const LockeScreen = ({ visible }: { visible: boolean }) => {
   const authorizeWithBiometricCredentials = async () => {
     const authorize = await LocalAuthentication.authenticateAsync();
     if (authorize.success) {
+      clearInputs();
       unlockApplication();
     }
   };

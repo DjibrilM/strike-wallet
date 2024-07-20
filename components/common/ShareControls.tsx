@@ -13,9 +13,6 @@ interface Props {
   onExchange?: () => void;
 }
 
-
-
-
 const ShareControls: React.FC<Props> = ({ onExchange }) => {
   return (
     <View className="flex-row mx-auto justify-between px-1   items-center w-full">
