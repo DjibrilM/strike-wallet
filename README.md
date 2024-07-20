@@ -1,7 +1,8 @@
 # Strike Wallet
 
 
-Welcome to the development repository of my cutting-edge Wallet Application! This app is designed to provide a seamless and secure way to manage your digital assets. Whether you're a novice user or an experienced trader, my wallet aims to cater to all your cryptocurrency management needs with ease and efficiency.
+Welcome to the development repository of my cutting-edge Wallet Application! This app is designed to provide a seamless and secure way to manage your digital assets exclusively on the Ethereum network. Whether you're a novice user or an experienced trader, my wallet aims to cater to all your Ethereum-based cryptocurrency management needs with ease and efficiency.
+
 
 ## Features
 
