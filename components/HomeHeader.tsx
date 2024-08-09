@@ -8,13 +8,13 @@ import { useColorScheme } from "nativewind";
 const HomeHeader = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const {colorScheme} = useColorScheme();
+  const { colorScheme } = useColorScheme();
 
   return (
     <SafeAreaView className="bg-white  dark:bg-black">
-      <View className="px-6 flex justify-between items-center flex-row bg-white dark:bg-black border-b border-slate-200 dark:border-white/10 h-20">
+      <View className="px-6 flex justify-between items-center flex-row bg-white dark:bg-black border-b-[0.5px] border-[#00000018] dark:border-white/10 h-20">
         <View>
-          <Pressable className="h-[45px] w-[45px] flex items-center justify-center  bg-slate-100 dark:bg-[#1f1f1f]  rounded-lg ">
+          <Pressable className="h-[45px] w-[45px] flex items-center justify-center  bg-slate-600 dark:bg-[#1f1f1f]  rounded-lg ">
             <AntDesign
               name="plus"
               size={20}
@@ -25,16 +25,12 @@ const HomeHeader = () => {
 
         <Text
           style={{ fontFamily: "Nunito-Bold" }}
-          className="text-[18px] left-4 relative  text-slate-700 dark:text-white"
+          className="text-[18px] right-3 relative  text-slate-700 dark:text-white"
         >
           {route.name}
         </Text>
 
-        <View className="flex-row gap-2">
-          <Pressable className="h-[45px] w-[45px] flex items-center justify-center  bg-slate-100 dark:bg-[#1f1f1f] rounded-full ">
-            <Text className="text-[17px]">🤠</Text>
-          </Pressable>
-        </View>
+        <View className=""></View>
       </View>
     </SafeAreaView>
   );

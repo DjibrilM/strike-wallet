@@ -31,7 +31,7 @@ export default function App() {
   }, [fontsLoaded, fontError]);
 
   useLayoutEffect(() => {
-    setColorScheme("dark");
+    setColorScheme('light');
     onLayoutRootView();
   }, [fontsLoaded]);
 

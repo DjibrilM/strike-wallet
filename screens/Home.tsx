@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Feather from "@expo/vector-icons/Feather";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { styled, useColorScheme } from "nativewind";
+import { useColorScheme } from "nativewind";
 
 import CurrencyHomeList from "../components/TokensList";
 import ShareControls from "../components/Common/ShareControls";
@@ -31,7 +31,7 @@ const Home = () => {
         searchBar
         searchBardPrefix={
           <View className="flex flex-row gap-3">
-            <TouchableOpacity className="bg-slate-200 dark:bg-[#1f1f1f] p-2 rounded-lg">
+            <TouchableOpacity className="bg-slate-600 dark:bg-[#1f1f1f] p-2 rounded-lg">
               <AntDesign
                 name="scan1"
                 size={18}
@@ -39,7 +39,7 @@ const Home = () => {
               />
             </TouchableOpacity>
 
-            <TouchableOpacity className="bg-slate-200 dark:bg-[#1f1f1f] p-2 rounded-lg">
+            <TouchableOpacity className="bg-slate-600 dark:bg-[#1f1f1f] p-2 rounded-lg">
               <Feather
                 name="copy"
                 size={18}
@@ -88,7 +88,7 @@ const Home = () => {
           </TouchableOpacity>
 
           <View className="flex flex-row gap-3">
-            <TouchableOpacity className="bg-slate-200 p-2 dark:bg-[#1f1f1f] rounded-lg">
+            <TouchableOpacity className="bg-slate-600 p-2 dark:bg-[#1f1f1f] rounded-lg">
               <AntDesign
                 name="scan1"
                 size={18}
@@ -96,7 +96,7 @@ const Home = () => {
               />
             </TouchableOpacity>
 
-            <TouchableOpacity className="bg-slate-200 dark:bg-[#1f1f1f] p-2 rounded-lg">
+            <TouchableOpacity className="bg-slate-600 dark:bg-[#1f1f1f] p-2 rounded-lg">
               <Feather
                 name="copy"
                 size={18}

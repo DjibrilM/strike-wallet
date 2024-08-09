@@ -58,8 +58,9 @@ const AnimatedScrollView: React.FC<Props> = ({
             display: "flex",
             flexDirection: "row",
             gap: 10,
-            borderBottomColor: colorScheme === "dark" ? "#ffffff1f" : "white",
-            borderTopColor: colorScheme === "dark" ? "#3535351f" : "white",
+            borderTopColor:'transparent',
+            borderBottomColor:
+              colorScheme === "dark" ? "#ffffff1f" : "#00000018",
             borderWidth: 1,
           }}
         >

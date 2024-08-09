@@ -20,7 +20,7 @@ const ShareControls: React.FC<Props> = ({ onSend, onReceive }) => {
         onPress={onSend}
         className="flex  flex-col justify-center items-center"
       >
-        <View className="bg-gray-400 p-4 dark:bg-[#1f1f1f]  rounded-full">
+        <View className="bg-slate-600 p-4 dark:bg-[#1f1f1f]  rounded-full">
           <AntDesign name="arrowup" size={20} color="#ffff" />
         </View>
         <Text
@@ -35,7 +35,7 @@ const ShareControls: React.FC<Props> = ({ onSend, onReceive }) => {
         onPress={onReceive}
         className="flex  flex-col rounded-[20px] justify-center items-center"
       >
-        <View className="bg-slate-100 dark:bg-[#1f1f1f] p-4 rounded-full">
+        <View className="bg-slate-200 dark:bg-[#1f1f1f] p-4 rounded-full">
           <AntDesign name="arrowdown" size={20} color={colorScheme === 'dark' ? 'white' : "#6e6e6e"} />
         </View>
         <Text

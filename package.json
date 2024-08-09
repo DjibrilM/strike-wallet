@@ -67,6 +67,7 @@
     "@babel/core": "^7.20.0",
     "@types/react": "~18.2.45",
     "babel-plugin-transform-typescript-metadata": "^0.3.2",
+    "rn-nodeify": "github:tradle/rn-nodeify",
     "tailwindcss": "^3.3.2",
     "typescript": "^5.1.3"
   },
