@@ -2,8 +2,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useRef, useState, useContext } from "react";
 import { ActivityIndicator } from "react-native";
+import { useColorScheme } from "nativewind";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Text } from "../components/Tailwind";
 
 import { routes } from "../util/shared/constant";
 import { SafeAreaView } from "../components/Tailwind";
@@ -27,11 +27,14 @@ import { DatabaseConnectionContext } from "../data/connection";
 import LockScreen from "../components/Hoc/LockCheckerScreen";
 import TokenSelection from "../screens/TokenSelection";
 import { useSettings } from "../states/settings";
+import { Text } from "../components/Tailwind";
+import TokenReceptionDetails from "../screens/TokenReceptionDetails";
 
 //stack navigator
 const Stack = createNativeStackNavigator();
 //
 const RootStckNavigator = () => {
+  const { colorScheme } = useColorScheme();
   const [loading, setLoading] = useState(true);
   const initialRouteName = useRef("");
   const databaseContext = useContext(DatabaseConnectionContext);
@@ -228,6 +231,33 @@ const RootStckNavigator = () => {
               options={{
                 headerTitleStyle: { fontFamily: "Nunito-SemiBold" },
                 headerTitleAlign: "center",
+                headerTintColor: colorScheme === "dark" ? "white" : "black",
+                headerLeft: () => {
+                  const { goBack } = useNavigation();
+                  return (
+                    <Pressable onPress={goBack}>
+                      <Ionicons
+                        name="chevron-back-outline"
+                        size={25}
+                        color="#1354fe"
+                      />
+                    </Pressable>
+                  );
+                },
+                headerShadowVisible: false,
+                headerStyle: {
+                  backgroundColor: colorScheme === "dark" ? "black" : "white",
+                },
+                animation: "slide_from_right",
+              }}
+              name={routes.tokenSelection}
+              component={TokenSelection}
+            />
+            <Stack.Screen
+              options={{
+                headerTitleStyle: { fontFamily: "Nunito-SemiBold" },
+                headerTitleAlign: "center",
+                title: "Receive",
                 headerLeft: () => {
                   const { goBack } = useNavigation();
                   return (
@@ -244,8 +274,8 @@ const RootStckNavigator = () => {
                 headerStyle: { backgroundColor: "white" },
                 animation: "slide_from_right",
               }}
-              name={routes.tokenSelection}
-              component={TokenSelection}
+              name={routes.tokenReception}
+              component={TokenReceptionDetails}
             />
 
             <Stack.Screen

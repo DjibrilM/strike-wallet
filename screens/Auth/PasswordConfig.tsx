@@ -189,7 +189,7 @@ const PaswordConfig = () => {
           </Visible>
         </View>
 
-        <View className="w-full mb-5">
+        <View className="w-full mb-10">
           <View className="flex flex-row gap-3 mb-6 w-full px-2 mt-5">
             <Checkbox
               style={{ borderColor: "#1354fe", top: 5 }}

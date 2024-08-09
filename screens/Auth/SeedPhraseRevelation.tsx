@@ -3,6 +3,7 @@ import { BlurView } from "expo-blur";
 import { StyleSheet, StatusBar, Platform } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import { useNavigation } from "@react-navigation/native";
+import { useMnemonic } from "../../states/mnemonic";
 
 import { useAuthSetps } from "../../states/authSteps.state";
 import {
@@ -24,6 +25,7 @@ const SeedPhraseRevelation = () => {
   const { updateSteps } = useAuthSetps();
   const navigation = useNavigation();
   const seedPhrase = useRef(constantSeedPhrase);
+  const { mnemonicArray } = useMnemonic();
 
   useEffect(() => {
     navigation.addListener("focus", () => updateSteps(2));
@@ -91,7 +93,7 @@ const SeedPhraseRevelation = () => {
               <View className="absolute  z-40 w-full bg-black  h-full"></View>
             </Visible>
 
-            {seedPhrase.current.map((phrase, index) => (
+            {mnemonicArray.map((phrase, index) => (
               <View
                 style={{ borderStyle: "dashed" }}
                 key={"seed-phrase-" + index}

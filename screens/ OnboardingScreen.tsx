@@ -69,7 +69,7 @@ const OnboardingScreen = () => {
         data={onboarding_screen_data}
       ></FlatList>
 
-      <View className="pb-5 mt-4">
+      <View className="pb-10 mt-4">
         <View className="justify-center mb-10 items-center flex-row gap-3 w-full mx-auto">
           {onboarding_screen_data.map((dt, index) => (
             <View

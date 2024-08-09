@@ -1,6 +1,10 @@
 import { Transaction } from "./types";
-import { CurrencyData } from "./types";
+import { TokenData } from "./types";
 
+
+
+
+export const ethereumDervivationPath = "m/44'/60'/0'/0/0";
 export const onboarding_screen_data = [
   {
     id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
@@ -51,10 +55,11 @@ export const routes = {
   seedPhraseImportantion: "seedPhraseImportantion",
   home: "Home",
   currencyDetailPage: "currencyDetailPage",
-  tokenSelection:'tokenSelction'
+  tokenSelection: 'tokenSelction',
+  tokenReception:"tokenReception"
 };
 
-export const currencies: CurrencyData[] = [
+export const currencies: TokenData[] = [
   {
     id: "bitcoin",
     symbol: "btc",

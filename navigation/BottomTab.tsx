@@ -1,36 +1,44 @@
+import { useRef } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Platform } from "react-native";
-import AntDesign from "@expo/vector-icons/AntDesign";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import Feather from "@expo/vector-icons/Feather";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { useColorScheme } from "nativewind";
+
 import CustomBottomSheet from "../components/Widgets/BottomSheet";
 import { CustomeBottomSheetRef } from "../util/shared/types";
-import Feather from "@expo/vector-icons/Feather";
-
 import { cn } from "../util/cn";
-import { Text, TouchableOpacity, Image, View } from "../components/Tailwind";
+import { Text, TouchableOpacity, View } from "../components/Tailwind";
 import HomeHeader from "../components/HomeHeader";
 import Home from "../screens/Home";
 import Setting from "../screens/Setting";
 import Button from "../components/Widgets/Button";
-import { useRef } from "react";
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomTab() {
   const bottomSheet = useRef<CustomeBottomSheetRef>();
+  const { colorScheme } = useColorScheme();
 
   return (
     <Tab.Navigator
       sceneContainerStyle={{ backgroundColor: "white" }}
       screenOptions={{
         tabBarStyle: {
-          borderWidth: 1,
-          borderColor: "#e9eef5",
+          backgroundColor: colorScheme === "dark" ? "#000" : "#fff",
+          borderTopWidth: 1,
           shadowColor: "transparent",
           height: Platform.OS === "android" ? 80 : 90,
-          borderTopColor: Platform.OS === "ios" ? "#cbd5e1" : "transparent",
+          borderTopColor:
+            Platform.OS === "ios"
+              ? colorScheme === "dark"
+                ? "#ffffff2b"
+                : "#cbd5e1"
+              : "transparent",
         },
-        tabBarInactiveTintColor: "#8e8e8e",
+        tabBarInactiveTintColor: colorScheme === 'dark' ? 'white': "#8e8e8e",
         tabBarActiveTintColor: "#1354fe",
         header: () => <HomeHeader />,
       }}
@@ -93,18 +101,19 @@ export default function BottomTab() {
               <TouchableOpacity
                 onPress={() => bottomSheet.current?.open()}
                 className={cn(
-                  "top-[3px] rounded-full bg-white flex items-center justify-center w-[60px] h-[60px] relative",
+                  "top-[6px] rounded-full bg-white flex items-center justify-center w-[60px] h-[60px] relative",
                   {
-                    "w-[75px] h-[75px]  p-1 border border-slate-100  top-[-30px] relative":
+                    "w-[75px] h-[75px]  p-1 border border-slate-100 dark:border-[#] top-[-30px] relative":
                       Platform.OS === "android",
                   }
                 )}
               >
                 <View className="w-full h-full bg-blueDefault rounded-full flex justify-center items-center">
-                  <Image
-                    className="w-[40%] h-[40%]"
-                    source={require("../assets/images/two-arrow.png")}
-                  ></Image>
+                  <MaterialCommunityIcons
+                    name="line-scan"
+                    size={24}
+                    color="white"
+                  />
                 </View>
               </TouchableOpacity>
             </>
