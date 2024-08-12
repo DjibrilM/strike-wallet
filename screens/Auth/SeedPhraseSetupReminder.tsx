@@ -5,7 +5,6 @@ import { Platform, StatusBar } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { reloadAppAsync } from "expo";
 
-
 import {
   View,
   SafeAreaView,
@@ -21,25 +20,38 @@ import { cn } from "../../util/cn";
 import { routes } from "../../util/shared/constant";
 import { DatabaseConnectionContext } from "../../data/connection";
 import { usePasswordForm } from "../../states/FormState/passwordConfig.state";
+import { useWallet } from "../../states/wallet";
 
 const SeedPhraseSetupReminder = () => {
   const { password } = usePasswordForm();
   const navigation = useNavigation();
-  const { SettingsEntity } = useContext(DatabaseConnectionContext);
+  const { privateKey, publicKey, address, mnemonicSeparatedString, seed } =
+    useWallet();
+  const { SettingsEntity, WalletEntity } = useContext(
+    DatabaseConnectionContext
+  );
   const seedPharseExplanationBottomSheet = useRef<CustomeBottomSheetRef>();
   const securityReminderBottomSheet = useRef<CustomeBottomSheetRef>();
   const [constinueWithoutSecurity, setConstinueWithoutSecurity] =
     useState(false);
 
   const createSettings = async () => {
-    if (SettingsEntity) {
+    if (SettingsEntity && WalletEntity) {
       try {
         const settings = new SettingsEntity();
         settings.password = password.value;
         settings.AllowBiomtricCrediential = false;
         settings.hasConfirguredWallet = false;
         await settings.save();
-        securityReminderBottomSheet.current?.close();
+
+        const wallet = new WalletEntity();
+        wallet.privateKey = privateKey;
+        wallet.address = address;
+        wallet.publicKey = publicKey;
+        wallet.mnemonic = mnemonicSeparatedString || "";
+        wallet.seedPhrase = seed?.toString("hex") || "";
+
+        await wallet.save();
 
         await reloadAppAsync();
       } catch (error) {
@@ -79,7 +91,7 @@ const SeedPhraseSetupReminder = () => {
 
           <Text
             style={{ lineHeight: 30 }}
-            className="leading-8 mt-9 text-center text-slate-600 text-base"
+            className="leading-8 mt-9 text-left text-slate-600 text-base"
           >
             Don't risk losing your funds. protect your wallet by saving your
             <Text className="font-bold  text-[16px]"> seed phrase</Text> in a

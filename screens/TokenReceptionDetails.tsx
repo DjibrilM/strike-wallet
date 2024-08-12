@@ -9,8 +9,9 @@ import * as Sharing from "expo-sharing";
 import useNavigationParam from "../util/hooks/useNavigationParam";
 import { SafeAreaView, View, Text, Image } from "../components/Tailwind";
 import Button from "../components/Widgets/Button";
-import { TokenData } from "../util/shared/types";
+import { Address, TokenData } from "../util/shared/types";
 import { shortAddress } from "../util/shortAddress";
+import { useWallet } from "../states/wallet";
 
 interface Params {
   data: TokenData;
@@ -18,11 +19,12 @@ interface Params {
 
 const TokenReceptionDetails = () => {
   const params = useNavigationParam<Params>();
+  const { address } = useWallet();
 
   const onShare = async () => {
     try {
       Share.share({
-        message: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        message: address,
       });
     } catch (error: any) {
       Alert.alert(error.message);
@@ -51,7 +53,7 @@ const TokenReceptionDetails = () => {
         />
 
         <Text className="px-4 text-white relative top-3 text-center">
-          0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+          {address}
         </Text>
       </View>
 
@@ -63,9 +65,7 @@ const TokenReceptionDetails = () => {
           className="flex-1 px-2 bg-slate-300 active:bg-slate-200"
         >
           <Feather name="copy" size={24} color="#334155" />
-          <Text className="scale-95">
-            {shortAddress("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266")}
-          </Text>
+          <Text className="scale-95">{shortAddress(address as Address)}</Text>
         </Button>
 
         <Button

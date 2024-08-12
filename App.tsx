@@ -16,14 +16,13 @@ import fonts from "./util/shared/fonts";
 import { useAppStateStore } from "./states/appState";
 import DatabaseConnectionProvider from "./data/connection";
 
-import "./style.css";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts(fonts);
   const { updateCurrentApplicationState } = useAppStateStore();
-  const { colorScheme, toggleColorScheme, setColorScheme } = useColorScheme();
+  const { setColorScheme } = useColorScheme();
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded || fontError) {
       await SplashScreen.hideAsync();
@@ -31,7 +30,7 @@ export default function App() {
   }, [fontsLoaded, fontError]);
 
   useLayoutEffect(() => {
-    setColorScheme('light');
+    setColorScheme("light");
     onLayoutRootView();
   }, [fontsLoaded]);
 

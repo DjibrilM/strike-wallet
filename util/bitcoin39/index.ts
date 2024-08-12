@@ -1,4 +1,6 @@
 import { generateMnemonic, mnemonicToSeed } from "bip39";
+import "@ethersproject/shims";
+import { ethers, HDNodeWallet } from "ethers";
 
 export const createMnemonic = async () => {
   const mnemonic = generateMnemonic();
@@ -10,4 +12,11 @@ export const createMnemonic = async () => {
     mnemonicSeparatedString: mnemonic,
     seed: seed,
   };
+};
+
+export const createWalletKeyPair = async (
+  seed: Buffer
+): Promise<HDNodeWallet> => {
+  const HD = ethers.HDNodeWallet.fromSeed(seed);
+  return HD;
 };

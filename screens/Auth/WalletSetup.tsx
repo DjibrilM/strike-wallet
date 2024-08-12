@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { StatusBar } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import { createMnemonic } from "../../util/bitcoin39";
-import { useMnemonic } from "../../states/mnemonic";
+import { createMnemonic, createWalletKeyPair } from "../../util/bitcoin39";
+import { useWallet } from "../../states/wallet";
 
 import { View } from "../../components/Tailwind";
 import { Image, Text, SafeAreaView } from "../../components/Tailwind";
@@ -12,7 +12,7 @@ import { routes } from "../../util/shared/constant";
 
 const WalletSetup = () => {
   const navigation = useNavigation();
-  const { addMnemonic } = useMnemonic();
+  const { setWallet } = useWallet();
   const [isGeneratingSeed, setIsGeneratingSeed] = useState(false);
 
   const createMnemonicFunc = async () => {
@@ -22,12 +22,17 @@ const WalletSetup = () => {
       try {
         const mnemonic = await createMnemonic();
 
-        addMnemonic({
+        const wallet = await createWalletKeyPair(mnemonic.seed);
+        setWallet({
           mnemonicArray: mnemonic.mnemonicArray,
           mnemonicCompactedString: mnemonic.mnemonicCompactedString,
           mnemonicSeparatedString: mnemonic.mnemonicSeparatedString,
           seed: mnemonic.seed,
+          address: wallet.address,
+          privateKey: wallet.privateKey,
+          publicKey: wallet.publicKey,
         });
+
         setIsGeneratingSeed(false);
         navigation.navigate(routes.securityConfig as never);
       } catch (error) {
@@ -53,13 +58,13 @@ const WalletSetup = () => {
           <View className="w-full bottom-3 relative">
             <Text
               style={{ fontFamily: "Nunito-Bold" }}
-              className="text-2xl mb-2 text-center text-slate-600"
+              className="text-2xl mb-2 text-left text-slate-600"
             >
               Wallet Setup
             </Text>
             <Text
               style={{ fontFamily: "Nunito-Regular" }}
-              className="leading-6 relative text-base text-center text-slate-500"
+              className="leading-6 relative text-base text-left text-slate-500"
             >
               Have an existing wallet? Import it using your private key or
               recovery phrase to access your funds securely. New to crypto?

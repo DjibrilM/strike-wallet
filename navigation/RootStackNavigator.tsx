@@ -29,6 +29,8 @@ import TokenSelection from "../screens/TokenSelection";
 import { useSettings } from "../states/settings";
 import { Text } from "../components/Tailwind";
 import TokenReceptionDetails from "../screens/TokenReceptionDetails";
+import { useWallet } from "../states/wallet";
+import { State as WalletState } from "../states/wallet";
 
 //stack navigator
 const Stack = createNativeStackNavigator();
@@ -39,20 +41,31 @@ const RootStckNavigator = () => {
   const initialRouteName = useRef("");
   const databaseContext = useContext(DatabaseConnectionContext);
   const { setSetting } = useSettings();
+  const { setWallet } = useWallet();
   const [enableLockScreen, setEnableLockScreen] = useState(false);
 
   const getPassword = async () => {
     try {
       const passwordsCount = await databaseContext.SettingsEntity?.count();
       const configurations = await databaseContext.SettingsEntity?.find();
+      const walletData = await databaseContext.WalletEntity?.find();
 
-      if (!Boolean(passwordsCount)) {
+      if (!Boolean(passwordsCount) && walletData) {
         initialRouteName.current = routes.OnboardingScreen;
         setLoading(false);
       } else {
         initialRouteName.current = routes.home;
         setLoading(false);
         setSetting(configurations![0]);
+
+        const wallet = walletData![0];
+        setWallet({
+          privateKey: wallet.privateKey,
+          seed: Buffer.from(wallet.seedPhrase),
+          publicKey: wallet.publicKey,
+          address: wallet.address,
+          mnemonicSeparatedString: wallet.mnemonic,
+        });
         setEnableLockScreen(true);
       }
     } catch (error) {

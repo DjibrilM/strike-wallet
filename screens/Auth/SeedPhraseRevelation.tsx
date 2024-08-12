@@ -3,7 +3,7 @@ import { BlurView } from "expo-blur";
 import { StyleSheet, StatusBar, Platform } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import { useNavigation } from "@react-navigation/native";
-import { useMnemonic } from "../../states/mnemonic";
+import { useMnemonic } from "../../states/wallet";
 
 import { useAuthSetps } from "../../states/authSteps.state";
 import {

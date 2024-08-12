@@ -35,10 +35,10 @@ export default function BottomTab() {
             Platform.OS === "ios"
               ? colorScheme === "dark"
                 ? "#ffffff2b"
-                : "#cbd5e1"
+                : "#00000018"
               : "transparent",
         },
-        tabBarInactiveTintColor: colorScheme === 'dark' ? 'white': "#8e8e8e",
+        tabBarInactiveTintColor: colorScheme === "dark" ? "white" : "#8e8e8e",
         tabBarActiveTintColor: "#1354fe",
         header: () => <HomeHeader />,
       }}
