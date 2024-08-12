@@ -1,8 +1,11 @@
 import React, { useLayoutEffect } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { StatusBar } from "../components/Common/StatusBar";
+import { Image } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
+
+
+import { StatusBar } from "../components/Common/StatusBar";
 import Animated, {
   useScrollViewOffset,
   useAnimatedRef,
@@ -14,25 +17,24 @@ import { LineChart } from "react-native-chart-kit";
 import ShareControls from "../components/Common/ShareControls";
 import { randomTransactions, routes } from "../util/shared/constant";
 import TransactioElement from "../components/Common/TransactionElement";
+import useNavigationParam from "../util/hooks/useNavigationParam";
 
 import {
   SafeAreaView,
   Text,
   Pressable,
   View,
-  Image,
   ScrollView,
 } from "../components/Tailwind";
-import { CurrencyData } from "../util/shared/types";
+import { TokenData } from "../util/shared/types";
 import { cn } from "../util/cn";
 
 interface Params {
-  data: CurrencyData;
+  data: TokenData;
 }
 
 const CurrencyDetailPage = () => {
-  const route = useRoute();
-  const params = route.params as Params;
+  const params = useNavigationParam<Params>();
   const navigation = useNavigation() as any;
   const animatedRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollViewOffset(animatedRef);
@@ -69,7 +71,10 @@ const CurrencyDetailPage = () => {
       ></Animated.View>
       <ScrollView onScroll={scrollView} ref={animatedRef}>
         <View className="mx-auto mt-10 flex items-center justify-center">
-          <Image source={{ uri: params.data.image, width: 60, height: 60 }} />
+          <Animated.Image
+            sharedTransitionTag="reanimatedTransition"
+            source={{ uri: params.data.image, width: 60, height: 60 }}
+          />
           <Text
             style={{ fontFamily: "Nunito-Black" }}
             className="text-[25px] text-slate-600 font-bold mt-4"
@@ -86,7 +91,17 @@ const CurrencyDetailPage = () => {
 
         <View className="mt-10 px-6 pb-5 border-[#00000016] border-b">
           <ShareControls
-            onExchange={() =>
+            onReceive={() => {
+               navigation.navigate(routes.tokenReception as never, {
+                 name: routes.tokenReception,
+                 data: {
+                   ...params.data,
+                 },
+               });
+            }}
+
+
+            onSend={() =>
               navigation.navigate(routes.sendToken as never, {
                 name: routes.sendToken,
                 data: {

@@ -1,4 +1,4 @@
-import { address } from "bitcoinjs-lib";
+
 export type CustomeBottomSheetRef = {
   close: () => void;
   open: () => void;
@@ -19,7 +19,7 @@ export type TokenSelectionParams = {
   tokenSelectionScreenAction: TokenSelectionScreenAction;
 };
 
-export type CurrencyData = {
+export type TokenData = {
   id: string;
   symbol: string;
   name: string;

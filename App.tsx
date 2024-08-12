@@ -1,26 +1,28 @@
 import "reflect-metadata";
+import "react-native-get-random-values";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import * as SplashScreen from "expo-splash-screen";
+import "react-native-gesture-handler";
+import { useColorScheme } from "nativewind";
+
 import { useCallback, useLayoutEffect } from "react";
 import { useFonts } from "expo-font";
 import { AppState } from "react-native";
 import { useEffect } from "react";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import * as SplashScreen from "expo-splash-screen";
-import "react-native-gesture-handler";
-
 
 import Navigation from "./navigation";
 import fonts from "./util/shared/fonts";
 import { useAppStateStore } from "./states/appState";
 import DatabaseConnectionProvider from "./data/connection";
 
-import "./style.css";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  const [fontsLoaded, fontError] = useFonts(fonts); 
+  const [fontsLoaded, fontError] = useFonts(fonts);
   const { updateCurrentApplicationState } = useAppStateStore();
+  const { setColorScheme } = useColorScheme();
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded || fontError) {
       await SplashScreen.hideAsync();
@@ -28,6 +30,7 @@ export default function App() {
   }, [fontsLoaded, fontError]);
 
   useLayoutEffect(() => {
+    setColorScheme("light");
     onLayoutRootView();
   }, [fontsLoaded]);
 

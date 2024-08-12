@@ -25,18 +25,16 @@ const DatabaseConnectionProvider = ({
         type: "expo",
         database: "strikeWallet.db",
         driver: SQLite,
-        logging:false,
-        entities: [Settings],
+        logging: false,
+        entities: [Settings, WalletEntity],
         synchronize: true,
       });
 
       await dataSource.initialize();
       setEntities({
-        ...entities,
         SettingsEntity: Settings,
         WalletEntity: WalletEntity,
       });
-
     } catch (error) {
       console.log(error);
     }
@@ -50,7 +48,7 @@ const DatabaseConnectionProvider = ({
     <DatabaseConnectionContext.Provider
       value={{
         SettingsEntity: entities?.SettingsEntity,
-        WalletEntity: WalletEntity,
+        WalletEntity: entities?.WalletEntity,
       }}
     >
       {entities && children}

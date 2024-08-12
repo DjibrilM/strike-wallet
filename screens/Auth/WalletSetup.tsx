@@ -1,6 +1,9 @@
-import React from "react";
-import { useNavigation } from "@react-navigation/native";
+import React, { useState } from "react";
 import { StatusBar } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
+import { createMnemonic, createWalletKeyPair } from "../../util/bitcoin39";
+import { useWallet } from "../../states/wallet";
 
 import { View } from "../../components/Tailwind";
 import { Image, Text, SafeAreaView } from "../../components/Tailwind";
@@ -9,10 +12,39 @@ import { routes } from "../../util/shared/constant";
 
 const WalletSetup = () => {
   const navigation = useNavigation();
+  const { setWallet } = useWallet();
+  const [isGeneratingSeed, setIsGeneratingSeed] = useState(false);
+
+  const createMnemonicFunc = async () => {
+    setIsGeneratingSeed(true);
+
+    setTimeout(async () => {
+      try {
+        const mnemonic = await createMnemonic();
+
+        const wallet = await createWalletKeyPair(mnemonic.seed);
+        setWallet({
+          mnemonicArray: mnemonic.mnemonicArray,
+          mnemonicCompactedString: mnemonic.mnemonicCompactedString,
+          mnemonicSeparatedString: mnemonic.mnemonicSeparatedString,
+          seed: mnemonic.seed,
+          address: wallet.address,
+          privateKey: wallet.privateKey,
+          publicKey: wallet.publicKey,
+        });
+
+        setIsGeneratingSeed(false);
+        navigation.navigate(routes.securityConfig as never);
+      } catch (error) {
+        console.log(error);
+        setIsGeneratingSeed(false);
+      }
+    }, 1000);
+  };
 
   return (
     <SafeAreaView className="flex items-center h-full bg-white">
-      <StatusBar barStyle={"default"} />
+      <StatusBar barStyle={"light-content"} />
       <View className="h-full  flex justify-between px-6 flex-col">
         <View className="flex justify-end items-center w-[60%] h-[50%] mx-auto">
           <Image
@@ -26,13 +58,13 @@ const WalletSetup = () => {
           <View className="w-full bottom-3 relative">
             <Text
               style={{ fontFamily: "Nunito-Bold" }}
-              className="text-2xl mb-2 text-center text-slate-600"
+              className="text-2xl mb-2 text-left text-slate-600"
             >
               Wallet Setup
             </Text>
             <Text
               style={{ fontFamily: "Nunito-Regular" }}
-              className="leading-6 relative text-base text-center text-slate-500"
+              className="leading-6 relative text-base text-left text-slate-500"
             >
               Have an existing wallet? Import it using your private key or
               recovery phrase to access your funds securely. New to crypto?
@@ -41,18 +73,19 @@ const WalletSetup = () => {
             </Text>
           </View>
 
-          <View className="w-full mb-5">
+          <View className="mb-10">
             <Button
-              label="Import Using Seed Phare"
-              onPress={() =>
-                navigation.navigate(routes.securityConfig as never)
-              }
+              loading={isGeneratingSeed}
+              label="Create A New Wallet"
+              onPress={async () => {
+                await createMnemonicFunc();
+              }}
             />
 
             <Button
-              onPress={() =>
-                navigation.navigate(routes.seedPhraseImportantion as never)
-              }
+              onPress={async () => {
+                await createMnemonicFunc();
+              }}
               className="mt-2 bg-slate-300 active:bg-slate-200 font-bold"
             >
               <Text className="text-slate-600">Import Using Seed Phare</Text>
