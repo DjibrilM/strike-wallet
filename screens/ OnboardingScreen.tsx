@@ -5,7 +5,7 @@ import { Image } from "../components/Tailwind";
 import { Dimensions } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import Button from "../components/Widgets/Button";
-import { onboarding_screen_data, routes } from "../util/shared/constant";
+import { onboarding_screen_data, routes } from "../utils/shared/constant";
 import { useNavigation } from "@react-navigation/native";
 
 import { NativeWindStyleSheet } from "nativewind";

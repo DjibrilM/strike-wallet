@@ -15,9 +15,9 @@ import {
 
 import Button from "../../components/Widgets/Button";
 import CustomBottomSheet from "../../components/Widgets/BottomSheet";
-import { CustomeBottomSheetRef } from "../../util/shared/types";
-import { cn } from "../../util/cn";
-import { routes } from "../../util/shared/constant";
+import { CustomeBottomSheetRef } from "../../utils/shared/types";
+import { cn } from "../../utils/cn";
+import { routes } from "../../utils/shared/constant";
 import { DatabaseConnectionContext } from "../../data/connection";
 import { usePasswordForm } from "../../states/FormState/passwordConfig.state";
 import { useWallet } from "../../states/wallet";

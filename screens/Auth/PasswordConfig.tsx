@@ -15,11 +15,11 @@ import {
 } from "../../components/Tailwind";
 import Input from "../../components/Widgets/Input";
 import { Platform } from "react-native";
-import { cn } from "../../util/cn";
+import { cn } from "../../utils/cn";
 
 import Button from "../../components/Widgets/Button";
 import { usePasswordForm } from "../../states/FormState/passwordConfig.state";
-import { routes } from "../../util/shared/constant";
+import { routes } from "../../utils/shared/constant";
 import { useAuthSetps } from "../../states/authSteps.state";
 import Visible from "../../components/Common/Visibility";
 

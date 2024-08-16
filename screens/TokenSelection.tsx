@@ -1,13 +1,13 @@
 import React, { useLayoutEffect } from "react";
 import { ScrollView } from "../components/Tailwind";
 import { useRoute } from "@react-navigation/native";
-import { TokenSelectionParams } from "../util/shared/types";
+import { TokenSelectionParams } from "../utils/shared/types";
 
 import { SafeAreaView, Text } from "../components/Tailwind";
 import AnimatedScrollView from "../components/Common/AnimatedScrollView";
 import { useNavigation } from "@react-navigation/native";
 import TokensList from "../components/TokensList";
-import useNavigationParam from "../util/hooks/useNavigationParam";
+import useNavigationParam from "../utils/hooks/useNavigationParam";
 
 const TokenSelection = () => {
   const navigation = useNavigation();

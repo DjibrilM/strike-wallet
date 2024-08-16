@@ -15,10 +15,10 @@ import {
 } from "../../components/Tailwind";
 import Visible from "../../components/Common/Visibility";
 import Button from "../../components/Widgets/Button";
-import { routes } from "../../util/shared/constant";
+import { routes } from "../../utils/shared/constant";
 import AuthHeader from "../../components/AuthHeader";
-import { seedPhrase as constantSeedPhrase } from "../../util/shared/constant";
-import { cn } from "../../util/cn";
+import { seedPhrase as constantSeedPhrase } from "../../utils/shared/constant";
+import { cn } from "../../utils/cn";
 
 const SeedPhraseRevelation = () => {
   const [hidelPhrase, setHidelPhrase] = useState<boolean>(true);

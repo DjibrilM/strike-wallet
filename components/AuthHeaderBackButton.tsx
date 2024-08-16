@@ -4,7 +4,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { Pressable } from "./Tailwind";
 import { useNavigation } from "@react-navigation/native";
 import { View } from "./Tailwind";
-import { cn } from "../util/cn";
+import { cn } from "../utils/cn";
 import { Platform } from "react-native";
 
 const AuthHeaderBackButton = () => {

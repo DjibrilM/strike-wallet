@@ -8,8 +8,8 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useColorScheme } from "nativewind";
 
 import CustomBottomSheet from "../components/Widgets/BottomSheet";
-import { CustomeBottomSheetRef } from "../util/shared/types";
-import { cn } from "../util/cn";
+import { CustomeBottomSheetRef } from "../utils/shared/types";
+import { cn } from "../utils/cn";
 import { Text, TouchableOpacity, View } from "../components/Tailwind";
 import HomeHeader from "../components/HomeHeader";
 import Home from "../screens/Home";

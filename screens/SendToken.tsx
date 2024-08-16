@@ -3,11 +3,11 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { SafeAreaView, Text, View } from "../components/Tailwind";
 import { StatusBar } from "../components/Common/StatusBar";
-import { CurrencyData } from "../util/shared/types";
+import { CurrencyData } from "../utils/shared/types";
 import { Pressable } from "../components/Tailwind";
 import Button from "../components/Widgets/Button";
 import Input from "../components/Widgets/Input";
-import { cn } from "../util/cn";
+import { cn } from "../utils/cn";
 
 interface Params {
   data: CurrencyData;

@@ -1,6 +1,6 @@
 import React from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { cn } from "../util/cn";
+import { cn } from "../utils/cn";
 
 import { View, Text, Pressable } from "./Tailwind";
 import { useAuthSetps } from "../states/authSteps.state";

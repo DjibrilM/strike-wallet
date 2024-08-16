@@ -10,7 +10,7 @@ import {
   Pressable,
 } from "../../components/Tailwind";
 import Input from "../../components/Widgets/Input";
-import { cn } from "../../util/cn";
+import { cn } from "../../utils/cn";
 import Visible from "../../components/Common/Visibility";
 import Ionicons from "@expo/vector-icons/Ionicons";
 

@@ -9,7 +9,7 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
 
 import { View, Text, Pressable, TextInput } from "../Tailwind";
-import { cn } from "../../util/cn";
+import { cn } from "../../utils/cn";
 
 interface Props extends TextInputProps {
   className?: string;

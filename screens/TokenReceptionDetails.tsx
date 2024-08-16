@@ -4,13 +4,13 @@ import Feather from "@expo/vector-icons/Feather";
 import QRCode from "react-native-qrcode-svg";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import * as Clipboard from "expo-clipboard";
-import * as Sharing from "expo-sharing";
 
-import useNavigationParam from "../util/hooks/useNavigationParam";
+
+import useNavigationParam from "../utils/hooks/useNavigationParam";
 import { SafeAreaView, View, Text, Image } from "../components/Tailwind";
 import Button from "../components/Widgets/Button";
-import { Address, TokenData } from "../util/shared/types";
-import { shortAddress } from "../util/shortAddress";
+import { Address, TokenData } from "../utils/shared/types";
+import { shortAddress } from "../utils/shortAddress";
 import { useWallet } from "../states/wallet";
 
 interface Params {

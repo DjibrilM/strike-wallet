@@ -1,15 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as LocalAuthentication from "expo-local-authentication";
-import { FadeOutDown, FadeInDown, FadeOut } from "react-native-reanimated";
+import { FadeOutDown, FadeInDown } from "react-native-reanimated";
 import { StyleSheet } from "react-native";
 import Animated from "react-native-reanimated";
 import NumPad from "../../components/Common/NumPad";
-import { useAnimatedShake } from "../../util/hooks/useShakeAnimation";
-import { Modal, SafeAreaView, Text, View } from "../../components/Tailwind";
+import { useAnimatedShake } from "../../utils/hooks/useShakeAnimation";
+import { Modal, Text, View } from "../../components/Tailwind";
 import Visible from "../../components/Common/Visibility";
-import { cn } from "../../util/cn";
+import { cn } from "../../utils/cn";
 import { useSettings } from "../../states/settings";
-import { useAppStateStore } from "../../states/appState";
+import { useAppStateStore } from "../../states/appStatus";
+import useLockScreen from "../../utils/hooks/useLockScreen";
 import { useStore } from "zustand";
 
 type InputField = {
@@ -63,12 +64,14 @@ const passcodeAreaInitialValue: {
 ];
 
 const LockeScreen = ({ visible }: { visible: boolean }) => {
+  const { } = useLockScreen();
   const { shake, rStyle } = useAnimatedShake();
   const [isInvalid, setIsInvalid] = useState(false);
   const [isvalid, setIsValid] = useState(false);
   const [passcodeArea, setPassCodeArea] = useState([
     ...passcodeAreaInitialValue,
   ]);
+
   const valueRef = useRef<number | null | string>(0);
   const { password } = useSettings();
   const { unlockApplication } = useStore(useAppStateStore);

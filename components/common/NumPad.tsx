@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { cn } from "../../util/cn";
+import { cn } from "../../utils/cn";
 import { View, Text, Pressable, Image } from "../Tailwind";
 import { Platform } from "react-native";
 
