@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { StatusBar } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import { createMnemonic, createWalletKeyPair } from "../../util/bitcoin39";
+import { createMnemonic, createWalletKeyPair } from "../../utils/wallet";
 import { useWallet } from "../../states/wallet";
 
 import { View } from "../../components/Tailwind";
 import { Image, Text, SafeAreaView } from "../../components/Tailwind";
 import Button from "../../components/Widgets/Button";
-import { routes } from "../../util/shared/constant";
+import { routes } from "../../utils/shared/constant";
 
 const WalletSetup = () => {
   const navigation = useNavigation();

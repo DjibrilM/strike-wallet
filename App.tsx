@@ -12,8 +12,8 @@ import { AppState } from "react-native";
 import { useEffect } from "react";
 
 import Navigation from "./navigation";
-import fonts from "./util/shared/fonts";
-import { useAppStateStore } from "./states/appState";
+import fonts from "./utils/shared/fonts";
+import { useAppStateStore } from "./states/appStatus";
 import DatabaseConnectionProvider from "./data/connection";
 
 

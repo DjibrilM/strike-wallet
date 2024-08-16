@@ -1,7 +1,7 @@
 import { Pressable } from "../Tailwind";
 import { ActivityIndicator } from "react-native";
 import React from "react";
-import { cn } from "../../util/cn";
+import { cn } from "../../utils/cn";
 import { Platform, PressableProps } from "react-native";
 import { Text } from "../Tailwind";
 import Visible from "../Common/Visibility";

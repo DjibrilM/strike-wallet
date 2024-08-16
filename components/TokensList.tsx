@@ -3,13 +3,13 @@ import useSWR from "swr";
 import { ActivityIndicator } from "react-native";
 
 import { Pressable } from "./Tailwind";
-import { currencies, routes } from "../util/shared/constant";
+import { currencies, routes } from "../utils/shared/constant";
 import { View, Text, Image } from "./Tailwind";
 import Visible from "./Common/Visibility";
-import { cn } from "../util/cn";
-import { TokenData } from "../util/shared/types";
+import { cn } from "../utils/cn";
+import { TokenData } from "../utils/shared/types";
 import { useNavigation } from "@react-navigation/native";
-import { TokenSelectionScreenAction } from "../util/shared/types";
+import { TokenSelectionScreenAction } from "../utils/shared/types";
 import TokenListElement from "./TokenListElement";
 
 interface Props {

@@ -4,7 +4,7 @@ import { View, Text } from "../components/Tailwind";
 import { useAuthSetps } from "../states/authSteps.state";
 import AuthHeaderStep from "../components/AuthHeaderStep";
 import AuthHeaderBackButton from "../components/AuthHeaderBackButton";
-import { cn } from "../util/cn";
+import { cn } from "../utils/cn";
 import { Platform } from "react-native";
 
 export const AuthScreenHeader: NativeStackNavigationOptions = {

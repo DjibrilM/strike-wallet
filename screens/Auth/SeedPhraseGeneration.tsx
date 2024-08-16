@@ -8,8 +8,8 @@ import { Platform, StatusBar } from "react-native";
 import { useAuthSetps } from "../../states/authSteps.state";
 import Button from "../../components/Widgets/Button";
 import { ScrollView } from "../../components/Tailwind";
-import { routes } from "../../util/shared/constant";
-import { cn } from "../../util/cn";
+import { routes } from "../../utils/shared/constant";
+import { cn } from "../../utils/cn";
 
 const SeedPhraseGeneration = () => {
   const navigation = useNavigation();

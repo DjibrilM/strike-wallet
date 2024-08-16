@@ -5,10 +5,10 @@ import Animated,{withSpring} from "react-native-reanimated";
 
 import { Image } from "react-native";
 import { Pressable, View, Text } from "./Tailwind";
-import { routes } from "../util/shared/constant";
-import { TokenData } from "../util/shared/types";
-import { TokenSelectionScreenAction } from "../util/shared/types";
-import { cn } from "../util/cn";
+import { routes } from "../utils/shared/constant";
+import { TokenData } from "../utils/shared/types";
+import { TokenSelectionScreenAction } from "../utils/shared/types";
+import { cn } from "../utils/cn";
 
 interface Props {
   dta: TokenData;

@@ -15,9 +15,9 @@ import Animated, {
 import { LineChart } from "react-native-chart-kit";
 
 import ShareControls from "../components/Common/ShareControls";
-import { randomTransactions, routes } from "../util/shared/constant";
+import { randomTransactions, routes } from "../utils/shared/constant";
 import TransactioElement from "../components/Common/TransactionElement";
-import useNavigationParam from "../util/hooks/useNavigationParam";
+import useNavigationParam from "../utils/hooks/useNavigationParam";
 
 import {
   SafeAreaView,
@@ -26,8 +26,8 @@ import {
   View,
   ScrollView,
 } from "../components/Tailwind";
-import { TokenData } from "../util/shared/types";
-import { cn } from "../util/cn";
+import { TokenData } from "../utils/shared/types";
+import { cn } from "../utils/cn";
 
 interface Params {
   data: TokenData;

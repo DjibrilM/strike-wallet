@@ -6,7 +6,7 @@ import { useAuthSetps } from "../../states/authSteps.state";
 import AuthHeader from "../../components/AuthHeader";
 
 import { Text } from "../../components/Tailwind";
-import { routes, seedPhrase } from "../../util/shared/constant";
+import { routes, seedPhrase } from "../../utils/shared/constant";
 
 import {
   View,
@@ -14,7 +14,7 @@ import {
   SafeAreaView,
   ScrollView,
 } from "../../components/Tailwind";
-import { cn } from "../../util/cn";
+import { cn } from "../../utils/cn";
 
 const SeedPhraseMatchTest = () => {
   const navigation = useNavigation();

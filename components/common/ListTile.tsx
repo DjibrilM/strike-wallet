@@ -1,10 +1,10 @@
 import React from "react";
 import { PressableProps } from "react-native";
 import { Button, View } from "../Tailwind";
-import { cn } from "../../util/cn";
+import { cn } from "../../utils/cn";
 import { Pressable } from "../Tailwind";
 
-interface Props extends PressableProps  {
+interface Props extends PressableProps {
   leading?: React.JSX.Element;
   title?: React.JSX.Element;
   subtitle?: React.JSX.Element;
@@ -23,7 +23,7 @@ const ListTile: React.FC<Props> = ({
   return (
     <Pressable
       {...props}
-      android_ripple={{color:'#0000003b'}}
+      android_ripple={{ color: '#0000003b' }}
       className={cn(
         "flex py-2 items-center flex-row  justify-between",
         conatinerClassName

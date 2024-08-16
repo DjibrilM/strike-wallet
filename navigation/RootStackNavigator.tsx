@@ -5,7 +5,7 @@ import { ActivityIndicator } from "react-native";
 import { useColorScheme } from "nativewind";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-import { routes } from "../util/shared/constant";
+import { routes } from "../utils/shared/constant";
 import { SafeAreaView } from "../components/Tailwind";
 import WalletSetup from "../screens/Auth/WalletSetup";
 import SecurityConfig from "../screens/Auth/PasswordConfig";
@@ -24,7 +24,7 @@ import SendToken from "../screens/SendToken";
 import OnboardingScreen from "../screens/ OnboardingScreen";
 import Visible from "../components/Common/Visibility";
 import { DatabaseConnectionContext } from "../data/connection";
-import LockScreen from "../components/Hoc/LockCheckerScreen";
+import LockScreen from "../components/Hoc/LockScreen";
 import TokenSelection from "../screens/TokenSelection";
 import { useSettings } from "../states/settings";
 import { Text } from "../components/Tailwind";
@@ -46,11 +46,11 @@ const RootStckNavigator = () => {
 
   const getPassword = async () => {
     try {
-      const passwordsCount = await databaseContext.SettingsEntity?.count();
+      const SettingsCount = await databaseContext.SettingsEntity?.count();
       const configurations = await databaseContext.SettingsEntity?.find();
       const walletData = await databaseContext.WalletEntity?.find();
 
-      if (!Boolean(passwordsCount) && walletData) {
+      if (!Boolean(SettingsCount) && walletData) {
         initialRouteName.current = routes.OnboardingScreen;
         setLoading(false);
       } else {
@@ -59,6 +59,7 @@ const RootStckNavigator = () => {
         setSetting(configurations![0]);
 
         const wallet = walletData![0];
+
         setWallet({
           privateKey: wallet.privateKey,
           seed: Buffer.from(wallet.seedPhrase),
@@ -66,6 +67,8 @@ const RootStckNavigator = () => {
           address: wallet.address,
           mnemonicSeparatedString: wallet.mnemonic,
         });
+
+
         setEnableLockScreen(true);
       }
     } catch (error) {

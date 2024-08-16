@@ -16,8 +16,8 @@ import {
 } from "../components/Tailwind";
 import Visible from "../components/Common/Visibility";
 import { useNavigation } from "@react-navigation/native";
-import { routes } from "../util/shared/constant";
-import { TokenSelectionParams } from "../util/shared/types";
+import { routes } from "../utils/shared/constant";
+import { TokenSelectionParams } from "../utils/shared/types";
 
 const Home = () => {
   const [hideBalance, setHideBalance] = useState(false);

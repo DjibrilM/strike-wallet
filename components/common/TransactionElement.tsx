@@ -5,13 +5,13 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { View, Text, Modal, Pressable, Image } from "../Tailwind";
 
-import { cn } from "../../util/cn";
-import { Transaction } from "../../util/shared/types";
+import { cn } from "../../utils/cn";
+import { Transaction } from "../../utils/shared/types";
 import Visible from "./Visibility";
 
 import ListTile from "./ListTile";
-import { shortAddress } from "../../util/shortAddress";
-import { walletAddress } from "../../util/shared/constant";
+import { shortAddress } from "../../utils/shortAddress";
+import { walletAddress } from "../../utils/shared/constant";
 import { Platform } from "react-native";
 
 interface Props extends Transaction {
