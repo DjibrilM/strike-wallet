@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
-import { useEffect, useRef, useState, useContext } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ActivityIndicator } from "react-native";
 import { useColorScheme } from "nativewind";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -23,53 +23,57 @@ import CurrencyDetailPage from "../screens/CurrencyDetailPage";
 import SendToken from "../screens/SendToken";
 import OnboardingScreen from "../screens/ OnboardingScreen";
 import Visible from "../components/Common/Visibility";
-import { DatabaseConnectionContext } from "../data/connection";
 import LockScreen from "../components/Hoc/LockScreen";
 import TokenSelection from "../screens/TokenSelection";
 import { useSettings } from "../states/settings";
 import { Text } from "../components/Tailwind";
 import TokenReceptionDetails from "../screens/TokenReceptionDetails";
 import { useWallet } from "../states/wallet";
-import { State as WalletState } from "../states/wallet";
+import useDBqueries from "../utils/hooks/useDBqueries";
+import useLockScreen from "../utils/hooks/useLockScreen";
 
 //stack navigator
 const Stack = createNativeStackNavigator();
 //
 const RootStckNavigator = () => {
+  const { unlockApplication } = useLockScreen()
+  const { setSetting } = useSettings();
+  const { setWallet } = useWallet();
+  const { getSettingCounts, getAppSettings, getWalletData } = useDBqueries();
   const { colorScheme } = useColorScheme();
   const [loading, setLoading] = useState(true);
   const initialRouteName = useRef("");
-  const databaseContext = useContext(DatabaseConnectionContext);
-  const { setSetting } = useSettings();
-  const { setWallet } = useWallet();
   const [enableLockScreen, setEnableLockScreen] = useState(false);
 
   const getPassword = async () => {
     try {
-      const SettingsCount = await databaseContext.SettingsEntity?.count();
-      const configurations = await databaseContext.SettingsEntity?.find();
-      const walletData = await databaseContext.WalletEntity?.find();
+      const SettingsCount = await getSettingCounts();
+      const applicationSettings = await getAppSettings();
+      const walletData = await getWalletData();
 
-      if (!Boolean(SettingsCount) && walletData) {
+      //Check if the user has already created a wallet
+      if (!Boolean(SettingsCount) && !walletData) {
+        //Send the user to the onboarding screen if there is no wallte.
         initialRouteName.current = routes.OnboardingScreen;
         setLoading(false);
+        unlockApplication();
       } else {
+
+        //Navigate to the home screen if the user has already created a wallet.
         initialRouteName.current = routes.home;
         setLoading(false);
-        setSetting(configurations![0]);
-
-        const wallet = walletData![0];
+        setSetting(applicationSettings);
 
         setWallet({
-          privateKey: wallet.privateKey,
-          seed: Buffer.from(wallet.seedPhrase),
-          publicKey: wallet.publicKey,
-          address: wallet.address,
-          mnemonicSeparatedString: wallet.mnemonic,
+          privateKey: walletData.privateKey,
+          seed: Buffer.from(walletData.seedPhrase),
+          publicKey: walletData.publicKey,
+          address: walletData.address,
+          mnemonicSeparatedString: walletData.mnemonic,
         });
 
-
         setEnableLockScreen(true);
+        unlockApplication();
       }
     } catch (error) {
       console.log(error);

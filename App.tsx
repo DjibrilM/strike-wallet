@@ -16,7 +16,6 @@ import fonts from "./utils/shared/fonts";
 import { useAppStateStore } from "./states/appStatus";
 import DatabaseConnectionProvider from "./data/connection";
 
-
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {

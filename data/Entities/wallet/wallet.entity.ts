@@ -14,7 +14,7 @@ export class WalletEntity extends BaseEntity {
   genarate() {
     this.id = uuidv4();
   }
-  
+
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -32,4 +32,13 @@ export class WalletEntity extends BaseEntity {
 
   @Column()
   address: string;
+
+  @Column()
+  passwordIv: string;
+
+  @Column()
+  passwordAuthTag: string;
+
+  @Column()
+  passwordSalt: string;
 }

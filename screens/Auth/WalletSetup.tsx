@@ -12,17 +12,23 @@ import { routes } from "../../utils/shared/constant";
 
 const WalletSetup = () => {
   const navigation = useNavigation();
-  const { setWallet } = useWallet();
+  const { setWallet, mnemonicCompactedString } = useWallet();
   const [isGeneratingSeed, setIsGeneratingSeed] = useState(false);
 
   const createMnemonicFunc = async () => {
+    //Skip this process if a mnemonic as already bee created
+    if (mnemonicCompactedString) {
+      navigation.navigate(routes.securityConfig as never);
+      return;
+    }
+
     setIsGeneratingSeed(true);
 
     setTimeout(async () => {
       try {
         const mnemonic = await createMnemonic();
-
         const wallet = await createWalletKeyPair(mnemonic.seed);
+
         setWallet({
           mnemonicArray: mnemonic.mnemonicArray,
           mnemonicCompactedString: mnemonic.mnemonicCompactedString,
@@ -46,7 +52,7 @@ const WalletSetup = () => {
     <SafeAreaView className="flex items-center h-full bg-white">
       <StatusBar barStyle={"light-content"} />
       <View className="h-full  flex justify-between px-6 flex-col">
-        <View className="flex justify-end items-center w-[60%] h-[50%] mx-auto">
+        <View className="flex justify-end items-center w-[60%] h-[40%] mx-auto">
           <Image
             style={{ aspectRatio: 4 / 4, objectFit: "contain" }}
             className="bottom-4 h-[90%] relative  top-4 left-9"

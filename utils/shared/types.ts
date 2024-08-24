@@ -1,4 +1,3 @@
-
 export type CustomeBottomSheetRef = {
   close: () => void;
   open: () => void;
@@ -14,9 +13,30 @@ export enum TokenSelectionScreenActions {
 
 export type TokenSelectionScreenAction =
   keyof typeof TokenSelectionScreenActions;
+
 export type TokenSelectionParams = {
   title: string;
   tokenSelectionScreenAction: TokenSelectionScreenAction;
+};
+
+export type AppWallet = {
+  id: string;
+
+  seedPhrase: string;
+
+  mnemonic: string;
+
+  privateKey: string;
+
+  publicKey: string;
+
+  address: string;
+
+  passwordIv: string;
+
+  passwordAuthTag: string;
+
+  passwordSalt: string;
 };
 
 export type TokenData = {

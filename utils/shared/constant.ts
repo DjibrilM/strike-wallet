@@ -11,21 +11,21 @@ export const onboarding_screen_data = [
     title: "Welcome to Strike Wallet",
     image: require("../../assets/images/3d-casual-life-cloud-bitcoin.png"),
     description:
-      "Join the crypto revolution! Welcome to Strike Wallet, your gateway to the future of money. Experience seamless transactions, real-time balance updates, and an intuitive interface designed for easy management of your digital assets.",
+      "Join the crypto revolution. Strike Wallet: Your seamless gateway to digital assets.",
   },
   {
     id: "bd7acbeaae-d5-3ad53abb28ba-c1b1-46c2",
     title: "Unshakeable Security",
     image: require("../../assets/images/3d-fluency-lock.png"),
     description:
-      "At Strike Wallet, we prioritize the security of your crypto assets with multi-layered protection. Advanced encryption and two-factor authentication ensure your funds are safe, giving you peace of mind.",
+      "Trust Strike Wallet to safeguard your digital assets. Our robust security measures provide the peace of mind you deserve.",
   },
   {
     id: "bd7a3ad5cbeaae-d5-3abb28ba-c1b1-46c2-",
     title: "Web3 In Your Hand",
     image: require("../../assets/images/3d-casual-life-wallet-with-banknots-and-coins-flying-around.png"),
     description:
-      "Explore the decentralized web with Strike Wallet. Access a range of dApps and blockchain services directly from your mobile device, empowering you to take control of your digital interactions.",
+      "Experience the future of digital interactions with Strike Wallet. Discover a new era of decentralized applications and services, all at your fingertips.",
   },
 ];
 

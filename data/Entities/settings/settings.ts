@@ -1,18 +1,12 @@
 //@ts-ignore
-import 'react-native-get-random-values';
+import "react-native-get-random-values";
 //@ts-ignore
 
-
-import {
-  PrimaryGeneratedColumn,
-  Column,
-  BaseEntity,
-  Entity,
-} from "typeorm";
+import { PrimaryGeneratedColumn, Column, BaseEntity, Entity } from "typeorm";
 
 @Entity("Settings")
 export class Settings extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: number;
 
   @Column()
@@ -23,4 +17,9 @@ export class Settings extends BaseEntity {
 
   @Column({ default: true })
   AllowBiomtricCrediential: boolean;
+
+  @Column()
+  passwordIv: string;
+  @Column()
+  passwordSalt: string;
 }
