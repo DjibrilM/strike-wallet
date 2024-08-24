@@ -38,22 +38,23 @@ const OnboardingScreen = () => {
         showsHorizontalScrollIndicator={false}
         pagingEnabled
         horizontal
+        data={onboarding_screen_data}
         renderItem={(item) => (
           <View
             style={{ height: height - 200, width: width }}
             className="px-6 flex justify-center"
           >
-            <View className="w-[70%] relative top-4 h-[70%] flex justify-center items-center mx-auto">
+            <View className="w-[70%] relative top-4 h-[50%] flex mx-auto">
               <Image
                 resizeMode="contain"
-                className=" object-contain w-full h-full relative top-3"
+                className=" object-contain w-full bottom-4 h-full relative"
                 source={item.item.image}
               />
             </View>
 
             <Text
               style={{ fontFamily: "Nunito-Bold" }}
-              className="mt-3 relative   text-slate-600 font-semibold mb-8 text-center text-2xl"
+              className="mt-3 relative text-slate-600 font-semibold mb-8 text-center text-2xl"
             >
               {item.item.title}
             </Text>
@@ -66,7 +67,7 @@ const OnboardingScreen = () => {
             </Text>
           </View>
         )}
-        data={onboarding_screen_data}
+      
       ></FlatList>
 
       <View className="pb-10 mt-4">

@@ -108,7 +108,6 @@ const PaswordConfig = () => {
               <Input
                 maxLength={5}
                 keyboardType="numeric"
-                onChange={(e) => console.log(e.nativeEvent.text)}
                 InputType={"visible-password"}
                 value={password.value}
                 placeholder="Password"
@@ -116,7 +115,7 @@ const PaswordConfig = () => {
                 defaultValue={password.value}
                 errorMessage={
                   (!password.valid && password.value.length > 0) ||
-                  (triedSubmit && !password.valid)
+                    (triedSubmit && !password.valid)
                     ? password.errorMessage
                     : ""
                 }
@@ -149,7 +148,7 @@ const PaswordConfig = () => {
                 errorMessage={
                   (!confirmPassword.valid &&
                     confirmPassword.value.length > 0) ||
-                  (!confirmPassword.valid && triedSubmit)
+                    (!confirmPassword.valid && triedSubmit)
                     ? confirmPassword.errorMessage
                     : ""
                 }

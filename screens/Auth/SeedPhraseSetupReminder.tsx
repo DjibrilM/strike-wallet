@@ -2,8 +2,10 @@ import React, { useContext, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Checkbox from "expo-checkbox";
 import { Platform, StatusBar } from "react-native";
+import Crypto from "../../utils/crypto";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { reloadAppAsync } from "expo";
+
 
 import {
   View,
@@ -21,39 +23,52 @@ import { routes } from "../../utils/shared/constant";
 import { DatabaseConnectionContext } from "../../data/connection";
 import { usePasswordForm } from "../../states/FormState/passwordConfig.state";
 import { useWallet } from "../../states/wallet";
+import useDBqueries from "../../utils/hooks/useDBqueries";
 
 const SeedPhraseSetupReminder = () => {
-  const { password } = usePasswordForm();
   const navigation = useNavigation();
-  const { privateKey, publicKey, address, mnemonicSeparatedString, seed } =
-    useWallet();
+  const { createWallet, createSettings } = useDBqueries();
+  const { password, allowBiometricAthentication } = usePasswordForm();
+
+
+  const {
+    privateKey,
+    publicKey,
+    address,
+    mnemonicSeparatedString,
+    seed } = useWallet();
+
   const { SettingsEntity, WalletEntity } = useContext(
     DatabaseConnectionContext
   );
+
   const seedPharseExplanationBottomSheet = useRef<CustomeBottomSheetRef>();
   const securityReminderBottomSheet = useRef<CustomeBottomSheetRef>();
   const [constinueWithoutSecurity, setConstinueWithoutSecurity] =
     useState(false);
 
-  const createSettings = async () => {
+  //create the wallet and the application settings 
+  const setupWallet = async () => {
     if (SettingsEntity && WalletEntity) {
       try {
-        const settings = new SettingsEntity();
-        settings.password = password.value;
-        settings.AllowBiomtricCrediential = false;
-        settings.hasConfirguredWallet = false;
-        await settings.save();
+        const { encryptedMessage: hashedPassword, iv, salt } = Crypto.encrypt({ message: password.value.toString() });//encrypt password
+        console.log(hashedPassword, 'encrypted message');
 
-        const wallet = new WalletEntity();
-        wallet.privateKey = privateKey;
-        wallet.address = address;
-        wallet.publicKey = publicKey;
-        wallet.mnemonic = mnemonicSeparatedString || "";
-        wallet.seedPhrase = seed?.toString("hex") || "";
+        await createSettings({
+          password: hashedPassword!,
+          hasConfirguredWallet: false,
+          allowBiomtricCrediential: allowBiometricAthentication
+        });
 
-        await wallet.save();
+        await createWallet({
+          mnemonic: mnemonicSeparatedString || "",
+          privateKey: privateKey,
+          publicKey: publicKey,
+          seedPhrase: seed?.toString("hex") || "",
+          address: address,
+        });
 
-        await reloadAppAsync();
+        // await reloadAppAsync();
       } catch (error) {
         console.log(error);
       }
@@ -209,7 +224,7 @@ const SeedPhraseSetupReminder = () => {
             })}
           >
             <Button
-              onPress={createSettings}
+              onPress={setupWallet}
               label="Skip"
               disabled={!constinueWithoutSecurity}
               className={cn("w-[50%] self-end")}
