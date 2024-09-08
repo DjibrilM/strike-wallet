@@ -59,7 +59,7 @@ const Input: React.FC<Props> = ({
   return (
     <View
       className={cn(
-        "w-full border relative rounded-lg h-[70px] flex flex-row items-center border-gray-200 p-3 bg-white",
+        "w-full border relative rounded-lg h-[65px] flex flex-row items-center border-gray-200 p-3 bg-white",
         {
           "border-blueDefault": focused,
         }

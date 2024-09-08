@@ -47,7 +47,7 @@ const NumPad: React.FC<Props> = ({
   });
   return (
     <>
-      <View className="flex max-w-[400px] pb-4 w-full mx-auto justify-center">
+      <View className="flex max-w-[360px] pb-4 w-full mx-auto justify-center">
         {Object.keys(rows.current).map((key, index) => (
           <View
             key={"numpad-row-conatiner-" + index}

@@ -4,7 +4,7 @@ export interface State {
   mnemonicArray?: string[];
   mnemonicCompactedString?: string;
   mnemonicSeparatedString?: string;
-  seed: Buffer | null;
+  seed?: Buffer | null;
   privateKey: string;
   address: string;
   publicKey: string;

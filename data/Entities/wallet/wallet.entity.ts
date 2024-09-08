@@ -32,13 +32,4 @@ export class WalletEntity extends BaseEntity {
 
   @Column()
   address: string;
-
-  @Column()
-  passwordIv: string;
-
-  @Column()
-  passwordAuthTag: string;
-
-  @Column()
-  passwordSalt: string;
 }

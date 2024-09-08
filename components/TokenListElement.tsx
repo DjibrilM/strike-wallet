@@ -1,21 +1,21 @@
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
-import { SharedTransition } from "react-native-reanimated";
-import Animated,{withSpring} from "react-native-reanimated";
+import Animated from "react-native-reanimated";
 
-import { Image } from "react-native";
 import { Pressable, View, Text } from "./Tailwind";
 import { routes } from "../utils/shared/constant";
 import { TokenData } from "../utils/shared/types";
 import { TokenSelectionScreenAction } from "../utils/shared/types";
 import { cn } from "../utils/cn";
+import Visible from "./Common/Visibility";
 
 interface Props {
   dta: TokenData;
   tokenClickAction?: TokenSelectionScreenAction;
+  index?: number
 }
 
-const TokenListElement: React.FC<Props> = ({ dta, tokenClickAction }) => {
+const TokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction }) => {
   const navigation = useNavigation() as any;
 
   const onTokenPress = () => {
@@ -56,8 +56,12 @@ const TokenListElement: React.FC<Props> = ({ dta, tokenClickAction }) => {
       onPress={onTokenPress}
       android_ripple={{ color: "#0000003f" }}
       id={dta.id}
-      className="flex mb-5 py-2 px-6 flex-row gap-2"
+      className="flex border-b border-black/5 mb-5 py-2 px-6 flex-row gap-2"
     >
+      <Visible condition={!!(index) || index === 0}>
+        <View className="items-center flex-row"><Text className="text-slate-600">{index === 0 ? "#" : index! + 1}</Text></View>
+      </Visible>
+
       <Animated.Image
         source={{
           cache: "force-cache",

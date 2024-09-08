@@ -9,6 +9,7 @@ const useLockScreen = () => {
     authenticate,
     updateCurrentApplicationState,
     clearSuccessCallBackFunction,
+    updateLockState,
     successCallBackFunction,
   } = useAppStateStore();
 
@@ -24,6 +25,7 @@ const useLockScreen = () => {
     updateCurrentApplicationState,
     clearSuccessCallBackFunction,
     successCallBackFunction,
+    updateLockState,
   };
 };
 
