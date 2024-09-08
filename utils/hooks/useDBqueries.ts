@@ -34,15 +34,17 @@ const useDBqueries = () => {
       mnemonic: string;
       seedPhrase: string;
     }) => {
-      const wallet = new databaseContext.WalletEntity!();
+      if (databaseContext.WalletEntity) {
+        await databaseContext.WalletEntity.clear();
+        const wallet = new databaseContext.WalletEntity();
 
-      wallet.privateKey = privateKey;
-      wallet.address = address;
-      wallet.publicKey = publicKey;
-      wallet.mnemonic = mnemonic;
-      wallet.seedPhrase = seedPhrase;
-
-      await wallet.save();
+        wallet.privateKey = privateKey;
+        wallet.address = address;
+        wallet.publicKey = publicKey;
+        wallet.mnemonic = mnemonic;
+        wallet.seedPhrase = seedPhrase;
+        await wallet.save();
+      }
     },
     []
   );
@@ -52,16 +54,23 @@ const useDBqueries = () => {
       password,
       allowBiomtricCrediential,
       hasConfirguredWallet,
+      passwordIv,
+      passwordSalt,
     }: {
       password: string;
       allowBiomtricCrediential: boolean;
       hasConfirguredWallet: boolean;
+      passwordIv: string;
+      passwordSalt: string;
     }) => {
+      await databaseContext.SettingsEntity!.clear();
       const settings = new databaseContext.SettingsEntity!();
 
       settings.password = password;
       settings.AllowBiomtricCrediential = allowBiomtricCrediential;
       settings.hasConfirguredWallet = hasConfirguredWallet;
+      settings.passwordIv = passwordIv;
+      settings.passwordSalt = passwordSalt;
       await settings.save();
     },
     []

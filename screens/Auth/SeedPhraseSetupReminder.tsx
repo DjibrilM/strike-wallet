@@ -1,11 +1,10 @@
+import crypto from "crypto-es";
 import React, { useContext, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Checkbox from "expo-checkbox";
 import { Platform, StatusBar } from "react-native";
 import Crypto from "../../utils/crypto";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { reloadAppAsync } from "expo";
-
 
 import {
   View,
@@ -27,9 +26,9 @@ import useDBqueries from "../../utils/hooks/useDBqueries";
 
 const SeedPhraseSetupReminder = () => {
   const navigation = useNavigation();
+  const { setWallet } = useWallet();
   const { createWallet, createSettings } = useDBqueries();
   const { password, allowBiometricAthentication } = usePasswordForm();
-
 
   const {
     privateKey,
@@ -47,17 +46,18 @@ const SeedPhraseSetupReminder = () => {
   const [constinueWithoutSecurity, setConstinueWithoutSecurity] =
     useState(false);
 
-  //create the wallet and the application settings 
   const setupWallet = async () => {
     if (SettingsEntity && WalletEntity) {
       try {
-        const { encryptedMessage: hashedPassword, iv, salt } = Crypto.encrypt({ message: password.value.toString() });//encrypt password
-        console.log(hashedPassword, 'encrypted message');
+        console.log({ privateKey });
+        const { encryptedMessage: encryptedPassword, iv: passwordIv, salt: passwordSalt } = Crypto.encrypt({ message: password.value.toString(), key: password.value.toString() });//encrypt password
 
         await createSettings({
-          password: hashedPassword!,
+          passwordIv,
+          passwordSalt,
+          password: encryptedPassword!,
           hasConfirguredWallet: false,
-          allowBiomtricCrediential: allowBiometricAthentication
+          allowBiomtricCrediential: allowBiometricAthentication,
         });
 
         await createWallet({
@@ -68,7 +68,10 @@ const SeedPhraseSetupReminder = () => {
           address: address,
         });
 
-        // await reloadAppAsync();
+        setWallet({ address: address, publicKey: publicKey, privateKey: privateKey });
+        navigation.navigate(routes.home as never);
+        securityReminderBottomSheet.current?.close();
+
       } catch (error) {
         console.log(error);
       }

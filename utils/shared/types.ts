@@ -31,12 +31,6 @@ export type AppWallet = {
   publicKey: string;
 
   address: string;
-
-  passwordIv: string;
-
-  passwordAuthTag: string;
-
-  passwordSalt: string;
 };
 
 export type TokenData = {

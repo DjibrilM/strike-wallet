@@ -45,6 +45,7 @@ const TokensList: React.FC<Props> = ({ tokenClickAction }) => {
 
       {currencies?.map((dta, index) => (
         <TokenListElement
+          index={index}
           tokenClickAction={tokenClickAction}
           dta={dta}
           key={"token-list-element" + index}

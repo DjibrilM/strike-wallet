@@ -2,73 +2,96 @@ import crypto from "crypto-es";
 import { WordArray } from "crypto-es/lib/core";
 
 class Crypto {
-  static deriveKey(passphrase: string, salt: WordArray, keyLength = 32) {
-    try {
-      console.log("something");
-      const key = crypto.PBKDF2(passphrase, salt, { keySize: keyLength });
-      return key;
-    } catch (error) {
-      console.error("Key derivation failed:", error);
-      throw error;
-    }
-  }
-
   static encrypt({
+    key,
     message,
     providedSalt,
-    providedIV,
+    providedIv,
   }: {
+    key: string;
     message: string;
     providedSalt?: WordArray;
-    providedIV?: WordArray;
+    providedIv?: WordArray;
   }) {
     try {
-      const iv = providedIV ? providedIV : crypto.lib.WordArray.random(16);
+      const iv = providedIv ? providedIv : crypto.lib.WordArray.random(16);
       const salt = providedSalt
         ? providedSalt
         : crypto.lib.WordArray.random(16);
 
-      const encrypted = crypto.AES.encrypt(message, iv, {
-        salt: salt,
-        iv: iv,
-      });
+      const encrypted = crypto.AES.encrypt(message, key, { salt, iv });
 
       return {
-        encryptedMessage: encrypted.ciphertext?.toString(crypto.enc.Hex),
-        iv: iv.toString(crypto.enc.Hex),
         salt: salt.toString(crypto.enc.Hex),
-      }; //return the encypted message, the IV(initialization vector) the salt and the authTag
+        iv: iv.toString(crypto.enc.Hex),
+        wordArrayEncryptedMessage: encrypted.ciphertext,
+        encryptedMessage: encrypted.ciphertext?.toString(crypto.enc.Hex),
+      };
     } catch (error: any) {
       throw new Error(error);
     }
   }
 
-  static decrypt(encryptedMessage: string, key: WordArray, iv: WordArray) {
+  static decrypt({
+    encryptedMessage,
+    key,
+    iv,
+    salt,
+  }: {
+    encryptedMessage: string;
+    key: WordArray | string;
+    iv: WordArray;
+    salt: WordArray;
+  }) {
     try {
-      const decipher = crypto.AES.decrypt(encryptedMessage, key, {
-        iv: iv,
-      });
+      const decryptionKey = crypto.enc.Hex.parse(key as string);
+      const decipher = crypto.AES.decrypt(
+        { ciphertext: crypto.enc.Hex.parse(encryptedMessage) },
+        decryptionKey,
+        {
+          salt,
+          iv,
+        }
+      );
 
-      return decipher;
+      return decipher.toString(crypto.enc.Hex);
     } catch (error) {
       console.log(error);
       console.log("Failed to decipher the encrypted message 🥵");
     }
   }
 
-  static compare(
-    message: string,
-    iv: WordArray,
-    salt: WordArray,
-    encryptedMessage: string
-  ) {
+  static compare({
+    key,
+    message,
+    encryptedMessage,
+    salt,
+    iv,
+  }: {
+    key: string;
+    message: string;
+    encryptedMessage: string;
+    salt: WordArray;
+    iv: WordArray;
+  }) {
     return (
       this.encrypt({
-        providedIV: iv,
+        key,
         message: message,
+        providedIv: iv,
         providedSalt: salt,
       }).encryptedMessage === encryptedMessage
     );
+  }
+
+  static stringToWordArray(string: string) {
+    // Convert the string to a UTF-8 encoded word array
+    const wordArray = crypto.enc.Utf8.parse(string);
+
+    // Extract the word array from the word array object
+    const extractedWordArray = wordArray.words;
+
+    return extractedWordArray;
   }
 }
 

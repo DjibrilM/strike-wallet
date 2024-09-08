@@ -20,6 +20,7 @@ export class Settings extends BaseEntity {
 
   @Column()
   passwordIv: string;
+
   @Column()
   passwordSalt: string;
 }

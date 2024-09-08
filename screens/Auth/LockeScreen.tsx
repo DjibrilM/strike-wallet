@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import crypto from "crypto-es";
 import * as LocalAuthentication from "expo-local-authentication";
 import { FadeOutDown, FadeInDown } from "react-native-reanimated";
 import { StyleSheet } from "react-native";
@@ -10,7 +11,8 @@ import Visible from "../../components/Common/Visibility";
 import { cn } from "../../utils/cn";
 import { useSettings } from "../../states/settings";
 import { useAppStateStore } from "../../states/appStatus";
-import useLockScreen from "../../utils/hooks/useLockScreen";
+import { useWallet } from "../../states/wallet";
+import Crypto from "../../utils/crypto";
 import { useStore } from "zustand";
 
 type InputField = {
@@ -21,13 +23,7 @@ type InputField = {
   isValid: boolean;
 };
 
-const InputField: React.FC<InputField> = ({
-  value,
-  filled,
-  focused,
-  isInavlid,
-  isValid,
-}) => {
+const InputField: React.FC<InputField> = ({ value, isInavlid, isValid }) => {
   return (
     <View
       className={cn(
@@ -56,15 +52,16 @@ const passcodeAreaInitialValue: {
   focused: boolean;
   filled: boolean;
 }[] = [
-  { value: null, focused: false, filled: false },
-  { value: null, focused: false, filled: false },
-  { value: null, focused: false, filled: false },
-  { value: null, focused: false, filled: false },
-  { value: null, focused: false, filled: false },
-];
+    { value: null, focused: false, filled: false },
+    { value: null, focused: false, filled: false },
+    { value: null, focused: false, filled: false },
+    { value: null, focused: false, filled: false },
+    { value: null, focused: false, filled: false },
+  ];
 
 const LockeScreen = ({ visible }: { visible: boolean }) => {
-  const { } = useLockScreen();
+  const { privateKey } = useWallet();
+
   const { shake, rStyle } = useAnimatedShake();
   const [isInvalid, setIsInvalid] = useState(false);
   const [isvalid, setIsValid] = useState(false);
@@ -73,7 +70,7 @@ const LockeScreen = ({ visible }: { visible: boolean }) => {
   ]);
 
   const valueRef = useRef<number | null | string>(0);
-  const { password } = useSettings();
+  const { password, passwordIv, passwordSalt } = useSettings();
   const { unlockApplication } = useStore(useAppStateStore);
 
   const clearInputs = () => {
@@ -130,21 +127,37 @@ const LockeScreen = ({ visible }: { visible: boolean }) => {
   useEffect(() => {
     if (
       valueRef.current &&
-      valueRef.current?.toString().length >= 5 &&
-      valueRef.current.toString() !== password.toString()
+      valueRef.current &&
+      valueRef.current?.toString().length >= 5
     ) {
-      setIsInvalid(true);
-      shake();
-      return;
+
+      const passwordSaltBuffer = crypto.enc.Hex.parse(passwordSalt!)
+      const passwordIvBuffer = crypto.enc.Hex.parse(passwordIv!)
+
+      const compare = Crypto.compare({
+        iv: passwordIvBuffer,
+        salt: passwordSaltBuffer,
+        message: valueRef.current!.toString(),
+        encryptedMessage: password,
+        key: valueRef.current!.toString(),
+      });
+
+      if (!compare) {
+        setIsInvalid(true);
+        shake();
+      } else {
+
+        setIsValid(true);
+        setTimeout(() => {
+
+          clearInputs();
+          unlockApplication();
+        }, 100);
+
+      }
     }
 
-    if (valueRef.current === password) {
-      setIsValid(true);
-      setTimeout(() => {
-        clearInputs();
-        unlockApplication();
-      }, 100);
-    }
+
   }, [valueRef.current]);
 
   const authorizeWithBiometricCredentials = async () => {

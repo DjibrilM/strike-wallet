@@ -36,7 +36,7 @@ import useLockScreen from "../utils/hooks/useLockScreen";
 const Stack = createNativeStackNavigator();
 //
 const RootStckNavigator = () => {
-  const { unlockApplication } = useLockScreen()
+  const { unlockApplication, updateLockState } = useLockScreen();
   const { setSetting } = useSettings();
   const { setWallet } = useWallet();
   const { getSettingCounts, getAppSettings, getWalletData } = useDBqueries();
@@ -52,11 +52,12 @@ const RootStckNavigator = () => {
       const walletData = await getWalletData();
 
       //Check if the user has already created a wallet
-      if (!Boolean(SettingsCount) && !walletData) {
+      if (!Boolean(SettingsCount) || !walletData) {
         //Send the user to the onboarding screen if there is no wallte.
         initialRouteName.current = routes.OnboardingScreen;
         setLoading(false);
         unlockApplication();
+        console.log('here');
       } else {
 
         //Navigate to the home screen if the user has already created a wallet.
@@ -73,7 +74,9 @@ const RootStckNavigator = () => {
         });
 
         setEnableLockScreen(true);
-        unlockApplication();
+        updateLockState(true);
+
+        // unlockApplication();
       }
     } catch (error) {
       console.log(error);
