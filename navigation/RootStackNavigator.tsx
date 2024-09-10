@@ -31,25 +31,29 @@ import TokenReceptionDetails from "../screens/TokenReceptionDetails";
 import { useWallet } from "../states/wallet";
 import useDBqueries from "../utils/hooks/useDBqueries";
 import useLockScreen from "../utils/hooks/useLockScreen";
+import { useTokensStore } from "../states/token.state";
+import { MoralisToken } from "../utils/shared/types";
 
 //stack navigator
 const Stack = createNativeStackNavigator();
 //
 const RootStckNavigator = () => {
+  const { updateTokens } = useTokensStore();
   const { unlockApplication, updateLockState } = useLockScreen();
   const { setSetting } = useSettings();
   const { setWallet } = useWallet();
-  const { getSettingCounts, getAppSettings, getWalletData } = useDBqueries();
+  const { getSettingCounts, getAppSettings, getWalletData,getTokens } = useDBqueries();
   const { colorScheme } = useColorScheme();
   const [loading, setLoading] = useState(true);
   const initialRouteName = useRef("");
   const [enableLockScreen, setEnableLockScreen] = useState(false);
 
-  const getPassword = async () => {
+  const initializeData = async () => {
     try {
       const SettingsCount = await getSettingCounts();
       const applicationSettings = await getAppSettings();
       const walletData = await getWalletData();
+      const tokens = await getTokens();
 
       //Check if the user has already created a wallet
       if (!Boolean(SettingsCount) || !walletData) {
@@ -75,7 +79,7 @@ const RootStckNavigator = () => {
 
         setEnableLockScreen(true);
         updateLockState(true);
-
+        updateTokens(tokens as any);
         // unlockApplication();
       }
     } catch (error) {
@@ -84,7 +88,7 @@ const RootStckNavigator = () => {
   };
 
   useEffect(() => {
-    getPassword();
+    initializeData();
   }, []);
 
   return (

@@ -1,4 +1,5 @@
 import React, { ReactNode } from "react";
+import { RefreshControl } from "react-native";
 import Visible from "./Visibility";
 import { View, Pressable, Text } from "../Tailwind";
 import { useColorScheme } from "nativewind";
@@ -9,7 +10,6 @@ import Animated, {
   useAnimatedRef,
   useSharedValue,
   withTiming,
-  SharedValue,
 } from "react-native-reanimated";
 
 type Props = {
@@ -19,6 +19,8 @@ type Props = {
   searchBardPrefix?: React.JSX.Element[] | React.JSX.Element;
   children: ReactNode;
   onscroll?: (scrollY: number) => void;
+  onRefresh?: () => void
+  refreshing?:boolean
 };
 
 const AnimatedScrollView: React.FC<Props> = ({
@@ -26,6 +28,8 @@ const AnimatedScrollView: React.FC<Props> = ({
   children,
   searchBardPrefix,
   onscroll,
+  onRefresh,
+  refreshing=false
 }) => {
   const animatedRef = useAnimatedRef<Animated.ScrollView>();
   const top = useSharedValue(-100);
@@ -58,7 +62,7 @@ const AnimatedScrollView: React.FC<Props> = ({
             display: "flex",
             flexDirection: "row",
             gap: 10,
-            borderTopColor:'transparent',
+            borderTopColor: 'transparent',
             borderBottomColor:
               colorScheme === "dark" ? "#ffffff1f" : "#00000018",
             borderWidth: 1,
@@ -66,7 +70,7 @@ const AnimatedScrollView: React.FC<Props> = ({
         >
           <View className="py-2 flex-1  bg-white dark:bg-[#0f0e0e00]">
             <Pressable
-              onPress={() => {}}
+              onPress={() => { }}
               android_ripple={{ color: "#ffffff33" }}
               className="h-12 px-4 bg-slate-100 dark:bg-[#1f1f1f] flex-row flex w-full items-center rounded-lg"
             >
@@ -84,11 +88,15 @@ const AnimatedScrollView: React.FC<Props> = ({
         </Animated.View>
       </Visible>
 
-      <Animated.ScrollView onScroll={scrollHandler} ref={animatedRef}>
+      <Animated.ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        onScroll={scrollHandler} ref={animatedRef}>
         <Visible condition={searchBar}>
           <View className="px-6">
             <Pressable
-              onPress={() => {}}
+              onPress={() => { }}
               android_ripple={{ color: "#ffffff33" }}
               className="h-14 bg-slate-100 flex-row dark:bg-[#222] flex px-4 items-center my-6 rounded-lg"
             >

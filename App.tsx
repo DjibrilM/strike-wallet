@@ -1,10 +1,20 @@
 import "reflect-metadata";
 import "react-native-get-random-values";
+import 'react-native-gesture-handler'
+import "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import * as SplashScreen from "expo-splash-screen";
-import "react-native-gesture-handler";
 import { useColorScheme } from "nativewind";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 import { useCallback, useLayoutEffect } from "react";
 import { useFonts } from "expo-font";
@@ -13,7 +23,7 @@ import { useEffect } from "react";
 
 import Navigation from "./navigation";
 import fonts from "./utils/shared/fonts";
-import { useAppStateStore } from "./states/appStatus";
+import { useAppStateStore } from "./states/appStatus.state";
 import DatabaseConnectionProvider from "./data/connection";
 
 SplashScreen.preventAutoHideAsync();
@@ -49,7 +59,9 @@ export default function App() {
     <DatabaseConnectionProvider>
       <GestureHandlerRootView>
         <BottomSheetModalProvider>
-          <Navigation />
+          <QueryClientProvider client={queryClient}>
+            <Navigation />
+          </QueryClientProvider>
         </BottomSheetModalProvider>
       </GestureHandlerRootView>
     </DatabaseConnectionProvider>

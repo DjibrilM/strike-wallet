@@ -76,12 +76,17 @@ const useDBqueries = () => {
     []
   );
 
+  const getTokens = async () => {
+    return await databaseContext.tokenEntity!.find();
+  }
+
   return {
     getSettingCounts,
     getAppSettings,
     getWalletData,
     createWallet,
     createSettings,
+    getTokens,
   };
 };
 

@@ -1,12 +1,15 @@
 import { createContext, useLayoutEffect, useState } from "react";
 import { DataSource } from "typeorm";
-import { WalletEntity } from "./Entities/wallet/wallet.entity";
+
 import * as SQLite from "expo-sqlite/legacy";
 import { Settings } from "./Entities/settings/settings";
+import { WalletEntity } from "./Entities/wallet/wallet.entity";
+import { TokenEntity } from "./Entities/tokens/Tokens";
 
 interface Entities {
   WalletEntity: typeof WalletEntity | null | undefined;
   SettingsEntity: typeof Settings | null | undefined;
+  tokenEntity: typeof TokenEntity | null | undefined
 }
 
 export const DatabaseConnectionContext = createContext<Entities>(
@@ -26,7 +29,7 @@ const DatabaseConnectionProvider = ({
         database: "strikeWallet.db",
         driver: SQLite,
         logging: false,
-        entities: [Settings, WalletEntity],
+        entities: [Settings, WalletEntity, TokenEntity],
         synchronize: true,
       });
 
@@ -34,6 +37,7 @@ const DatabaseConnectionProvider = ({
       setEntities({
         SettingsEntity: Settings,
         WalletEntity: WalletEntity,
+        tokenEntity: TokenEntity
       });
     } catch (error) {
       console.log(error);
@@ -47,6 +51,7 @@ const DatabaseConnectionProvider = ({
   return (
     <DatabaseConnectionContext.Provider
       value={{
+        tokenEntity: entities?.tokenEntity,
         SettingsEntity: entities?.SettingsEntity,
         WalletEntity: entities?.WalletEntity,
       }}

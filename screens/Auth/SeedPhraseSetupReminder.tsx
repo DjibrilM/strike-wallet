@@ -20,7 +20,7 @@ import { CustomeBottomSheetRef } from "../../utils/shared/types";
 import { cn } from "../../utils/cn";
 import { routes } from "../../utils/shared/constant";
 import { DatabaseConnectionContext } from "../../data/connection";
-import { usePasswordForm } from "../../states/FormState/passwordConfig.state";
+import { usePasswordForm } from "../../states/passwordConfig.state";
 import { useWallet } from "../../states/wallet";
 import useDBqueries from "../../utils/hooks/useDBqueries";
 

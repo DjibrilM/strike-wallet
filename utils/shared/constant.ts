@@ -1,6 +1,10 @@
 import { Transaction } from "./types";
 import { TokenData } from "./types";
 
+export const coingGeckoUrl = "https://api.coingecko.com/api/";
+export const backendBaseuRL = "http://localhost:3000/";
+
+
 
 
 

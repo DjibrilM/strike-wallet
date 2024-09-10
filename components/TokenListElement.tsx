@@ -1,65 +1,82 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Animated from "react-native-reanimated";
+import Checkbox from "expo-checkbox";
 
 import { Pressable, View, Text } from "./Tailwind";
 import { routes } from "../utils/shared/constant";
-import { TokenData } from "../utils/shared/types";
+import { MoralisToken } from "../utils/shared/types";
 import { TokenSelectionScreenAction } from "../utils/shared/types";
 import { cn } from "../utils/cn";
 import Visible from "./Common/Visibility";
 
 interface Props {
-  dta: TokenData;
+  dta: MoralisToken;
   tokenClickAction?: TokenSelectionScreenAction;
-  index?: number
+  index?: number,
+  selected?: boolean
+  selectable?: boolean,
+  onSelect?: (token: MoralisToken) => void
 }
 
-const TokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction }) => {
+const TokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction, selected = false, selectable = false, onSelect }) => {
   const navigation = useNavigation() as any;
 
   const onTokenPress = () => {
-    switch (tokenClickAction) {
-      case "Send":
-        navigation.navigate(routes.sendToken as never, {
-          name: routes.sendToken,
-          data: {
-            ...dta,
-          },
-        });
+    if (selectable) {
+      onSelect?.(dta);
+    } else {
+      switch (tokenClickAction) {
+        case "Send":
+          navigation.navigate(routes.sendToken as never, {
+            name: routes.sendToken,
+            data: {
+              ...dta,
+            },
+          });
 
-        break;
+          break;
 
-      case "Receive":
-        navigation.navigate(routes.tokenReception as never, {
-          name: routes.sendToken,
-          data: {
-            ...dta,
-          },
-        });
+        case "Receive":
+          navigation.navigate(routes.tokenReception as never, {
+            name: routes.sendToken,
+            data: {
+              ...dta,
+            },
+          });
 
-        break;
+          break;
 
-      default:
-        navigation.navigate(routes.currencyDetailPage as never, {
-          name: routes.currencyDetailPage,
-          data: {
-            ...dta,
-          },
-        });
-        break;
-    }
+        default:
+          navigation.navigate(routes.currencyDetailPage as never, {
+            name: routes.currencyDetailPage,
+            data: {
+              ...dta,
+            },
+          });
+          break;
+      }
+    };
+
+
   };
+
 
   return (
     <Pressable
       onPress={onTokenPress}
       android_ripple={{ color: "#0000003f" }}
-      id={dta.id}
+      id={index + '-toke-element'}
       className="flex border-b border-black/5 mb-5 py-2 px-6 flex-row gap-2"
     >
-      <Visible condition={!!(index) || index === 0}>
+      <Visible condition={(!!(index) || index === 0) && !selectable}>
         <View className="items-center flex-row"><Text className="text-slate-600">{index === 0 ? "#" : index! + 1}</Text></View>
+      </Visible>
+
+      <Visible condition={selectable}>
+        <View className="items-center mr-2 flex-row">
+          <Checkbox value={selected} color={'#5a8dfe'}  style={{ width: 15, height: 15,borderWidth:1 }} />
+        </View>
       </Visible>
 
       <Animated.Image
@@ -67,29 +84,29 @@ const TokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction }) => 
           cache: "force-cache",
           width: 40,
           height: 40,
-          uri: dta.image,
+          uri: dta.token_logo,
         }}
       />
       <View>
         <Text style={{ fontFamily: "Nunito-Regular" }} className="text-[17px] mb-1 dark:text-white">
-          {dta.name}
+          {dta.token_name}
         </Text>
         <View className="flex-row gap-3">
           <Text
             style={{ fontFamily: "Nunito-Regular" }}
             className="text-[12px] text-slate-600 dark:text-white"
           >
-            ${dta.current_price}
+            ${dta.price_usd}
           </Text>
 
           <Text
             style={{ fontFamily: "Nunito-Regular" }}
             className={cn("text-[12px] text-slate-600", {
-              "text-green-600 dark:text-green-500": Number(dta.price_change_24h) >= 0,
-              "text-red-600 dark:text-red-500": Number(dta.price_change_24h) < 0,
+              "text-green-600 dark:text-green-500": Number(dta.price_24h_percent_change) >= 0,
+              "text-red-600 dark:text-red-500": Number(dta.price_24h_percent_change) < 0,
             })}
           >
-            {dta.price_change_percentage_24h} %
+            {dta.price_24h_percent_change} %
           </Text>
         </View>
       </View>

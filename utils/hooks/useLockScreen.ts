@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useAppStateStore } from "../../states/appStatus";
+import { useAppStateStore } from "../../states/appStatus.state";
 
 const useLockScreen = () => {
   const {

@@ -15,7 +15,7 @@ import { useAuthSetps } from "../../states/authSteps.state";
 import { cn } from "../../utils/cn";
 import { Platform } from "react-native";
 import { routes } from "../../utils/shared/constant";
-import { usePasswordForm } from "../../states/FormState/passwordConfig.state";
+import { usePasswordForm } from "../../states/passwordConfig.state";
 
 const SeedPhraseSetUpEnd = () => {
   const navigation = useNavigation();
