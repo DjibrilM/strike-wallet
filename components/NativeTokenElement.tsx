@@ -7,7 +7,7 @@ import { Pressable, View, Text } from "./Tailwind";
 import Visible from "./Common/Visibility";
 import { routes } from "../utils/shared/constant";
 import { Image } from "./Tailwind";
-import { CoinGeckoTokenData } from "../utils/shared/types";
+import { CoinGeckoTokenData, MoralisToken } from "../utils/shared/types";
 import { TokenSelectionScreenAction } from "../utils/shared/types";
 import { cn } from "../utils/cn";
 
@@ -28,8 +28,16 @@ const NativeTokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction,
                 navigation.navigate(routes.sendToken as never, {
                     name: routes.sendToken,
                     data: {
-                        ...dta,
-                    },
+                        token_name: dta?.name,
+                        token_symbol: dta?.symbol,
+                        token_logo: dta?.image,
+                        token_decimals: '',
+                        contract_address: '',
+                        price_usd: dta?.current_price || '',
+                        price_24h_percent_change: (dta?.price_change_24h || ''),
+                        price_7d_percent_change: (''),
+                        market_cap_usd: dta?.market_cap || ''
+                    } as MoralisToken,
                 });
 
                 break;
@@ -38,8 +46,16 @@ const NativeTokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction,
                 navigation.navigate(routes.tokenReception as never, {
                     name: routes.sendToken,
                     data: {
-                        ...dta,
-                    },
+                        token_name: dta?.name,
+                        token_symbol: dta?.symbol,
+                        token_logo: dta?.image,
+                        token_decimals: '',
+                        contract_address: '',
+                        price_usd: dta?.current_price || '',
+                        price_24h_percent_change: (dta?.price_change_24h || ''),
+                        price_7d_percent_change: (''),
+                        market_cap_usd: dta?.market_cap || ''
+                    } as MoralisToken,
                 });
 
                 break;
@@ -48,8 +64,16 @@ const NativeTokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction,
                 navigation.navigate(routes.currencyDetailPage as never, {
                     name: routes.currencyDetailPage,
                     data: {
-                        ...dta,
-                    },
+                        token_name: dta?.name,
+                        token_symbol: dta?.symbol,
+                        token_logo: dta?.image,
+                        token_decimals: '',
+                        contract_address: '',
+                        price_usd: dta?.current_price || '',
+                        price_24h_percent_change: (dta?.price_change_24h || ''),
+                        price_7d_percent_change: (''),
+                        market_cap_usd: dta?.market_cap || ''
+                    } as MoralisToken,
                 });
                 break;
         }

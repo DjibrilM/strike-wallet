@@ -26,11 +26,11 @@ import {
   View,
   ScrollView,
 } from "../components/Tailwind";
-import { TokenData } from "../utils/shared/types";
+import { MoralisToken } from "../utils/shared/types";
 import { cn } from "../utils/cn";
 
 interface Params {
-  data: TokenData;
+  data: MoralisToken;
 }
 
 const CurrencyDetailPage = () => {
@@ -42,7 +42,7 @@ const CurrencyDetailPage = () => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: params.data.name,
+      title: params.data.token_name,
       headerRight: () => (
         <Pressable className=" bg-blueDefault p-1 rounded-full">
           <Ionicons name="information" size={18} color="white" />
@@ -59,6 +59,8 @@ const CurrencyDetailPage = () => {
     }
   };
 
+  console.log(params);
+
   return (
     <SafeAreaView className="flex-1  bg-white">
       <StatusBar />
@@ -71,9 +73,8 @@ const CurrencyDetailPage = () => {
       ></Animated.View>
       <ScrollView onScroll={scrollView} ref={animatedRef}>
         <View className="mx-auto mt-10 flex items-center justify-center">
-          <Animated.Image
-            sharedTransitionTag="reanimatedTransition"
-            source={{ uri: params.data.image, width: 60, height: 60 }}
+          <Image
+            source={{ uri: params.data.token_logo, width: 60, height: 60 }}
           />
           <Text
             style={{ fontFamily: "Nunito-Black" }}
@@ -115,7 +116,7 @@ const CurrencyDetailPage = () => {
         <View className="">
           {randomTransactions.map((tr, index) => (
             <TransactioElement
-              current_price={params.data.current_price}
+              current_price={Number(params.data.price_usd)}
               key={"currency-detail-transaction-element-" + index}
               {...tr}
             />
@@ -125,18 +126,18 @@ const CurrencyDetailPage = () => {
       <View className="border-t overflow-hidden flex-row h-20 flex  px-4 items-center  border-[#0000001e]">
         <View>
           <Text style={{ fontFamily: "Nunito-SemiBold" }} className="text-base">
-            {params.data.name}
+            {params.data.token_name}
           </Text>
           <View className="flex-row flex">
-            <Text className="text-sm">${params.data.price_change_24h}</Text>
+            <Text className="text-sm">${params.data.price_24h_percent_change}</Text>
             <Text
               style={{ fontFamily: "Nunito-Regular" }}
               className={cn("ml-1", {
-                "text-green-500": params.data.price_change_24h > 0,
-                "text-red-500": params.data.price_change_24h < 0,
+                "text-green-500": Number(params.data.price_24h_percent_change) > 0,
+                "text-red-500": Number(params.data.price_24h_percent_change) < 0,
               })}
             >
-              {params.data.price_change_percentage_24h.toFixed(2)}%
+              {Number(params.data.price_24h_percent_change).toFixed(2)}%
             </Text>
           </View>
         </View>
@@ -146,7 +147,7 @@ const CurrencyDetailPage = () => {
             datasets: [
               {
                 strokeWidth: 1,
-                data: params.data.sparkline_in_7d.price,
+                data: []
               },
             ],
           }}
@@ -157,7 +158,7 @@ const CurrencyDetailPage = () => {
             backgroundGradientFrom: "#ffffff",
             backgroundGradientTo: "#ffffff",
             color: (opacity = 1) =>
-              params.data.price_change_24h > 0 ? "#38a169" : "red",
+            Number(  params.data.price_24h_percent_change) > 0 ? "#38a169" : "red",
 
             labelColor: () => `rgba(0, 0, 0, 0)`, // Hides labels
             propsForDots: {

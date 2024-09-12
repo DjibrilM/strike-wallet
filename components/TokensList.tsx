@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { ActivityIndicator } from "react-native";
 import { Skeleton } from "moti/skeleton";
 
@@ -18,11 +18,11 @@ interface Props {
   title?: string;
   skeletonCounts?: number
   selectable?: boolean
-  onSelect?: (token: MoralisToken) => void
-  selectedTokens?: MoralisToken[],
+  onSelect?: (token: MoralisToken) => void,
+  showBalance?: boolean
 }
 
-const TokensList: React.FC<Props> = ({
+const TokensList: React.FC<Props> = memo(({
   tokenClickAction,
   isLoading = false,
   error,
@@ -30,8 +30,8 @@ const TokensList: React.FC<Props> = ({
   title,
   selectable = false,
   skeletonCounts = 3,
-  selectedTokens,
-  onSelect
+  onSelect,
+  showBalance=true
 }) => {
 
   return (
@@ -66,22 +66,22 @@ const TokensList: React.FC<Props> = ({
           </Visible>
 
           {tokens?.map((dta, index) => {
-            const find = (selectedTokens?.find(((token) => token.contract_address === dta.contract_address)))
             return (
-            <TokenListElement
-              onSelect={onSelect}
-              selected={!!find}
-              index={index}
-              selectable={selectable}
-              tokenClickAction={tokenClickAction}
-              dta={dta}
-              key={"token-list-element" + index}
-            />
-          )})}
+              <TokenListElement
+                showBalance={showBalance}
+                onSelect={onSelect}
+                index={index}
+                selectable={selectable}
+                tokenClickAction={tokenClickAction}
+                dta={dta}
+                key={"token-list-element" + index}
+              />
+            )
+          })}
         </View>
       </Visible>
     </Skeleton.Group>
-  );
-};
-
+  )
+}
+)
 export default TokensList;

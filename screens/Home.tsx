@@ -31,12 +31,14 @@ import { routes } from "../utils/shared/constant";
 import { CoinGeckoTokenData, TokenSelectionParams } from "../utils/shared/types";
 import { useTokensStore } from "../states/token.state";
 import NativeTokenListElement from "../components/NativeTokenElement";
+import { useWallet } from "../states/wallet";
 
 const fetcher = (url: string) => fetch(url).then(async (res) => {
   return await res.json()
 });
 
 const Home = () => {
+  const { balance } = useWallet();
   const queryClient = useQueryClient()
   const { isLoading, data: ethereumNativeToken, isRefetching } = useQuery<CoinGeckoTokenData>({ queryKey: [queryKeys.tokens], queryFn: () => fetcher(`${backendBaseuRL}tokens/get-native-token`) })
   const { tokens } = useTokensStore()
@@ -82,14 +84,14 @@ const Home = () => {
           >
             <Visible condition={!hideBalance}>
               <View className="flex flex-row items-center">
-                <Text className="text-[30px] text-slate-500 dark:text-white">
+                <Text className="text-[25px] text-slate-500 dark:text-white">
                   $
                 </Text>
                 <Text
                   style={{ fontFamily: "Nunito-ExtraBold" }}
                   className="text-[30px] text-slate-500 dark:text-white"
                 >
-                  {10000.0}
+                  {balance}
                 </Text>
               </View>
             </Visible>

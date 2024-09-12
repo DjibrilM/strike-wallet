@@ -34,6 +34,9 @@ export class TokenEntity extends BaseEntity {
   price_usd: string;
 
   @Column()
+  token_name: string;
+
+  @Column()
   price_24h_percent_change: string;
 
   @Column()

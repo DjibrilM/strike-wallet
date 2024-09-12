@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useTransition, memo } from "react";
 import { useNavigation } from "@react-navigation/native";
-import Animated from "react-native-reanimated";
 import Checkbox from "expo-checkbox";
 
+import { Image } from "./Tailwind";
 import { Pressable, View, Text } from "./Tailwind";
 import { routes } from "../utils/shared/constant";
 import { MoralisToken } from "../utils/shared/types";
@@ -14,25 +14,33 @@ interface Props {
   dta: MoralisToken;
   tokenClickAction?: TokenSelectionScreenAction;
   index?: number,
-  selected?: boolean
   selectable?: boolean,
   onSelect?: (token: MoralisToken) => void
+  showBalance: boolean
 }
 
-const TokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction, selected = false, selectable = false, onSelect }) => {
+const TokenListElement: React.FC<Props> = memo(({ dta, index, tokenClickAction = false, selectable = false, onSelect, showBalance }) => {
   const navigation = useNavigation() as any;
+  const [pending, startTransition] = useTransition();
+  const [selected, setSelected] = useState<boolean>(false);
 
   const onTokenPress = () => {
     if (selectable) {
-      onSelect?.(dta);
-    } else {
+      setSelected(!selected)
+
+      startTransition(() => {
+        onSelect?.(dta);
+      })
+    }
+
+    else {
       switch (tokenClickAction) {
         case "Send":
           navigation.navigate(routes.sendToken as never, {
             name: routes.sendToken,
             data: {
-              ...dta,
-            },
+              ...dta
+            } as MoralisToken,
           });
 
           break;
@@ -41,8 +49,8 @@ const TokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction, selec
           navigation.navigate(routes.tokenReception as never, {
             name: routes.sendToken,
             data: {
-              ...dta,
-            },
+              ...dta
+            } as MoralisToken,
           });
 
           break;
@@ -51,16 +59,13 @@ const TokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction, selec
           navigation.navigate(routes.currencyDetailPage as never, {
             name: routes.currencyDetailPage,
             data: {
-              ...dta,
-            },
+              ...dta
+            } as MoralisToken,
           });
           break;
       }
     };
-
-
   };
-
 
   return (
     <Pressable
@@ -69,17 +74,18 @@ const TokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction, selec
       id={index + '-toke-element'}
       className="flex border-b border-black/5 mb-5 py-2 px-6 flex-row gap-2"
     >
+      <Visible condition={pending}><Text>...loading</Text></Visible>
       <Visible condition={(!!(index) || index === 0) && !selectable}>
         <View className="items-center flex-row"><Text className="text-slate-600">{index === 0 ? "#" : index! + 1}</Text></View>
       </Visible>
 
       <Visible condition={selectable}>
         <View className="items-center mr-2 flex-row">
-          <Checkbox value={selected} color={'#5a8dfe'}  style={{ width: 15, height: 15,borderWidth:1 }} />
+          <Checkbox onValueChange={onTokenPress} value={selected} color={'#5a8dfe'} style={{ width: 15, height: 15, borderWidth: 1, zIndex: 10 }} />
         </View>
       </Visible>
 
-      <Animated.Image
+      <Image
         source={{
           cache: "force-cache",
           width: 40,
@@ -87,9 +93,10 @@ const TokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction, selec
           uri: dta.token_logo,
         }}
       />
+
       <View>
         <Text style={{ fontFamily: "Nunito-Regular" }} className="text-[17px] mb-1 dark:text-white">
-          {dta.token_name}
+          {dta?.token_name?.length < 15 ? dta?.token_name : dta.token_name?.split('').splice(0, 10).join('') + '...'}
         </Text>
         <View className="flex-row gap-3">
           <Text
@@ -111,22 +118,24 @@ const TokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction, selec
         </View>
       </View>
 
-      <View className="flex-1 flex justify-center items-end">
-        <Text
-          className="text-slate-600 dark:text-white"
-          style={{ fontFamily: "Nunito-Regular" }}
-        >
-          0
-        </Text>
-        <Text
-          className="text-slate-600 dark:text-white text-sm"
-          style={{ fontFamily: "Nunito-Regular" }}
-        >
-          $0.00
-        </Text>
-      </View>
+      <Visible condition={showBalance}>
+        <View className="flex-1 flex justify-center items-end">
+          <Text
+            className="text-slate-600 dark:text-white"
+            style={{ fontFamily: "Nunito-Regular" }}
+          >
+            0
+          </Text>
+          <Text
+            className="text-slate-600 dark:text-white text-sm"
+            style={{ fontFamily: "Nunito-Regular" }}
+          >
+            $0.00
+          </Text>
+        </View>
+      </Visible>
     </Pressable>
   );
-};
+});
 
 export default TokenListElement;
