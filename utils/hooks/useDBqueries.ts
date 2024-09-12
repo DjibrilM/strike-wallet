@@ -1,6 +1,6 @@
 import { useCallback, useContext } from "react";
 import { DatabaseConnectionContext } from "../../data/connection";
-import { AppWallet } from "../shared/types";
+import { AppWallet, MoralisToken } from "../shared/types";
 
 const useDBqueries = () => {
   const databaseContext = useContext(DatabaseConnectionContext);
@@ -76,12 +76,33 @@ const useDBqueries = () => {
     []
   );
 
+  const getTokens = async () => {
+    return await databaseContext.tokenEntity!.find();
+  }
+
+  const addToken = async (token:MoralisToken) => {
+    const newToken = new databaseContext.tokenEntity!();
+    newToken.contract_address = token.contract_address;
+    newToken.token_symbol = token.token_symbol;
+    newToken.token_logo = token.token_logo;
+    newToken.token_decimals = token.token_decimals;
+    newToken.price_usd = token.price_usd;
+    newToken.price_24h_percent_change = token.price_24h_percent_change;
+    newToken.price_7d_percent_change = token.price_7d_percent_change;
+    newToken.market_cap_usd = token.market_cap_usd;
+    newToken.token_name = token.token_name;
+
+   await newToken.save()
+  }
+
   return {
     getSettingCounts,
     getAppSettings,
     getWalletData,
     createWallet,
     createSettings,
+    getTokens,
+    addToken,
   };
 };
 

@@ -3,14 +3,14 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { SafeAreaView, Text, View } from "../components/Tailwind";
 import { StatusBar } from "../components/Common/StatusBar";
-import { CurrencyData } from "../utils/shared/types";
+import { MoralisToken } from "../utils/shared/types";
 import { Pressable } from "../components/Tailwind";
 import Button from "../components/Widgets/Button";
 import Input from "../components/Widgets/Input";
 import { cn } from "../utils/cn";
 
 interface Params {
-  data: CurrencyData;
+  data: MoralisToken;
 }
 
 const SendToken = () => {
@@ -30,7 +30,7 @@ const SendToken = () => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: "send " + params.data.name,
+      title: "send " + params.data.token_name,
     });
   }, []);
 
@@ -88,11 +88,11 @@ const SendToken = () => {
           keyboardType="numeric"
           InputType="number-pad"
           style={{ fontFamily: "Nunito-Regular" }}
-          placeholder={params.data.name + " Amount"}
-          prefix={<Text className="text-slate-600">{params.data.name}</Text>}
+          placeholder={params.data.token_name + " Amount"}
+          prefix={<Text className="text-slate-600">{params.data.token_name}</Text>}
         ></Input>
         <Text className="mt-3 text-slate-600">
-          ≈{params.data.current_price * Number(amount.value)}
+          ≈{Number(params.data.price_usd) * Number(amount.value)}
         </Text>
       </View>
 

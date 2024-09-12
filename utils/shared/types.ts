@@ -9,6 +9,7 @@ export enum TokenSelectionScreenActions {
   Buy = "buy",
   Sell = "sell",
   History = "history",
+  Create = "create",
 }
 
 export type TokenSelectionScreenAction =
@@ -33,7 +34,7 @@ export type AppWallet = {
   address: string;
 };
 
-export type TokenData = {
+export type CoinGeckoTokenData = {
   id: string;
   symbol: string;
   name: string;
@@ -68,6 +69,18 @@ export type TokenData = {
     price: number[];
   };
 };
+
+export type MoralisToken = {
+  token_name: string;
+  token_symbol: string;
+  token_logo: string;
+  token_decimals: string;
+  contract_address: string;
+  price_usd: string;
+  price_24h_percent_change: string;
+  price_7d_percent_change: string;
+  market_cap_usd: string;
+}
 
 export type Address = `0x${string}`;
 

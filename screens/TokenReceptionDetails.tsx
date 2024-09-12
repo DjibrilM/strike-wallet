@@ -9,12 +9,12 @@ import * as Clipboard from "expo-clipboard";
 import useNavigationParam from "../utils/hooks/useNavigationParam";
 import { SafeAreaView, View, Text, Image } from "../components/Tailwind";
 import Button from "../components/Widgets/Button";
-import { Address, TokenData } from "../utils/shared/types";
+import { Address, MoralisToken } from "../utils/shared/types";
 import { shortAddress } from "../utils/shortAddress";
 import { useWallet } from "../states/wallet";
 
 interface Params {
-  data: TokenData;
+  data: MoralisToken;
 }
 
 const TokenReceptionDetails = () => {
@@ -37,10 +37,10 @@ const TokenReceptionDetails = () => {
         <View className="w-[40px] flex justify-center items-center h-[40px] bg-black/10  rounded-full">
           <Image
             className="rounded-full w-[30px] h-[30px]"
-            source={{ uri: params.data.image }}
+            source={{ uri: params.data.token_logo }}
           />
         </View>
-        <Text>{params.data.name}</Text>
+        <Text>{params.data.token_name}</Text>
       </View>
 
       <View className="bg-slate-700 max-w-[300px] w-full min-h-[300px] mx-8 rounded-[30px] m flex justify-center items-center">

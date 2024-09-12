@@ -8,10 +8,18 @@ export interface State {
   privateKey: string;
   address: string;
   publicKey: string;
+  balance: number;
+  showBalance: boolean;
 }
 
-export const useWallet = create<State & { setWallet: (state: State) => void }>(
-  (set) => ({
+
+export interface Actions {
+  toggleBalanceVisibility: () => void;
+  setWallet: (state: State) => void;
+}
+
+export const useWallet = create<State & Actions>(
+  (set, get) => ({
     mnemonicArray: [],
     seed: null,
     mnemonicCompactedString: "",
@@ -19,6 +27,11 @@ export const useWallet = create<State & { setWallet: (state: State) => void }>(
     privateKey: "",
     address: "",
     publicKey: "",
+    balance: 0,
+    showBalance: false,
+
+    //Actions
     setWallet: (state) => set({ ...state }),
+    toggleBalanceVisibility: () => set({ showBalance: !get().showBalance }),
   })
 );

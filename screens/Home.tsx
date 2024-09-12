@@ -2,11 +2,20 @@ import React, { useState } from "react";
 import Feather from "@expo/vector-icons/Feather";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useColorScheme } from "nativewind";
+import queryKeys from "../utils/queryKeys";
+
+import {
+  useQuery,
+  useQueryClient
+} from '@tanstack/react-query'
 
 import CurrencyHomeList from "../components/TokensList";
+import { Image } from "../components/Tailwind";
 import ShareControls from "../components/Common/ShareControls";
 import { StatusBar } from "../components/Common/StatusBar";
+import Button from "../components/Widgets/Button";
 import AnimatedScrollView from "../components/Common/AnimatedScrollView";
+import { backendBaseuRL } from "../utils/shared/constant";
 
 import {
   View,
@@ -14,20 +23,39 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "../components/Tailwind";
+
+
 import Visible from "../components/Common/Visibility";
 import { useNavigation } from "@react-navigation/native";
 import { routes } from "../utils/shared/constant";
-import { TokenSelectionParams } from "../utils/shared/types";
+import { CoinGeckoTokenData, TokenSelectionParams } from "../utils/shared/types";
+import { useTokensStore } from "../states/token.state";
+import NativeTokenListElement from "../components/NativeTokenElement";
+import { useWallet } from "../states/wallet";
+
+const fetcher = (url: string) => fetch(url).then(async (res) => {
+  return await res.json()
+});
 
 const Home = () => {
+  const { balance } = useWallet();
+  const queryClient = useQueryClient()
+  const { isLoading, data: ethereumNativeToken, isRefetching } = useQuery<CoinGeckoTokenData>({ queryKey: [queryKeys.tokens], queryFn: () => fetcher(`${backendBaseuRL}tokens/get-native-token`) })
+  const { tokens } = useTokensStore()
   const [hideBalance, setHideBalance] = useState(false);
   const navigation = useNavigation() as any;
   const { colorScheme } = useColorScheme();
+
+  const onRefresh = () => {
+    queryClient.invalidateQueries({ queryKey: [queryKeys.tokens] });
+  }
 
   return (
     <SafeAreaView className="flex-1 relative bg-white dark:bg-[#0a0a0a] duration-500">
       <StatusBar />
       <AnimatedScrollView
+        refreshing={isRefetching}
+        onRefresh={onRefresh}
         searchBar
         searchBardPrefix={
           <View className="flex flex-row gap-3">
@@ -56,14 +84,14 @@ const Home = () => {
           >
             <Visible condition={!hideBalance}>
               <View className="flex flex-row items-center">
-                <Text className="text-[30px] text-slate-500 dark:text-white">
+                <Text className="text-[25px] text-slate-500 dark:text-white">
                   $
                 </Text>
                 <Text
                   style={{ fontFamily: "Nunito-ExtraBold" }}
                   className="text-[30px] text-slate-500 dark:text-white"
                 >
-                  {10000.0}
+                  {balance}
                 </Text>
               </View>
             </Visible>
@@ -130,7 +158,35 @@ const Home = () => {
         </View>
 
         <View className="mt-4" />
-        <CurrencyHomeList />
+
+        <NativeTokenListElement loading={isLoading || isRefetching} dta={ethereumNativeToken!} />
+
+        <Visible
+          fallBack={
+            <View className="flex items-center flex-col justify-center">
+              <Image className="w-24 h-24" source={require('../assets/images/planet.png')}></Image>
+              <Text style={{ fontFamily: "Nunito-Regular" }} className="mt-3 text-slate-700">No Ethereum token yet</Text>
+
+              <Button onPress={() => {
+                navigation.navigate(
+                  routes.tokenSelection as keyof typeof routes,
+                  {
+                    title: "Add token",
+                    tokenSelectionScreenAction: "Create",
+                  } as TokenSelectionParams
+                );
+              }}
+                className="min-h-[40px] py-0 flex-row items-center justify-center px-4 mt-4 bg-blueLight rounded-lg">
+                <View className="flex-row">
+                  <Text className="text-white">Add token</Text>
+                  <AntDesign style={{ marginLeft: 5 }} name="plus" color='white' size={15} />
+                </View>
+              </Button>
+            </View>
+          } condition={tokens.length > 0 || isRefetching || isLoading}>
+          <CurrencyHomeList isLoading={isLoading || isRefetching} tokens={tokens} />
+        </Visible>
+
       </AnimatedScrollView>
     </SafeAreaView>
   );

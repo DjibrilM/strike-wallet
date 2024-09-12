@@ -10,7 +10,7 @@ import { Modal, Text, View } from "../../components/Tailwind";
 import Visible from "../../components/Common/Visibility";
 import { cn } from "../../utils/cn";
 import { useSettings } from "../../states/settings";
-import { useAppStateStore } from "../../states/appStatus";
+import { useAppStateStore } from "../../states/appStatus.state";
 import { useWallet } from "../../states/wallet";
 import Crypto from "../../utils/crypto";
 import { useStore } from "zustand";
