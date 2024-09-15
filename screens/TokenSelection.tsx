@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 
 import {
@@ -22,6 +23,9 @@ import useDBqueries from "../utils/hooks/useDBqueries";
 import { useTokensStore } from "../states/token.state";
 
 const fetcher = (url: string) => fetch(url).then(async (res) => {
+  if (!res.ok) {
+    throw Error('');
+  }
   return await res.json()
 });
 
@@ -38,7 +42,7 @@ const TokenSelection = () => {
   const [seachResults, setSearchResults] = useState<MoralisToken[]>([]);
 
 
-  const { isLoading, data, isRefetching } = useQuery<MoralisToken[]>({
+  const { isLoading, data, isFetching, error,refetch } = useQuery<MoralisToken[]>({
     queryKey: [queryKeys.erc20Refresher], queryFn: () => fetcher(`${backendBaseuRL}tokens/get-top`)
   })
 
@@ -128,7 +132,17 @@ const TokenSelection = () => {
           </View>
         </Visible>
 
-        <TokensList showBalance={false} onSelect={onSelectToken} selectable={params.tokenSelectionScreenAction === 'Create'} skeletonCounts={10} isLoading={isLoading || isRefetching} tokens={data || [] as MoralisToken[]} tokenClickAction={params.tokenSelectionScreenAction} />
+        <Visible condition={!!error}>
+          <View className="flex mb-4 w-full flex-col justify-center items-center">
+            <MaterialIcons name="error-outline" size={32} color="black" style={{marginBottom:30}} />
+            <Text className="text-slate-700">Failed to load the tokens.</Text>
+            <Button disabled={isLoading} onPress={()=> refetch()} className="px-4 min-h-[40px] mt-4" label="Reload" />
+          </View>
+        </Visible>
+
+        <Visible condition={!error}>
+          <TokensList showBalance={false} onSelect={onSelectToken} selectable={params.tokenSelectionScreenAction === 'Create'} skeletonCounts={10} isLoading={isFetching && !error} tokens={data || [] as MoralisToken[]} tokenClickAction={params.tokenSelectionScreenAction} />
+        </Visible>
       </AnimatedScrollView>
 
       <Visible condition={params.tokenSelectionScreenAction === 'Create'}>
@@ -144,6 +158,7 @@ const TokenSelection = () => {
           </Button>
         </View>
       </Visible>
+
 
     </SafeAreaView>
   );

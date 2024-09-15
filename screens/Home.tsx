@@ -38,11 +38,10 @@ const fetcher = (url: string) => fetch(url).then(async (res) => {
 });
 
 const Home = () => {
-  const { balance } = useWallet();
+  const { nativeUsdBalance, showBalance, toggleBalanceVisibility } = useWallet();
   const queryClient = useQueryClient()
   const { isLoading, data: ethereumNativeToken, isRefetching } = useQuery<CoinGeckoTokenData>({ queryKey: [queryKeys.tokens], queryFn: () => fetcher(`${backendBaseuRL}tokens/get-native-token`) })
   const { tokens } = useTokensStore()
-  const [hideBalance, setHideBalance] = useState(false);
   const navigation = useNavigation() as any;
   const { colorScheme } = useColorScheme();
 
@@ -79,10 +78,10 @@ const Home = () => {
       >
         <View className="flex mt-5 px-7 flex-row items-center justify-between">
           <TouchableOpacity
-            onPress={() => setHideBalance(!hideBalance)}
+            onPress={() => toggleBalanceVisibility()}
             className="flex relative left-2  flex-row gap-2 items-center"
           >
-            <Visible condition={!hideBalance}>
+            <Visible condition={showBalance}>
               <View className="flex flex-row items-center">
                 <Text className="text-[25px] text-slate-500 dark:text-white">
                   $
@@ -91,12 +90,12 @@ const Home = () => {
                   style={{ fontFamily: "Nunito-ExtraBold" }}
                   className="text-[30px] text-slate-500 dark:text-white"
                 >
-                  {balance}
+                  {nativeUsdBalance}
                 </Text>
               </View>
             </Visible>
 
-            <Visible condition={hideBalance}>
+            <Visible condition={!showBalance}>
               <View className=" text-slate-700 flex flex-row gap-2">
                 {Array.from({ length: 7 }).map((_, index) => (
                   <View
@@ -108,7 +107,7 @@ const Home = () => {
             </Visible>
 
             <Feather
-              name={hideBalance ? "eye-off" : "eye"}
+              name={showBalance ? "eye-off" : "eye"}
               size={20}
               color={colorScheme ? "#ffff" : "#64748b"}
               style={{ position: "relative", bottom: 5 }}
