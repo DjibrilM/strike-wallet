@@ -65,7 +65,7 @@ const TokensList: React.FC<Props> = memo(({
             </View>
           </Visible>
 
-          {tokens?.map((dta, index) => {
+          {tokens && typeof tokens === 'object' &&  tokens.map((dta, index) => {
             return (
               <TokenListElement
                 showBalance={showBalance}

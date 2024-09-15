@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { Skeleton } from 'moti/skeleton'
-import Animated from "react-native-reanimated";
+import { Skeleton } from 'moti/skeleton';
+import { backendBaseuRL } from "../utils/shared/constant";
+import queryKeys from "../utils/queryKeys";
+import {
+    useQuery,
+    useQueryClient
+} from '@tanstack/react-query'
+
 
 import { Pressable, View, Text } from "./Tailwind";
 import Visible from "./Common/Visibility";
@@ -10,6 +16,8 @@ import { Image } from "./Tailwind";
 import { CoinGeckoTokenData, MoralisToken } from "../utils/shared/types";
 import { TokenSelectionScreenAction } from "../utils/shared/types";
 import { cn } from "../utils/cn";
+import { useTokensStore } from "../states/token.state";
+import { useWallet } from "../states/wallet";
 
 
 interface Props {
@@ -19,8 +27,27 @@ interface Props {
     loading?: boolean
 }
 
+const fetcher = (url: string) => fetch(url).then(async (res) => {
+    if (!res.ok) {
+        throw Error('');
+    }
+    return await res.json()
+});
+
 const NativeTokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction, loading = false }) => {
     const navigation = useNavigation() as any;
+    const { updateNativeBalances, showBalance } = useWallet();
+    const { isLoading, data: amount, isFetching, error, refetch } = useQuery<number>({
+        queryKey: [queryKeys.erc20Refresher], queryFn: () => fetcher(`${backendBaseuRL}tokens/get-native-balance/0xcD0C94A89ee80B69365c955d6A2441B35D5c76bD`)
+    });
+
+    useEffect(() => {
+        if (amount && dta?.current_price) {
+            const nativeUsdBalance = ((amount / 10 ** 18) * dta.current_price).toFixed(4);
+            const nativeEthBalance = (amount / 10 ** 18).toFixed(4);
+            updateNativeBalances({ eth: Number(nativeEthBalance), usd: Number(nativeUsdBalance) })
+        }
+    }, [amount])
 
     const onTokenPress = () => {
         switch (tokenClickAction) {
@@ -102,27 +129,30 @@ const NativeTokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction,
                     id={index + '-toke-element'}
                     className="flex border-b border-black/5 mb-5 py-2 px-6 items-center flex-row gap-2"
                 >
-                    <Image className="w-5 h-5" source={require('../assets/images/premium-quality.png')} />
+                    <Image className="w-4 h-4" source={require('../assets/images/premium-quality.png')} />
 
-                    <Animated.Image
-                        source={{
-                            cache: "force-cache",
-                            width: 40,
-                            height: 40,
-                            uri: dta?.image,
-                        }}
-                    />
+                    <View className="p-1 bg-slate-200 rounded-full">
+                        <Image
+
+                            source={{
+                                cache: "force-cache",
+                                width: 30,
+                                height: 30,
+                                uri: dta?.image,
+                            }}
+                        />
+                    </View>
 
                     <View>
                         <Text style={{ fontFamily: "Nunito-Regular" }} className="text-[17px] mb-1 dark:text-white">
                             {dta?.name}
                         </Text>
-                        <View className="flex-row gap-3">
+                        <View className="flex-row gap-2">
                             <Text
                                 style={{ fontFamily: "Nunito-Regular" }}
                                 className="text-[12px] text-slate-600 dark:text-white"
                             >
-                                ${dta?.current_price}
+                                ${dta?.current_price.toFixed(4)}
                             </Text>
 
                             <Text
@@ -132,25 +162,36 @@ const NativeTokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction,
                                     "text-red-600 dark:text-red-500": Number(dta?.price_change_percentage_24h) < 0,
                                 })}
                             >
-                                {dta?.price_change_24h} %
+                                {dta?.price_change_24h.toFixed(4)} %
                             </Text>
                         </View>
                     </View>
 
-                    <View className="flex-1 flex justify-center items-end">
-                        <Text
-                            className="text-slate-600 dark:text-white"
-                            style={{ fontFamily: "Nunito-Regular" }}
-                        >
-                            0
-                        </Text>
-                        <Text
-                            className="text-slate-600 dark:text-white text-sm"
-                            style={{ fontFamily: "Nunito-Regular" }}
-                        >
-                            $0.00
-                        </Text>
-                    </View>
+
+                    <Visible condition={showBalance}>
+                        <View className="flex-1 flex justify-center items-end">
+                            <Text
+                                className="text-slate-600 dark:text-white"
+                                style={{ fontFamily: "Nunito-Regular" }}
+                            >
+                                {amount && (amount / (10 ** 18)).toFixed(4)} ETH
+                            </Text>
+
+
+                            <Text
+                                className="text-slate-600 dark:text-white text-sm"
+                                style={{ fontFamily: "Nunito-Regular" }}
+                            >
+                                {amount && dta?.current_price && ((amount / 10 ** 18) * Number(dta.current_price)).toFixed(4)}$
+                            </Text>
+                        </View>
+                    </Visible>
+
+                    <Visible condition={!showBalance}>
+                        <View className="items-end flex-row gap-2 relative top-2 flex-grow justify-end">
+                            {new Array(4).fill('').map(() => <View className="h-1 w-1 bg-slate-600 rounded-full"></View>)}
+                        </View>
+                    </Visible>
                 </Pressable>
             </Visible>
         </Skeleton.Group>
