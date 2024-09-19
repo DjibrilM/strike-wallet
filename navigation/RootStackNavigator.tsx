@@ -32,7 +32,6 @@ import { useWallet } from "../states/wallet";
 import useDBqueries from "../utils/hooks/useDBqueries";
 import useLockScreen from "../utils/hooks/useLockScreen";
 import { useTokensStore } from "../states/token.state";
-import { MoralisToken } from "../utils/shared/types";
 
 //stack navigator
 const Stack = createNativeStackNavigator();
