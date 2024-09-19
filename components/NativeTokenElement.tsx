@@ -16,8 +16,8 @@ import { Image } from "./Tailwind";
 import { CoinGeckoTokenData, MoralisToken } from "../utils/shared/types";
 import { TokenSelectionScreenAction } from "../utils/shared/types";
 import { cn } from "../utils/cn";
-import { useTokensStore } from "../states/token.state";
 import { useWallet } from "../states/wallet";
+import { ActivityIndicator } from "react-native";
 
 
 interface Props {
@@ -168,28 +168,36 @@ const NativeTokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction,
                     </View>
 
 
-                    <Visible condition={showBalance}>
-                        <View className="flex-1 flex justify-center items-end">
-                            <Text
-                                className="text-slate-600 dark:text-white"
-                                style={{ fontFamily: "Nunito-Regular" }}
-                            >
-                                {amount && (amount / (10 ** 18)).toFixed(4)} ETH
-                            </Text>
+                    <Visible condition={(showBalance || true) && !isLoading && !isFetching}>
+                        <Visible condition={!isLoading}>
+                            <View className="flex-1 flex justify-center items-end">
+                                <Text
+                                    className="text-slate-600 dark:text-white"
+                                    style={{ fontFamily: "Nunito-Regular" }}
+                                >
+                                    {amount && (amount / (10 ** 18)).toFixed(4)} ETH
+                                </Text>
 
 
-                            <Text
-                                className="text-slate-600 dark:text-white text-sm"
-                                style={{ fontFamily: "Nunito-Regular" }}
-                            >
-                                {amount && dta?.current_price && ((amount / 10 ** 18) * Number(dta.current_price)).toFixed(4)}$
-                            </Text>
-                        </View>
+                                <Text
+                                    className="text-slate-600 dark:text-white text-sm"
+                                    style={{ fontFamily: "Nunito-Regular" }}
+                                >
+                                    {amount && dta?.current_price && ((amount / 10 ** 18) * Number(dta.current_price)).toFixed(4)}$
+                                </Text>
+                            </View>
+                        </Visible>
                     </Visible>
 
                     <Visible condition={!showBalance}>
                         <View className="items-end flex-row gap-2 relative top-2 flex-grow justify-end">
-                            {new Array(4).fill('').map(() => <View className="h-1 w-1 bg-slate-600 rounded-full"></View>)}
+                            {new Array(4).fill('').map((_, index) => <View key={`native-token-balance-dots-${index}`} className="h-1 w-1 bg-slate-600 rounded-full"></View>)}
+                        </View>
+                    </Visible>
+
+                    <Visible condition={isLoading && isFetching}>
+                        <View className="absolute right-4">
+                            <ActivityIndicator />
                         </View>
                     </Visible>
                 </Pressable>

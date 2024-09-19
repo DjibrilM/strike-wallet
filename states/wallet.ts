@@ -8,9 +8,9 @@ export interface State {
   privateKey: string;
   address: string;
   publicKey: string;
-  nativeUsdBalance: number;
-  nativeEthereumBalance: number;
-  showBalance: boolean;
+  nativeUsdBalance?: number;
+  nativeEthereumBalance?: number;
+  showBalance?: boolean;
 }
 
 export interface Actions {

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Feather from "@expo/vector-icons/Feather";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useColorScheme } from "nativewind";
+import { getBalance } from "../utils/web3/ethers";
 import queryKeys from "../utils/queryKeys";
 
 import {
@@ -49,6 +50,14 @@ const Home = () => {
     queryClient.invalidateQueries({ queryKey: [queryKeys.tokens] });
   }
 
+
+  useEffect(() => {
+    const balance = getBalance({
+      contractAddress: "0x0CE7f7E03fAA4E9b7905a15F42c1DFAe3FC8DB23",
+      usersAddress: "0xcD0C94A89ee80B69365c955d6A2441B35D5c76bD",
+    });
+  }, [])
+
   return (
     <SafeAreaView className="flex-1 relative bg-white dark:bg-[#0a0a0a] duration-500">
       <StatusBar />
@@ -81,7 +90,7 @@ const Home = () => {
             onPress={() => toggleBalanceVisibility()}
             className="flex relative left-2  flex-row gap-2 items-center"
           >
-            <Visible condition={showBalance}>
+            <Visible condition={showBalance || true}>
               <View className="flex flex-row items-center">
                 <Text className="text-[25px] text-slate-500 dark:text-white">
                   $
@@ -157,7 +166,6 @@ const Home = () => {
         </View>
 
         <View className="mt-4" />
-
         <NativeTokenListElement loading={isLoading || isRefetching} dta={ethereumNativeToken!} />
 
         <Visible

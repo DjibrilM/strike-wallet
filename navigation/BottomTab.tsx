@@ -38,8 +38,8 @@ export default function BottomTab() {
                 : "#00000018"
               : "transparent",
         },
-        tabBarInactiveTintColor: colorScheme === "dark" ? "white" : "#8e8e8e",
-        tabBarActiveTintColor: "#1354fe",
+        tabBarInactiveTintColor: "#8e8e8e",
+        tabBarActiveTintColor: "#5a8dfe",
         header: () => <HomeHeader />,
       }}
     >
@@ -108,7 +108,7 @@ export default function BottomTab() {
                   }
                 )}
               >
-                <View className="w-full h-full bg-blueDefault rounded-full flex justify-center items-center">
+                <View className="w-full h-full bg-[#5a8dfe] rounded-full flex justify-center items-center">
                   <MaterialCommunityIcons
                     name="line-scan"
                     size={24}
