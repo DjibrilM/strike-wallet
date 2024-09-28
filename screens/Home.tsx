@@ -51,13 +51,6 @@ const Home = () => {
   }
 
 
-  useEffect(() => {
-    const balance = getBalance({
-      contractAddress: "0x0CE7f7E03fAA4E9b7905a15F42c1DFAe3FC8DB23",
-      usersAddress: "0xcD0C94A89ee80B69365c955d6A2441B35D5c76bD",
-    });
-  }, [])
-
   return (
     <SafeAreaView className="flex-1 relative bg-white dark:bg-[#0a0a0a] duration-500">
       <StatusBar />
@@ -90,7 +83,7 @@ const Home = () => {
             onPress={() => toggleBalanceVisibility()}
             className="flex relative left-2  flex-row gap-2 items-center"
           >
-            <Visible condition={showBalance || true}>
+            <Visible condition={showBalance!}>
               <View className="flex flex-row items-center">
                 <Text className="text-[25px] text-slate-500 dark:text-white">
                   $

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useSharedValue, withDelay, withTiming } from "react-native-reanimated";
+import { useSharedValue, withTiming } from "react-native-reanimated";
 import Animated from "react-native-reanimated";
 import { StyleSheet } from "react-native";
 import { Platform } from "react-native";

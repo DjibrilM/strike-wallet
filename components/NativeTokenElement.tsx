@@ -168,7 +168,7 @@ const NativeTokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction,
                     </View>
 
 
-                    <Visible condition={(showBalance || true) && !isLoading && !isFetching}>
+                    <Visible condition={(showBalance!) && !isLoading && !isFetching}>
                         <Visible condition={!isLoading}>
                             <View className="flex-1 flex justify-center items-end">
                                 <Text
