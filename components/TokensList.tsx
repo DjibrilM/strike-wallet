@@ -69,6 +69,7 @@ const TokensList: React.FC<Props> = memo(({
           {tokens && typeof tokens === 'object' &&  tokens.map((dta, index) => {
             return (
               <TokenListElement
+                enableFetch
                 showBalance={showBalance}
                 onSelect={onSelect}
                 index={index}

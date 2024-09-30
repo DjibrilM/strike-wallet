@@ -36,9 +36,12 @@ const fetcher = (url: string) => fetch(url).then(async (res) => {
 
 const NativeTokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction, loading = false }) => {
     const navigation = useNavigation() as any;
-    const { updateNativeBalances, showBalance } = useWallet();
-    const { isLoading, data: amount, isFetching, error, refetch } = useQuery<number>({
-        queryKey: [queryKeys.erc20Refresher], queryFn: () => fetcher(`${backendBaseuRL}tokens/get-native-balance/0xcD0C94A89ee80B69365c955d6A2441B35D5c76bD`)
+    const { updateNativeBalances, showBalance, address } = useWallet();
+
+    console.log({ address })
+
+    const { isLoading, data: amount, isFetching, } = useQuery<number>({
+        queryKey: [queryKeys.erc20Refresher], queryFn: () => fetcher(`${backendBaseuRL}tokens/get-native-balance/${address}`)
     });
 
     useEffect(() => {
@@ -47,7 +50,8 @@ const NativeTokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction,
             const nativeEthBalance = (amount / 10 ** 18).toFixed(4);
             updateNativeBalances({ eth: Number(nativeEthBalance), usd: Number(nativeUsdBalance) })
         }
-    }, [amount])
+    }, [amount]);
+
 
     const onTokenPress = () => {
         switch (tokenClickAction) {
@@ -143,6 +147,7 @@ const NativeTokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction,
                         />
                     </View>
 
+
                     <View>
                         <Text style={{ fontFamily: "Nunito-Regular" }} className="text-[17px] mb-1 dark:text-white">
                             {dta?.name}
@@ -152,7 +157,7 @@ const NativeTokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction,
                                 style={{ fontFamily: "Nunito-Regular" }}
                                 className="text-[12px] text-slate-600 dark:text-white"
                             >
-                                ${dta?.current_price.toFixed(4)}
+                                ${dta?.current_price?.toFixed(4)}
                             </Text>
 
                             <Text
@@ -162,14 +167,14 @@ const NativeTokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction,
                                     "text-red-600 dark:text-red-500": Number(dta?.price_change_percentage_24h) < 0,
                                 })}
                             >
-                                {dta?.price_change_24h.toFixed(4)} %
+                                {dta?.price_change_24h?.toFixed(4)} %
                             </Text>
                         </View>
                     </View>
 
 
                     <Visible condition={(showBalance!) && !isLoading && !isFetching}>
-                        <Visible condition={!isLoading}>
+                        <Visible condition={!isLoading && !!dta}>
                             <View className="flex-1 flex justify-center items-end">
                                 <Text
                                     className="text-slate-600 dark:text-white"

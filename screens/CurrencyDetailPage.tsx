@@ -1,6 +1,6 @@
 import React, { useLayoutEffect } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Image } from "react-native";
+import { Image } from "../components/Tailwind";
 import { useNavigation } from "@react-navigation/native";
 
 
@@ -28,6 +28,7 @@ import {
 } from "../components/Tailwind";
 import { MoralisToken } from "../utils/shared/types";
 import { cn } from "../utils/cn";
+import Visible from "../components/Common/Visibility";
 
 interface Params {
   data: MoralisToken;
@@ -59,7 +60,7 @@ const CurrencyDetailPage = () => {
     }
   };
 
-  console.log(params);
+  console.log({ params });
 
   return (
     <SafeAreaView className="flex-1  bg-white">
@@ -73,9 +74,18 @@ const CurrencyDetailPage = () => {
       ></Animated.View>
       <ScrollView onScroll={scrollView} ref={animatedRef}>
         <View className="mx-auto mt-10 flex items-center justify-center">
-          <Image
-            source={{ uri: params.data.token_logo, width: 60, height: 60 }}
-          />
+          <View className="w-[60px] relative h-[60px] rounded-full bg-slate-300">
+            <Image
+              className="rounded-full w-full h-full"
+              source={{ uri: params.data.token_logo }}
+            />
+
+
+            <Visible condition={!!params.data.contract_address}>
+              <Image className="h-6 w-6 absolute left-[-10px]" source={require('../assets/images/ethereum.png')}></Image>
+            </Visible>
+          </View>
+
           <Text
             style={{ fontFamily: "Nunito-Black" }}
             className="text-[25px] text-slate-600 font-bold mt-4"
@@ -157,7 +167,7 @@ const CurrencyDetailPage = () => {
           chartConfig={{
             backgroundGradientFrom: "#ffffff",
             backgroundGradientTo: "#ffffff",
-            color: (opacity = 1) =>
+            color: () =>
             Number(  params.data.price_24h_percent_change) > 0 ? "#38a169" : "red",
 
             labelColor: () => `rgba(0, 0, 0, 0)`, // Hides labels

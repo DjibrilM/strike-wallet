@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Feather from "@expo/vector-icons/Feather";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useColorScheme } from "nativewind";
-import { getBalance } from "../utils/web3/ethers";
 import queryKeys from "../utils/queryKeys";
 
 import {
@@ -47,7 +46,7 @@ const Home = () => {
   const { colorScheme } = useColorScheme();
 
   const onRefresh = () => {
-    queryClient.invalidateQueries({ queryKey: [queryKeys.tokens] });
+    queryClient.invalidateQueries({ queryKey: [queryKeys.tokens, queryKeys.erc20Refresher] });
   }
 
 
@@ -184,7 +183,7 @@ const Home = () => {
               </Button>
             </View>
           } condition={tokens.length > 0 || isRefetching || isLoading}>
-          <CurrencyHomeList isLoading={isLoading || isRefetching} tokens={tokens} />
+          <CurrencyHomeList showBalance={showBalance} isLoading={isLoading || isRefetching} tokens={tokens} />
         </Visible>
 
       </AnimatedScrollView>
