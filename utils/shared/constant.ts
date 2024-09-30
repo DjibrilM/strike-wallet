@@ -1,7 +1,7 @@
 import { Transaction } from "./types";
 
 export const coingGeckoUrl = "https://api.coingecko.com/api/";
-export const backendBaseuRL = "https://0fj254th-3000.uks1.devtunnels.ms/";
+export const backendBaseuRL = "http://localhost:3000/";
 
 export const ethereumDervivationPath = "m/44'/60'/0'/0/0";
 export const onboarding_screen_data = [
@@ -12,6 +12,7 @@ export const onboarding_screen_data = [
     description:
       "Join the crypto revolution. Strike Wallet: Your seamless gateway to digital assets.",
   },
+
   {
     id: "bd7acbeaae-d5-3ad53abb28ba-c1b1-46c2",
     title: "Unshakeable Security",

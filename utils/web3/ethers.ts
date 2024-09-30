@@ -1,3 +1,4 @@
+import { Any } from "typeorm";
 import { backendBaseuRL } from "../shared/constant";
 import axios from "axios";
 //fetch get the user's balance from a given specific ERC2030 token
@@ -21,8 +22,9 @@ export const getBalance = async ({
         walletAddress: usersAddress,
       }
     );
-    console.log(balanceResponse.data);
-  } catch (error) {
-    console.log(error);
+
+    return balanceResponse.data;
+  } catch (error: any) {
+    throw new Error(error);
   }
 };

@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { MoralisToken } from "../utils/shared/types";
 
 export interface State {
   mnemonicArray?: string[];
@@ -11,6 +12,7 @@ export interface State {
   nativeUsdBalance?: number;
   nativeEthereumBalance?: number;
   showBalance?: boolean;
+  ethereumTokens: MoralisToken[];
 }
 
 export interface Actions {
@@ -18,7 +20,7 @@ export interface Actions {
   setWallet: (state: State) => void;
   updateNativeEthreumBalance: (amount: number) => void;
   updateUsdEthreumBalance: (amount: number) => void;
-  updateNativeBalances: ({ eth, usd }: { eth: number, usd: number }) => void;
+  updateNativeBalances: ({ eth, usd }: { eth: number; usd: number }) => void;
 }
 
 export const useWallet = create<State & Actions>((set, get) => ({
@@ -32,6 +34,7 @@ export const useWallet = create<State & Actions>((set, get) => ({
   nativeUsdBalance: 0,
   nativeEthereumBalance: 0,
   showBalance: true,
+  ethereumTokens: [],
 
   //Actions
   setWallet: (state) => set({ ...state }),
@@ -43,6 +46,7 @@ export const useWallet = create<State & Actions>((set, get) => ({
     set({ nativeUsdBalance: incomingBalance });
   },
 
-  updateNativeBalances:({eth,usd}:{eth:number,usd:number})=> set({nativeEthereumBalance:eth,nativeUsdBalance:usd}),
+  updateNativeBalances: ({ eth, usd }: { eth: number; usd: number }) =>
+    set({ nativeEthereumBalance: eth, nativeUsdBalance: usd }),
   toggleBalanceVisibility: () => set({ showBalance: !get().showBalance }),
 }));

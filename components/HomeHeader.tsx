@@ -1,12 +1,10 @@
 import React from "react";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
 import { View, Text, SafeAreaView, Image, Pressable } from "./Tailwind";
 import { useColorScheme } from "nativewind";
 
 const HomeHeader = () => {
-  const navigation = useNavigation();
   const route = useRoute();
   const { colorScheme } = useColorScheme();
 
@@ -14,7 +12,7 @@ const HomeHeader = () => {
     <SafeAreaView className="bg-white  dark:bg-black">
       <View className="px-6 flex justify-between items-center flex-row bg-white dark:bg-black border-b-[0.5px] border-[#00000018] dark:border-white/10 h-20">
         <View>
-          <Pressable className="h-[45px] w-[45px] flex items-center justify-center  bg-slate-600 dark:bg-[#1f1f1f]  rounded-lg ">
+          <Pressable className="h-[35px] w-[35px] flex items-center justify-center  bg-slate-600 dark:bg-[#1f1f1f]  rounded-lg ">
             <AntDesign
               name="plus"
               size={20}
