@@ -9,7 +9,7 @@ import {
   MoralisToken,
   TokenSelectionScreenAction,
 } from "../utils/shared/types";
-import TokenListElement from "./TokenListElement";
+import TokenListElement from "./EthereumTokenElement";
 
 interface Props {
   tokenClickAction?: TokenSelectionScreenAction;
@@ -21,6 +21,7 @@ interface Props {
   selectable?: boolean
   onSelect?: (token: MoralisToken) => void,
   showBalance?: boolean
+  enableFetch: boolean
 }
 
 const TokensList: React.FC<Props> = memo(({
@@ -32,7 +33,8 @@ const TokensList: React.FC<Props> = memo(({
   selectable = false,
   skeletonCounts = 3,
   onSelect,
-  showBalance=true
+  showBalance = true,
+  enableFetch = false
 }) => {
 
   return (
@@ -69,7 +71,7 @@ const TokensList: React.FC<Props> = memo(({
           {tokens && typeof tokens === 'object' &&  tokens.map((dta, index) => {
             return (
               <TokenListElement
-                enableFetch
+                enableFetch={enableFetch}
                 showBalance={showBalance}
                 onSelect={onSelect}
                 index={index}

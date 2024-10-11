@@ -33,6 +33,7 @@ import useDBqueries from "../utils/hooks/useDBqueries";
 import useLockScreen from "../utils/hooks/useLockScreen";
 import { useTokensStore } from "../states/token.state";
 
+
 //stack navigator
 const Stack = createNativeStackNavigator();
 //
@@ -60,7 +61,6 @@ const RootStckNavigator = () => {
         initialRouteName.current = routes.OnboardingScreen;
         setLoading(false);
         unlockApplication();
-        console.log('here');
       } else {
 
         //Navigate to the home screen if the user has already created a wallet.
@@ -92,6 +92,7 @@ const RootStckNavigator = () => {
 
   return (
     <>
+
       <Visible condition={loading}>
         <SafeAreaView className="flex flex-1 items-center justify-center flex-row">
           <View>

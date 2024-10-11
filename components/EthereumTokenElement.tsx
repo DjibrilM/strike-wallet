@@ -13,6 +13,9 @@ import { getBalance } from "../utils/web3/ethers";
 import { TokenSelectionScreenAction } from "../utils/shared/types";
 import { cn } from "../utils/cn";
 import Visible from "./Common/Visibility";
+import { EthereumToken } from "../utils/shared/types";
+import { useWallet } from "../states/wallet";
+
 
 interface Props {
   dta: MoralisToken;
@@ -24,40 +27,13 @@ interface Props {
   enableFetch?: boolean
 }
 
-interface Tokentoken {
-  tokenName: string;
-  tokenSymbol: string;
-  tokenLogo: string;
-  tokenDecimals: string;
-  nativePrice: {
-    value: string;
-    decimals: number;
-    name: string;
-    symbol: string;
-    address: string;
-  };
-  usdPrice: number;
-  usdPriceFormatted: string;
-  exchangeName: string;
-  exchangeAddress: string;
-  tokenAddress: string;
-  priceLastChangedAtBlock: string;
-  blockTimestamp: string;
-  possibleSpam: boolean;
-  verifiedContract: boolean;
-  pairAddress: string;
-  pairTotalLiquidityUsd: string;
-  "24hrPercentChange": string;
-  securityScore: number;
-  balance: number,
-  usdBalance: number,
-}
-const fetchFn = async () => {
+
+const fetchFn = async ({ userAddress }: { userAddress: string }) => {
   try {
     const balance = await getBalance({
       contractAddress: "0x0CE7f7E03fAA4E9b7905a15F42c1DFAe3FC8DB23",
-      usersAddress: "0xcD0C94A89ee80B69365c955d6A2441B35D5c76bD",
-    }) as Promise<Tokentoken>;
+      usersAddress: userAddress,
+    }) as Promise<EthereumToken>;
 
     return balance;
   } catch (error) {
@@ -74,8 +50,9 @@ const TokenListElement: React.FC<Props> = memo(
     selectable = false,
     onSelect,
     showBalance,
-    enableFetch = false
+    enableFetch
   }) => {
+    const { appendToEthereumToken, address } = useWallet()
     const navigation = useNavigation() as any;
     const [pending, startTransition] = useTransition();
     const [selected, setSelected] = useState<boolean>(false);
@@ -84,11 +61,17 @@ const TokenListElement: React.FC<Props> = memo(
     const { data: token, error, refetch, isLoading, isRefetching } = useQuery({
       enabled: enableFetch,
       queryFn: async () => {
-        const token = await fetchFn();
+        const token = await fetchFn({ userAddress: address });
         return token;
       }, queryKey: [dta.contract_address]
     });
 
+    useEffect(() => {
+      if (token) {
+        appendToEthereumToken(token)
+      }
+
+    }, [token])
 
     const onTokenPress = () => {
       if (selectable) {
@@ -97,6 +80,7 @@ const TokenListElement: React.FC<Props> = memo(
         startTransition(() => {
           onSelect?.(dta);
         });
+
       } else {
         switch (tokenClickAction) {
           case "Send":
@@ -104,6 +88,9 @@ const TokenListElement: React.FC<Props> = memo(
               name: routes.sendToken,
               data: {
                 ...dta,
+                balance: token?.balance,
+                price_usd: token?.usdPrice || dta.price_usd,
+                price_24h_percent_change: token?.["24hrPercentChange"],
               } as MoralisToken,
             });
 
@@ -114,6 +101,9 @@ const TokenListElement: React.FC<Props> = memo(
               name: routes.sendToken,
               data: {
                 ...dta,
+                balance: token?.balance,
+                price_usd: token?.usdPrice || dta.price_usd,
+                price_24h_percent_change: token?.["24hrPercentChange"],
               } as MoralisToken,
             });
 
@@ -124,6 +114,9 @@ const TokenListElement: React.FC<Props> = memo(
               name: routes.currencyDetailPage,
               data: {
                 ...dta,
+                balance: token?.balance,
+                price_usd: token?.usdPrice || dta.price_usd,
+                price_24h_percent_change: token?.["24hrPercentChange"],
               } as MoralisToken,
             });
             break;
@@ -182,23 +175,23 @@ const TokenListElement: React.FC<Props> = memo(
           </Text>
 
           <Visible condition={Boolean(token)}>
-          <View className="flex-row gap-3">
-            <Text
-              style={{ fontFamily: "Nunito-Regular" }}
-              className="text-[12px] text-slate-600 dark:text-white"
-            >
+            <View className="flex-row gap-3">
+              <Text
+                style={{ fontFamily: "Nunito-Regular" }}
+                className="text-[12px] text-slate-600 dark:text-white"
+              >
                 ${token?.usdPrice.toFixed(4)}
-            </Text>
+              </Text>
 
-            <Text
-              style={{ fontFamily: "Nunito-Regular" }}
+              <Text
+                style={{ fontFamily: "Nunito-Regular" }}
                 className={cn("text-[12px] text-slate-600", {
                   'text-red-500': Number(token?.["24hrPercentChange"]),
                   'text-green-500': Number(token?.["24hrPercentChange"]) > 0
-              })}
-            >
+                })}
+              >
                 {Number(token?.["24hrPercentChange"]).toFixed(4)} %
-            </Text>
+              </Text>
             </View>
           </Visible>
         </View>
@@ -226,24 +219,27 @@ const TokenListElement: React.FC<Props> = memo(
           </View>
         </Visible>
 
-        <Visible condition={isLoading || isRefetching}>
-          <View className="absolute right-4 top-2">
-            <ActivityIndicator />
-          </View>
-        </Visible>
 
-        <Visible condition={!showBalance && !isLoading && !isRefetching}>
-          <View className="absolute h-full items-center flex flex-row gap-2 right-4">
-            {Array(5).fill('').map((_, index) => <View key={'ethereum-token-hide-balance-dot-' + index} className="h-1 w-1 bg-slate-600 rounded-full"></View>)}
-          </View>
-        </Visible>
+        <Visible condition={enableFetch || false}>
+          <Visible condition={isLoading || isRefetching}>
+            <View className="absolute right-4 top-2">
+              <ActivityIndicator />
+            </View>
+          </Visible>
+
+          <Visible condition={!showBalance && !isLoading && !isRefetching}>
+            <View className="absolute h-full items-center flex flex-row gap-2 right-4">
+              {Array(5).fill('').map((_, index) => <View key={'ethereum-token-hide-balance-dot-' + index} className="h-1 w-1 bg-slate-600 rounded-full"></View>)}
+            </View>
+          </Visible>
 
 
-        <Visible condition={!!error}>
-          <Pressable onPress={() => refetch()} className="absolute h-full items-center flex flex-col justify-center gap-2 right-4">
-            <EvilIcons name="refresh" size={24} color="#334155" />
-            <Text className="text-sm text-slate-700">Refresh</Text>
-          </Pressable>
+          <Visible condition={!!error}>
+            <Pressable onPress={() => refetch()} className="absolute h-full items-center flex flex-col justify-center gap-2 right-4">
+              <EvilIcons name="refresh" size={24} color="#334155" />
+              <Text className="text-sm text-slate-700">Refresh</Text>
+            </Pressable>
+          </Visible>
         </Visible>
       </Pressable>
     );

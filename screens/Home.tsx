@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Feather from "@expo/vector-icons/Feather";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useColorScheme } from "nativewind";
@@ -32,30 +32,38 @@ import { CoinGeckoTokenData, TokenSelectionParams } from "../utils/shared/types"
 import { useTokensStore } from "../states/token.state";
 import NativeTokenListElement from "../components/NativeTokenElement";
 import { useWallet } from "../states/wallet";
+import { ActivityIndicator } from "react-native";
+import EvilIcons from "@expo/vector-icons/EvilIcons";
 
 const fetcher = (url: string) => fetch(url).then(async (res) => {
   return await res.json()
 });
 
 const Home = () => {
-  const { nativeUsdBalance, showBalance, toggleBalanceVisibility } = useWallet();
+  const { nativeUsdBalance, showBalance, toggleBalanceVisibility, getThereumTokensTotalBalance, ethereumTokens } = useWallet();
   const queryClient = useQueryClient()
-  const { isLoading, data: ethereumNativeToken, isRefetching } = useQuery<CoinGeckoTokenData>({ queryKey: [queryKeys.tokens], queryFn: () => fetcher(`${backendBaseuRL}tokens/get-native-token`) })
+  const { isLoading, data: ethereumNativeToken, isRefetching, error, refetch } = useQuery<CoinGeckoTokenData>({ queryKey: [queryKeys.tokens], queryFn: () => fetcher(`${backendBaseuRL}tokens/get-native-token`) });
   const { tokens } = useTokensStore()
   const navigation = useNavigation() as any;
   const { colorScheme } = useColorScheme();
 
   const onRefresh = () => {
+    refetch();
     queryClient.invalidateQueries({ queryKey: [queryKeys.tokens, queryKeys.erc20Refresher] });
   }
 
+  const balance = useMemo(() => {
+    return (getThereumTokensTotalBalance() + (nativeUsdBalance || 0)).toLocaleString();
+  }, [ethereumTokens]);
+
+
 
   return (
-    <SafeAreaView className="flex-1 relative bg-white dark:bg-[#0a0a0a] duration-500">
+    <SafeAreaView className="flex-1 relative duration-500">
       <StatusBar />
       <AnimatedScrollView
         refreshing={isRefetching}
-        onRefresh={onRefresh}
+        onRefresh={() => onRefresh()}
         searchBar
         searchBardPrefix={
           <View className="flex flex-row gap-3">
@@ -78,11 +86,11 @@ const Home = () => {
         }
       >
         <View className="flex mt-5 px-7 flex-row items-center justify-between">
+          <Visible condition={(showBalance!) && !error && !isLoading}>
           <TouchableOpacity
             onPress={() => toggleBalanceVisibility()}
-            className="flex relative left-2  flex-row gap-2 items-center"
-          >
-            <Visible condition={showBalance!}>
+              className="flex relative h-12 left-2  flex-row gap-2 items-center"
+            >
               <View className="flex flex-row items-center">
                 <Text className="text-[25px] text-slate-500 dark:text-white">
                   $
@@ -91,13 +99,22 @@ const Home = () => {
                   style={{ fontFamily: "Nunito-ExtraBold" }}
                   className="text-[30px] text-slate-500 dark:text-white"
                 >
-                  {nativeUsdBalance}
+                  {Number(balance) <= 0 ? nativeUsdBalance : balance}
                 </Text>
               </View>
-            </Visible>
 
-            <Visible condition={!showBalance}>
-              <View className=" text-slate-700 flex flex-row gap-2">
+              <Feather
+                name={showBalance ? "eye-off" : "eye"}
+                size={20}
+                color={"#64748b"}
+              />
+            </TouchableOpacity>
+          </Visible>
+
+          <Visible condition={!showBalance}>
+            <TouchableOpacity onPress={() => toggleBalanceVisibility()}>
+
+              <View className=" text-slate-700 justify-center items-center h-12  flex flex-row gap-2">
                 {Array.from({ length: 7 }).map((_, index) => (
                   <View
                     key={"hide-dots-" + index}
@@ -105,15 +122,26 @@ const Home = () => {
                   />
                 ))}
               </View>
-            </Visible>
 
-            <Feather
-              name={showBalance ? "eye-off" : "eye"}
-              size={20}
-              color={colorScheme ? "#ffff" : "#64748b"}
-              style={{ position: "relative", bottom: 5 }}
-            />
-          </TouchableOpacity>
+            </TouchableOpacity>
+          </Visible>
+
+          <Visible condition={!!error}>
+            <View className="">
+              <Text className="text-slate-600">Failed to load the balance</Text>
+
+              <TouchableOpacity onPress={() => refetch()} className="mt-5 relative top-2 flex-row gap-1 items-center">
+                <Text className="text-blue-600">Retry</Text>
+                <EvilIcons name="refresh" size={20} color="#334155" />
+              </TouchableOpacity>
+            </View>
+          </Visible>
+
+          <Visible condition={isLoading}>
+            <View className="">
+              <ActivityIndicator />
+            </View>
+          </Visible>
 
           <View className="flex flex-row gap-3">
             <TouchableOpacity className="bg-slate-600 p-2 dark:bg-[#1f1f1f] rounded-lg">
@@ -158,7 +186,7 @@ const Home = () => {
         </View>
 
         <View className="mt-4" />
-        <NativeTokenListElement loading={isLoading || isRefetching} dta={ethereumNativeToken!} />
+        <NativeTokenListElement loading={isLoading} dta={ethereumNativeToken!} />
 
         <Visible
           fallBack={
@@ -182,8 +210,8 @@ const Home = () => {
                 </View>
               </Button>
             </View>
-          } condition={tokens.length > 0 || isRefetching || isLoading}>
-          <CurrencyHomeList showBalance={showBalance} isLoading={isLoading || isRefetching} tokens={tokens} />
+          } condition={tokens.length > 0 || isLoading}>
+          <CurrencyHomeList enableFetch showBalance={showBalance} isLoading={isLoading || isRefetching} tokens={tokens} />
         </Visible>
 
       </AnimatedScrollView>

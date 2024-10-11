@@ -30,7 +30,8 @@ export const onboarding_screen_data = [
 ];
 
 // export const CHAIN_ID = 11155111
-// export const RPC_URL = "https://eth-sepolia.g.alchemy.com/v2/BTdxBnt4NU1O_qOO3K_zf8M9S_5usaM5"
+export const RPC_URL =
+  "https://eth-sepolia.g.alchemy.com/v2/BTdxBnt4NU1O_qOO3K_zf8M9S_5usaM5";
 // export const PRIVATE_KEY_=6067b231d9fa3fa67b453616789ea9592d0ed307754cc05ff38ccbfdac47b437
 
 export const routes = {

@@ -8,7 +8,7 @@ import {
 } from '@tanstack/react-query'
 import { TokenSelectionParams } from "../utils/shared/types";
 
-import TokenListElement from "../components/TokenListElement";
+import TokenListElement from "../components/EthereumTokenElement";
 import { SafeAreaView, View, Text } from "../components/Tailwind";
 import { MoralisToken } from "../utils/shared/types";
 import AnimatedScrollView from "../components/Common/AnimatedScrollView";
@@ -76,7 +76,6 @@ const TokenSelection = () => {
 
     try {
       for (let index = 0; index < selectedTokens.current.length; index++) {
-        console.log(selectedTokens.current[index]);
         await addToken(selectedTokens.current[index])
         addTokenToStore(selectedTokens.current[index]);
         if (index === selectedTokens.current.length - 1) {
@@ -96,7 +95,7 @@ const TokenSelection = () => {
       return
     };
     const findTokens = data?.filter((token) => token.token_name.toLowerCase().includes(text.toLowerCase())) || [];
-    console.log(findTokens && findTokens)
+
     setSearchResults(findTokens as MoralisToken[]);
   }, [data]
   )
@@ -122,6 +121,7 @@ const TokenSelection = () => {
             <Text style={{ fontFamily: "Nunito-Regular" }} className="text-slate-700 px-6 pb-4">Seach results</Text>
             {seachResults.map((token, index) => (
               <TokenListElement
+                enableFetch={false}
                 index={index}
                 showBalance={false}
                 tokenClickAction={params.tokenSelectionScreenAction}
@@ -141,7 +141,7 @@ const TokenSelection = () => {
         </Visible>
 
         <Visible condition={!error}>
-          <TokensList showBalance={false} onSelect={onSelectToken} selectable={params.tokenSelectionScreenAction === 'Create'} skeletonCounts={10} isLoading={isFetching && !error} tokens={data || [] as MoralisToken[]} tokenClickAction={params.tokenSelectionScreenAction} />
+          <TokensList enableFetch={false} showBalance={false} onSelect={onSelectToken} selectable={params.tokenSelectionScreenAction === 'Create'} skeletonCounts={10} isLoading={isFetching && !error} tokens={data || [] as MoralisToken[]} tokenClickAction={params.tokenSelectionScreenAction} />
         </Visible>
       </AnimatedScrollView>
 

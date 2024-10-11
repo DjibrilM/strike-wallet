@@ -11,6 +11,7 @@ interface PrimaryProps extends PressableProps {
   children?: React.JSX.Element[] | React.JSX.Element;
   label?: string;
   loading?: boolean;
+  labelClassName?: string
 }
 
 const Primary: React.FC<PrimaryProps> = ({
@@ -18,6 +19,7 @@ const Primary: React.FC<PrimaryProps> = ({
   children,
   label,
   loading,
+  labelClassName,
   ...props
 }) => {
   return (
@@ -42,7 +44,7 @@ const Primary: React.FC<PrimaryProps> = ({
       {label ? (
         <Text
           style={{ fontFamily: "Nunito-Bold" }}
-          className={cn("opacity-50 text-white  opacity-1000", {
+          className={cn("opacity-50 text-white  opacity-1000", labelClassName, {
             "text-slate-500": props.disabled,
           })}
         >

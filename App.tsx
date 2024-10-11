@@ -1,15 +1,20 @@
 import "reflect-metadata";
-import "react-native-get-random-values";
-import 'react-native-gesture-handler'
-import "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import * as SplashScreen from "expo-splash-screen";
-import { useColorScheme } from "nativewind";
+
+
 import {
   QueryClient,
   QueryClientProvider,
-} from '@tanstack/react-query'
+} from '@tanstack/react-query';
+
+import * as SplashScreen from "expo-splash-screen";
+import { useColorScheme } from "nativewind";
+import "react-native-get-random-values";
+import 'react-native-gesture-handler'
+import "react-native-gesture-handler";
+
+import NotificationProvider from "./utils/NotificationProvider";
 
 const queryClient = new QueryClient()
 
@@ -53,14 +58,18 @@ export default function App() {
   }
 
   return (
+    <NotificationProvider>
     <DatabaseConnectionProvider>
       <GestureHandlerRootView>
-        <BottomSheetModalProvider>
-          <QueryClientProvider client={queryClient}>
-            <Navigation />
+          <BottomSheetModalProvider>
+            <QueryClientProvider client={queryClient}>
+
+              <Navigation />
+
           </QueryClientProvider>
         </BottomSheetModalProvider>
       </GestureHandlerRootView>
-    </DatabaseConnectionProvider>
+      </DatabaseConnectionProvider>
+    </NotificationProvider>
   );
 }
