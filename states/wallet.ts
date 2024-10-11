@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { MoralisToken } from "../utils/shared/types";
+import { EthereumToken, MoralisToken } from "../utils/shared/types";
+import { number } from "bitcoinjs-lib/src/script";
 
 export interface State {
   mnemonicArray?: string[];
@@ -12,7 +13,7 @@ export interface State {
   nativeUsdBalance?: number;
   nativeEthereumBalance?: number;
   showBalance?: boolean;
-  ethereumTokens: MoralisToken[];
+  ethereumTokens?: EthereumToken[];
 }
 
 export interface Actions {
@@ -21,6 +22,8 @@ export interface Actions {
   updateNativeEthreumBalance: (amount: number) => void;
   updateUsdEthreumBalance: (amount: number) => void;
   updateNativeBalances: ({ eth, usd }: { eth: number; usd: number }) => void;
+  appendToEthereumToken: (token: EthereumToken) => void;
+  getThereumTokensTotalBalance: () => number;
 }
 
 export const useWallet = create<State & Actions>((set, get) => ({
@@ -38,6 +41,7 @@ export const useWallet = create<State & Actions>((set, get) => ({
 
   //Actions
   setWallet: (state) => set({ ...state }),
+
   updateNativeEthreumBalance: (incomingBalance) => {
     set({ nativeEthereumBalance: incomingBalance });
   },
@@ -48,5 +52,40 @@ export const useWallet = create<State & Actions>((set, get) => ({
 
   updateNativeBalances: ({ eth, usd }: { eth: number; usd: number }) =>
     set({ nativeEthereumBalance: eth, nativeUsdBalance: usd }),
+
   toggleBalanceVisibility: () => set({ showBalance: !get().showBalance }),
+
+  appendToEthereumToken: (incomingToken: EthereumToken) => {
+    const tokenList = get().ethereumTokens!;
+
+    const findTokenIndex =
+      tokenList?.findIndex(
+        (token) => token.tokenAddress === incomingToken.tokenAddress
+      ) || 0;
+
+    if (findTokenIndex >= 0) {
+      tokenList[findTokenIndex] = {
+        ...incomingToken,
+        tokenAddress: incomingToken.tokenAddress,
+      };
+
+      set({ ethereumTokens: tokenList });
+    } else {
+      tokenList.push({
+        ...incomingToken,
+        tokenAddress: incomingToken.tokenAddress,
+      });
+      set({ ethereumTokens: tokenList });
+    }
+  },
+
+  getThereumTokensTotalBalance: () => {
+    const totalBalance =
+      get().ethereumTokens?.reduce(
+        (acc, currentElement) => acc + currentElement.usdBalance,
+        0
+      ) || 0;
+
+    return totalBalance;
+  },
 }));

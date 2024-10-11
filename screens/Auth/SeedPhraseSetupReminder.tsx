@@ -49,7 +49,6 @@ const SeedPhraseSetupReminder = () => {
   const setupWallet = async () => {
     if (SettingsEntity && WalletEntity) {
       try {
-        console.log({ privateKey });
         const { encryptedMessage: encryptedPassword, iv: passwordIv, salt: passwordSalt } = Crypto.encrypt({ message: password.value.toString(), key: password.value.toString() });//encrypt password
 
         await createSettings({

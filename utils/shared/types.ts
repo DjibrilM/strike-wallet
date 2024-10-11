@@ -71,6 +71,7 @@ export type CoinGeckoTokenData = {
 };
 
 export type MoralisToken = {
+  balance?: number;
   token_name: string;
   token_symbol: string;
   token_logo: string;
@@ -80,7 +81,7 @@ export type MoralisToken = {
   price_24h_percent_change: string;
   price_7d_percent_change: string;
   market_cap_usd: string;
-}
+};
 
 export type Address = `0x${string}`;
 
@@ -96,3 +97,32 @@ export type Transaction = {
   To_Nametag: string;
   Value: string;
 };
+
+export interface EthereumToken {
+  tokenName: string;
+  tokenSymbol: string;
+  tokenLogo: string;
+  tokenDecimals: string;
+  nativePrice: {
+    value: string;
+    decimals: number;
+    name: string;
+    symbol: string;
+    address: string;
+  };
+  usdPrice: number;
+  usdPriceFormatted: string;
+  exchangeName: string;
+  exchangeAddress: string;
+  tokenAddress: string;
+  priceLastChangedAtBlock: string;
+  blockTimestamp: string;
+  possibleSpam: boolean;
+  verifiedContract: boolean;
+  pairAddress: string;
+  pairTotalLiquidityUsd: string;
+  "24hrPercentChange": string;
+  securityScore: number;
+  balance: number;
+  usdBalance: number;
+}

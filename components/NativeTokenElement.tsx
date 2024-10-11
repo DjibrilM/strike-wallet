@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Skeleton } from 'moti/skeleton';
 import { backendBaseuRL } from "../utils/shared/constant";
 import queryKeys from "../utils/queryKeys";
 import {
     useQuery,
-    useQueryClient
 } from '@tanstack/react-query'
 
 
@@ -38,13 +37,15 @@ const NativeTokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction,
     const navigation = useNavigation() as any;
     const { updateNativeBalances, showBalance, address } = useWallet();
 
-    console.log({ address })
-
     const { isLoading, data: amount, isFetching, } = useQuery<number>({
-        queryKey: [queryKeys.erc20Refresher], queryFn: () => fetcher(`${backendBaseuRL}tokens/get-native-balance/${address}`)
+        initialData: 0,
+        queryKey: [queryKeys.nativeBalance], queryFn: () => fetcher(`${backendBaseuRL}tokens/get-native-balance/${address}`)
     });
 
+
     useEffect(() => {
+        if (!amount) return;
+
         if (amount && dta?.current_price) {
             const nativeUsdBalance = ((amount / 10 ** 18) * dta.current_price).toFixed(4);
             const nativeEthBalance = (amount / 10 ** 18).toFixed(4);
@@ -54,11 +55,14 @@ const NativeTokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction,
 
 
     const onTokenPress = () => {
+        const balance = amount && (amount / 10 ** 18);
         switch (tokenClickAction) {
             case "Send":
+
                 navigation.navigate(routes.sendToken as never, {
                     name: routes.sendToken,
                     data: {
+                        balance: balance,
                         token_name: dta?.name,
                         token_symbol: dta?.symbol,
                         token_logo: dta?.image,
@@ -77,6 +81,7 @@ const NativeTokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction,
                 navigation.navigate(routes.tokenReception as never, {
                     name: routes.sendToken,
                     data: {
+                        balance: balance,
                         token_name: dta?.name,
                         token_symbol: dta?.symbol,
                         token_logo: dta?.image,
@@ -95,6 +100,7 @@ const NativeTokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction,
                 navigation.navigate(routes.currencyDetailPage as never, {
                     name: routes.currencyDetailPage,
                     data: {
+                        balance: balance,
                         token_name: dta?.name,
                         token_symbol: dta?.symbol,
                         token_logo: dta?.image,
@@ -109,6 +115,12 @@ const NativeTokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction,
                 break;
         }
     };
+
+
+    const extractedBalance = useMemo(() => {
+        console.log({ amount }, 'something somerhing');
+        return (amount && dta && ((amount / 10 ** 18) * Number(dta.current_price)).toFixed(4))
+    }, [amount])
 
     return (
         <Skeleton.Group show={loading}>
@@ -188,7 +200,8 @@ const NativeTokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction,
                                     className="text-slate-600 dark:text-white text-sm"
                                     style={{ fontFamily: "Nunito-Regular" }}
                                 >
-                                    {amount && dta?.current_price && ((amount / 10 ** 18) * Number(dta.current_price)).toFixed(4)}$
+                                    {extractedBalance}
+                                    {/* {amount && dta?.current_price && ((amount / 10 ** 18) * Number(dta.current_price)).toFixed(4)}$ */}
                                 </Text>
                             </View>
                         </Visible>
