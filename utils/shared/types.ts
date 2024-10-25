@@ -126,3 +126,15 @@ export interface EthereumToken {
   balance: number;
   usdBalance: number;
 }
+
+export interface TransactionHistory {
+  from: string;
+  to: string;
+  amount: number;
+  tokenName: string;
+  status: "failed" | "succeeded";
+  contractAddress: string;
+  hash: string;
+  usdAmount: number;
+  date: string;
+}

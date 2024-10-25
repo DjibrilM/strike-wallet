@@ -23,6 +23,7 @@ import { getErcTransferGasPriceEstimation } from "../utils/services/backendHttp"
 import Visible from "../components/Common/Visibility";
 import { isAddress } from "ethers";
 import { Platform } from "react-native";
+import { useWallet } from "../states/wallet";
 
 interface Params {
   data: MoralisToken;
@@ -34,6 +35,7 @@ const fetcher = (url: string) =>
   });
 
 const SendToken = () => {
+  const { address } = useWallet()
   const route = useRoute();
   const params = route.params as Params;
   const navigation = useNavigation() as any;
@@ -41,6 +43,8 @@ const SendToken = () => {
   const [loadingGas, setLoadingGas] = useState(false);
   const [showTransactionDetailModal, setShowTransactionDetailModal] =
     useState(false);
+
+
 
   const {
     isLoading,
@@ -80,10 +84,11 @@ const SendToken = () => {
     try {
 
       if (params.data.contract_address) {
+
         const response = await getErcTransferGasPriceEstimation({
           contractAddress: "0x0CE7f7E03fAA4E9b7905a15F42c1DFAe3FC8DB23",
           value: amount.value,
-          recipient: "0x6B395b38facbfe9896a98a753FC6dB1967E4c067",
+          recipient: RecipientAddress.value,
         });
 
         setEstimatedGasFees(response);
@@ -92,8 +97,8 @@ const SendToken = () => {
         setShowTransactionDetailModal(true);
       } else {
         const response = await getGasPriceEstimation({
-          from: "0xcD0C94A89ee80B69365c955d6A2441B35D5c76bD",
-          to: "0x6B395b38facbfe9896a98a753FC6dB1967E4c067",
+          from: address,
+          to: RecipientAddress.value,
           value: "0.001",
         });
 
@@ -103,8 +108,7 @@ const SendToken = () => {
         setShowTransactionDetailModal(true);
       }
     } catch (error) {
-      console.log(error);
-      return null;
+      alert('something went wrong');
     }
   };
 
@@ -226,6 +230,7 @@ const SendToken = () => {
           tokenLogoUrl={params.data.token_logo}
           tokenName={params.data.token_name}
           opened={showTransactionDetailModal}
+          usdAmount={Number(params.data.price_usd) * +(amount.value)}
         />
       </SafeAreaView>
     </KeyboardAvoidingView>

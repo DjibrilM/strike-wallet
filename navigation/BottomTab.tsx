@@ -1,21 +1,17 @@
-import { useRef } from "react";
+
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Platform } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { useColorScheme } from "nativewind";
 
-import { CustomeBottomSheetRef } from "../utils/shared/types";
-import { TouchableOpacity } from "../components/Tailwind";
 import HomeHeader from "../components/HomeHeader";
 import Home from "../screens/Home";
 import Setting from "../screens/Setting";
+import TransactionsHistory from "../screens/TransactionsHistory";
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomTab() {
-  const bottomSheet = useRef<CustomeBottomSheetRef>();
-  useColorScheme();
 
   return (
     <Tab.Navigator
@@ -45,18 +41,13 @@ export default function BottomTab() {
       <Tab.Screen
         options={{
           tabBarLabel: () => null,
-          tabBarIcon: () => (
-            <>
-              <TouchableOpacity
-                onPress={() => bottomSheet.current?.open()}
-              >
-                <AntDesign name="clockcircle" size={25} color="#5a8dfe" />
-              </TouchableOpacity>
-            </>
+          tabBarIcon: ({ color }) => (
+            <AntDesign name="clockcircle" size={25} color={color} />
+
           ),
         }}
-        name="Exchange"
-        component={Home}
+        name="Transactions"
+        component={TransactionsHistory}
       />
       <Tab.Screen
         options={{
