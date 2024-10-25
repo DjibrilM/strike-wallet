@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { Transaction } from "ethers";
 import { AlertNotificationRoot, ALERT_TYPE } from "react-native-alert-notification";
 
 import { Modal, View, Text, SafeAreaView, TouchableOpacity, Image } from "../Tailwind";
@@ -10,6 +11,8 @@ import useDialogue from "../../utils/hooks/useDialogue";
 import { sendEth } from "../../utils/web3/ethers";
 import { sendEthereumToken } from "../../utils/web3/ethers";
 import { cn } from "../../utils/cn";
+import useDBqueries from "../../utils/hooks/useDBqueries";
+import { TransactionHistory } from "../../utils/shared/types";
 
 interface Props {
     opened: boolean;
@@ -21,12 +24,15 @@ interface Props {
     gasPriceInUsd: number;
     recipient: string,
     contractAddress?: string,
+    usdAmount: number,
 }
 
-const TransactionConfirmationModal: React.FC<Props> = ({ opened, tokenName, tokenLogoUrl, gasFees, onclose, amount, gasPriceInUsd, recipient, contractAddress }) => {
+const TransactionConfirmationModal: React.FC<Props> = ({ opened, tokenName, tokenLogoUrl, gasFees, usdAmount, onclose, amount, gasPriceInUsd, recipient, contractAddress }) => {
+    const { createTransactionHistory } = useDBqueries()
     const { nativeEthereumBalance, privateKey, address } = useWallet();
     const [isTransacting, setIsTransacting] = useState(false);
     const { showToast } = useDialogue()
+
 
     const sendToken = async () => {
 
@@ -34,28 +40,79 @@ const TransactionConfirmationModal: React.FC<Props> = ({ opened, tokenName, toke
 
             try {
                 setIsTransacting(true)
-                await sendEthereumToken({ recipient, value: amount, privateKey: privateKey, contractAddress: "0x0CE7f7E03fAA4E9b7905a15F42c1DFAe3FC8DB23", address });
+                const transaction = await sendEthereumToken({ recipient, value: amount, privateKey: privateKey, contractAddress: "0x0CE7f7E03fAA4E9b7905a15F42c1DFAe3FC8DB23", address }) as Transaction;
                 setIsTransacting(false);
                 showToast({ type: ALERT_TYPE.SUCCESS, message: "Transaction completed succesfully.", title: "Success" });
 
+                const transactionsHistory: TransactionHistory = {
+                    from: address,
+                    to: recipient,
+                    amount: +(amount),
+                    tokenName: tokenName,
+                    contractAddress: contractAddress,
+                    hash: transaction.hash!,
+                    status: "succeeded",
+                    usdAmount,
+                    date: new Date().toISOString()
+                }
+                await createTransactionHistory(transactionsHistory)
             } catch (error) {
                 showToast({ type: ALERT_TYPE.DANGER, message: "Failed to process the transaction", title: "Failed" });
                 setIsTransacting(false);
-                console.log(error);
+
+                const transactionsHistory: TransactionHistory = {
+                    from: address,
+                    to: recipient,
+                    amount: +(amount),
+                    tokenName: tokenName,
+                    contractAddress: contractAddress,
+                    hash: "",
+                    status: "failed",
+                    usdAmount,
+                    date: new Date().toISOString()
+                }
+
+                await createTransactionHistory(transactionsHistory)
             }
 
         } else {
             try {
                 setIsTransacting(true)
-                await sendEth({ recipient, value: amount, privateKey: privateKey, });
+                const transaction = await sendEth({ recipient, value: amount, privateKey: privateKey, });
                 setIsTransacting(false);
                 showToast({ type: ALERT_TYPE.SUCCESS, message: "Transaction completed succesfully.", title: "Success" });
 
 
+                const transactionsHistory: TransactionHistory = {
+                    from: address,
+                    to: recipient,
+                    amount: +(amount),
+                    tokenName: tokenName,
+                    contractAddress: "",
+                    hash: transaction.hash!,
+                    status: "succeeded",
+                    usdAmount: usdAmount,
+                    date: new Date().toISOString()
+                }
+                await createTransactionHistory(transactionsHistory)
             } catch (error) {
                 showToast({ type: ALERT_TYPE.DANGER, message: "Failed to process the transaction", title: "Failed" });
                 setIsTransacting(false);
-                console.log(error);
+
+
+                const transactionsHistory: TransactionHistory = {
+                    from: address,
+                    to: recipient,
+                    amount: +(amount),
+                    tokenName: tokenName,
+                    contractAddress: "",
+                    hash: "",
+                    status: "succeeded",
+                    usdAmount: usdAmount,
+                    date: new Date().toISOString()
+                }
+                await createTransactionHistory(transactionsHistory)
+
             }
         }
 

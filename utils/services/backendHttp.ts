@@ -1,5 +1,6 @@
 import axios from "axios";
 import { backendBaseuRL } from "../shared/constant";
+import { Any } from "typeorm";
 
 interface GasEstimationTx {
   from: string;
@@ -34,9 +35,12 @@ export const getErcTransferGasPriceEstimation = async ({
     const url = `${backendBaseuRL}ethereum/get-erc-20-transfer-estimation-gas-price?contractAaddress=${contractAddress}&value=${value}&to=${recipient}`;
     const response = await axios.get(url);
 
+    if (response.data === "INSUFFICIENT_FUNDS") {
+      throw new Error("INSUFFICIENT_FUNDS");
+    }
+
     return response.data;
-  } catch (error) {
-    console.log(error);
-    return null;
+  } catch (error: any) {
+    throw new Error(error);
   }
 };

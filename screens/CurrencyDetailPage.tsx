@@ -1,21 +1,21 @@
-import React, { useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Image } from "../components/Tailwind";
 import { useNavigation } from "@react-navigation/native";
-
-
-
-import { StatusBar } from "../components/Common/StatusBar";
+import { LineChart } from "react-native-chart-kit";
 import Animated, {
   useScrollViewOffset,
   useAnimatedRef,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { LineChart } from "react-native-chart-kit";
+import { Linking } from "react-native";
+
+import { StatusBar } from "../components/Common/StatusBar";
+import { Image } from "../components/Tailwind";
+import getUrl from "../utils/getEtherscanTokenDetailUrl";
 
 import ShareControls from "../components/Common/ShareControls";
-import { randomTransactions, routes } from "../utils/shared/constant";
+import { routes } from "../utils/shared/constant";
 import TransactioElement from "../components/Common/TransactionElement";
 import useNavigationParam from "../utils/hooks/useNavigationParam";
 
@@ -29,28 +29,39 @@ import {
 import { MoralisToken } from "../utils/shared/types";
 import { cn } from "../utils/cn";
 import Visible from "../components/Common/Visibility";
+import useDBqueries from "../utils/hooks/useDBqueries";
+import { Transaction } from "../data/Entities/transactions/transaction";
+import { RefreshControl } from "react-native";
 
 interface Params {
   data: MoralisToken;
 }
 
 const CurrencyDetailPage = () => {
+  const [loadingHistory, setLoadingHistory] = useState(true);
+  const [history, setHistory] = useState<Transaction[]>([]);
+  const { getHistoryByContractAddress } = useDBqueries()
   const params = useNavigationParam<Params>();
   const navigation = useNavigation() as any;
   const animatedRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollViewOffset(animatedRef);
   const opacity = useSharedValue(0);
 
+  const openTokenDetails = () => {
+    Linking.openURL(getUrl(params.data.contract_address));
+  }
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: params.data.token_name,
       headerRight: () => (
-        <Pressable className=" bg-blueDefault p-1 rounded-full">
+        <Pressable onPress={() => openTokenDetails()} className=" bg-blueDefault p-1 rounded-full">
           <Ionicons name="information" size={18} color="white" />
         </Pressable>
       ),
     });
   }, []);
+
 
   const scrollView = () => {
     if (scrollOffset.value > 30) {
@@ -60,7 +71,22 @@ const CurrencyDetailPage = () => {
     }
   };
 
-  console.log({ params });
+  const getHistory = async () => {
+    try {
+      setLoadingHistory(true);
+      const history = await getHistoryByContractAddress(params.data.contract_address) as Transaction[];
+      setHistory(history);
+      setLoadingHistory(false);
+    } catch (error) {
+      setLoadingHistory(false);
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getHistory();
+  }, [])
+
 
   return (
     <SafeAreaView className="flex-1  bg-white">
@@ -72,7 +98,11 @@ const CurrencyDetailPage = () => {
           opacity: opacity,
         }}
       ></Animated.View>
-      <ScrollView onScroll={scrollView} ref={animatedRef}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={loadingHistory} onRefresh={getHistory} />
+        }
+        onScroll={scrollView} ref={animatedRef}>
         <View className="mx-auto mt-10 flex items-center justify-center">
           <View className="w-[60px] relative h-[60px] rounded-full bg-slate-300">
             <Image
@@ -90,13 +120,13 @@ const CurrencyDetailPage = () => {
             style={{ fontFamily: "Nunito-Black" }}
             className="text-[25px] text-slate-600 font-bold mt-4"
           >
-            0.04399625
+            {params.data.balance?.toFixed(5)} {params.data.token_symbol}
           </Text>
           <Text
             style={{ fontFamily: "Nunito-Regular" }}
             className="mt-3 text-slate-500"
           >
-            ≈$255
+            ≈${(Number(params.data.price_usd) * Number(params.data.balance)).toFixed(5)}
           </Text>
         </View>
 
@@ -123,15 +153,22 @@ const CurrencyDetailPage = () => {
           />
         </View>
 
-        <View className="">
-          {randomTransactions.map((tr, index) => (
-            <TransactioElement
-              current_price={Number(params.data.price_usd)}
+
+        {history.map((tr: any, index) => (
+          <TransactioElement
               key={"currency-detail-transaction-element-" + index}
               {...tr}
             />
           ))}
-        </View>
+
+
+        <Visible condition={!loadingHistory && history.length < 1}>
+          <View className="flex justify-center items-center mt-8">
+            <Text className="font-semibold text-slate-700">No history yet</Text>
+            <Image className="h-32 w-32 mt-4" source={require('../assets/images/planet.png')} />
+          </View>
+        </Visible>
+
       </ScrollView>
       <View className="border-t overflow-hidden flex-row h-20 flex  px-4 items-center  border-[#0000001e]">
         <View>
@@ -193,10 +230,6 @@ const CurrencyDetailPage = () => {
             paddingLeft: 0, // Removes left padding
           }}
         />
-
-        {/* <View className="flex-1 flex-row items-center justify-end h-full">
-          <Entypo name="chevron-small-up" size={24} color="#2e2e2e" />
-        </View> */}
       </View>
     </SafeAreaView>
   );

@@ -118,7 +118,6 @@ const NativeTokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction,
 
 
     const extractedBalance = useMemo(() => {
-        console.log({ amount }, 'something somerhing');
         return (amount && dta && ((amount / 10 ** 18) * Number(dta.current_price)).toFixed(4))
     }, [amount])
 

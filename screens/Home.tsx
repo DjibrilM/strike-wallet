@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import * as Clipboard from "expo-clipboard";
 import Feather from "@expo/vector-icons/Feather";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useColorScheme } from "nativewind";
@@ -40,6 +41,7 @@ const fetcher = (url: string) => fetch(url).then(async (res) => {
 });
 
 const Home = () => {
+  const { address } = useWallet()
   const { nativeUsdBalance, showBalance, toggleBalanceVisibility, getThereumTokensTotalBalance, ethereumTokens } = useWallet();
   const queryClient = useQueryClient()
   const { isLoading, data: ethereumNativeToken, isRefetching, error, refetch } = useQuery<CoinGeckoTokenData>({ queryKey: [queryKeys.tokens], queryFn: () => fetcher(`${backendBaseuRL}tokens/get-native-token`) });
@@ -75,7 +77,9 @@ const Home = () => {
               />
             </TouchableOpacity>
 
-            <TouchableOpacity className="bg-slate-600 dark:bg-[#1f1f1f] p-2 rounded-lg">
+            <TouchableOpacity onPress={() => {
+              Clipboard.setStringAsync(address);
+            }} className="bg-slate-600 dark:bg-[#1f1f1f] p-2 rounded-lg">
               <Feather
                 name="copy"
                 size={18}
@@ -152,7 +156,9 @@ const Home = () => {
               />
             </TouchableOpacity>
 
-            <TouchableOpacity className="bg-slate-600 dark:bg-[#1f1f1f] p-2 rounded-lg">
+            <TouchableOpacity onPress={() => {
+              Clipboard.setStringAsync(address);
+            }} className="bg-slate-600 dark:bg-[#1f1f1f] p-2 rounded-lg">
               <Feather
                 name="copy"
                 size={18}

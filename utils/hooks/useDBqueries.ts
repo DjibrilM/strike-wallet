@@ -1,6 +1,6 @@
 import { useCallback, useContext } from "react";
 import { DatabaseConnectionContext } from "../../data/connection";
-import { AppWallet, MoralisToken } from "../shared/types";
+import { AppWallet, MoralisToken, TransactionHistory } from "../shared/types";
 
 const useDBqueries = () => {
   const databaseContext = useContext(DatabaseConnectionContext);
@@ -78,9 +78,9 @@ const useDBqueries = () => {
 
   const getTokens = async () => {
     return await databaseContext.tokenEntity!.find();
-  }
+  };
 
-  const addToken = async (token:MoralisToken) => {
+  const addToken = async (token: MoralisToken) => {
     const newToken = new databaseContext.tokenEntity!();
     newToken.contract_address = token.contract_address;
     newToken.token_symbol = token.token_symbol;
@@ -92,8 +92,40 @@ const useDBqueries = () => {
     newToken.market_cap_usd = token.market_cap_usd;
     newToken.token_name = token.token_name;
 
-   await newToken.save()
-  }
+    await newToken.save();
+  };
+
+  const createTransactionHistory = async (transaction: TransactionHistory) => {
+    const newTransaction = new databaseContext.transations!();
+
+    newTransaction.contractAddress = transaction.contractAddress || "";
+    newTransaction.amount = transaction.amount;
+    newTransaction.to = transaction.to;
+    newTransaction.from = transaction.from;
+    newTransaction.hash = transaction.hash;
+    newTransaction.tokenName = transaction.tokenName;
+    newTransaction.state = transaction.status;
+    newTransaction.usdAmount = transaction.usdAmount;
+    newTransaction.date = transaction.date;
+
+    await newTransaction.save();
+  };
+
+  const getHistoryByContractAddress = async (contractAddress: string) => {
+    return await databaseContext.transations!.find({
+      where: { contractAddress: contractAddress },
+    });
+  };
+
+  const geNativeTokentHistory = async (contractAddress: string) => {
+    return await databaseContext.transations!.find({
+      where: { contractAddress: "" },
+    });
+  };
+
+  const getAllHistory = async () => {
+    return await databaseContext.transations!.find();
+  };
 
   return {
     getSettingCounts,
@@ -103,6 +135,9 @@ const useDBqueries = () => {
     createSettings,
     getTokens,
     addToken,
+    createTransactionHistory,
+    getHistoryByContractAddress,
+    getAllHistory,
   };
 };
 

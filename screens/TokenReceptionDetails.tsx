@@ -60,7 +60,7 @@ const TokenReceptionDetails = () => {
       <View className="flex gap-3 flex-row max-w-[300px] w-full mt-2">
         <Button
           onPress={() => {
-            Clipboard.setString(address);
+            Clipboard.setStringAsync(address);
           }}
           className="flex-1 px-2 bg-slate-300 active:bg-slate-200"
         >

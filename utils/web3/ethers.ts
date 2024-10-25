@@ -78,10 +78,10 @@ export const sendEthereumToken = async ({
 
   const formatValue = parseInt(value) * 10 ** decimals;
 
-  console.log(formatValue);
-
   const transaction = await contract.transfer(recipient, formatValue);
   await transaction.wait();
+
+  return transaction; 
 };
 
 233;
