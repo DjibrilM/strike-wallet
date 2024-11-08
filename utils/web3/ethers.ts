@@ -47,7 +47,7 @@ export const sendEth = async ({
     to: recipient,
   });
 
-  tx.wait(2);
+  tx.wait(10);
 
   return tx;
 };

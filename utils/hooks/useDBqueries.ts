@@ -81,6 +81,14 @@ const useDBqueries = () => {
   };
 
   const addToken = async (token: MoralisToken) => {
+    const findExisting = await databaseContext.tokenEntity?.findOne({
+      where: { contract_address: token.contract_address },
+    });
+
+    console.log({ findExisting });
+
+    if (findExisting) return null;
+
     const newToken = new databaseContext.tokenEntity!();
     newToken.contract_address = token.contract_address;
     newToken.token_symbol = token.token_symbol;
@@ -93,6 +101,7 @@ const useDBqueries = () => {
     newToken.token_name = token.token_name;
 
     await newToken.save();
+    return token;
   };
 
   const createTransactionHistory = async (transaction: TransactionHistory) => {

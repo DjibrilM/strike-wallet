@@ -90,7 +90,7 @@ const WalletSetup = () => {
 
             <Button
               onPress={async () => {
-                await createMnemonicFunc();
+                navigation.navigate(routes.seedPhraseImportantion as never)
               }}
               className="mt-2 bg-slate-300 active:bg-slate-200 font-bold"
             >

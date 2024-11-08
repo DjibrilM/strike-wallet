@@ -1,4 +1,4 @@
-import crypto from "crypto-es";
+
 import React, { useContext, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Checkbox from "expo-checkbox";
@@ -70,7 +70,6 @@ const SeedPhraseSetupReminder = () => {
         setWallet({ address: address, publicKey: publicKey, privateKey: privateKey });
         navigation.navigate(routes.home as never);
         securityReminderBottomSheet.current?.close();
-
       } catch (error) {
         console.log(error);
       }

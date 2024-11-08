@@ -92,7 +92,6 @@ const RootStckNavigator = () => {
 
   return (
     <>
-
       <Visible condition={loading}>
         <SafeAreaView className="flex flex-1 items-center justify-center flex-row">
           <View>

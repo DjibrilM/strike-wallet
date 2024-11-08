@@ -17,6 +17,7 @@ import { TokenSelectionScreenAction } from "../utils/shared/types";
 import { cn } from "../utils/cn";
 import { useWallet } from "../states/wallet";
 import { ActivityIndicator } from "react-native";
+import axios from "axios";
 
 
 interface Props {
@@ -37,9 +38,12 @@ const NativeTokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction,
     const navigation = useNavigation() as any;
     const { updateNativeBalances, showBalance, address } = useWallet();
 
-    const { isLoading, data: amount, isFetching, } = useQuery<number>({
+    const { isLoading, data: amount, isFetching, isRefetching } = useQuery<number>({
         initialData: 0,
-        queryKey: [queryKeys.nativeBalance], queryFn: () => fetcher(`${backendBaseuRL}tokens/get-native-balance/${address}`)
+        queryKey: [queryKeys.nativeBalance], queryFn: async () => {
+            const { data } = (await axios(`${backendBaseuRL}tokens/get-native-balance/${address}`));
+            return data;
+        } 
     });
 
 
@@ -121,6 +125,7 @@ const NativeTokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction,
         return (amount && dta && ((amount / 10 ** 18) * Number(dta.current_price)).toFixed(4))
     }, [amount])
 
+    console.log({ isRefetching })
     return (
         <Skeleton.Group show={loading}>
             <Visible condition={loading}>
@@ -212,7 +217,7 @@ const NativeTokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction,
                         </View>
                     </Visible>
 
-                    <Visible condition={isLoading && isFetching}>
+                    <Visible condition={isLoading || isFetching || isRefetching}>
                         <View className="absolute right-4">
                             <ActivityIndicator />
                         </View>

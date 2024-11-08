@@ -13,6 +13,7 @@ import { cn } from "../../utils/cn";
 
 interface Props extends TextInputProps {
   className?: string;
+  containerClassName?: string;
   InputType?: KeyboardTypeOptions;
   errorMessage?: string;
   hiddePasswordView?: boolean;
@@ -25,6 +26,7 @@ const Input: React.FC<Props> = ({
   errorMessage,
   hiddePasswordView,
   prefix,
+  containerClassName,
   ...props
 }) => {
   const top = useSharedValue(25);
@@ -59,7 +61,7 @@ const Input: React.FC<Props> = ({
   return (
     <View
       className={cn(
-        "w-full border relative rounded-lg h-[65px] flex flex-row items-center border-gray-200 p-3 bg-white",
+        "w-full border relative rounded-lg h-[65px] flex flex-row items-center border-gray-200 p-3 bg-white", containerClassName,
         {
           "border-blueDefault": focused,
         }
