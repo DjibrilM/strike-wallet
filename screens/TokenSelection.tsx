@@ -1,7 +1,7 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { SearchBar } from "react-native-screens";
-import { FlatList } from "react-native";
+import { ActivityIndicator, FlatList } from "react-native";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 
@@ -99,6 +99,17 @@ const TokenSelection = () => {
   return (
     <SafeAreaView className="flex-1 bg-white dark:bg-[#0a0a0a]">
       <SearchBar />
+
+      <View className="border-b pb-3 border-black/5">
+        <View className="h-14  bg-slate-100 mx-3 flex-row dark:bg-[#222] flex px-4 items-center mt-6 rounded-lg">
+          <TextInput
+            onChangeText={(value) => searchInputChange(value)}
+            placeholder="search"
+            className="text-slate-800 h-full flex-grow pr-4 pl-2"
+          />
+        </View>
+      </View>
+
       <Visible condition={!!error}>
         <View className="flex mb-4 h-4/6 w-full flex-col justify-center items-center">
           <MaterialIcons
@@ -117,15 +128,12 @@ const TokenSelection = () => {
         </View>
       </Visible>
 
-      <View className="border-b pb-3 border-black/5">
-        <View className="h-14  bg-slate-100 mx-3 flex-row dark:bg-[#222] flex px-4 items-center mt-6 rounded-lg">
-          <TextInput
-            onChangeText={(value) => searchInputChange(value)}
-            placeholder="search"
-            className="text-slate-800 h-full flex-grow pr-4 pl-2"
-          />
+      <Visible condition={isLoading}>
+        <View className="h-10 flex items-center justify-end">
+          <ActivityIndicator />
         </View>
-      </View>
+      </Visible>
+
 
       <FlatList
         style={{ paddingTop: 10 }}
