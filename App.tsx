@@ -63,9 +63,7 @@ export default function App() {
       <GestureHandlerRootView>
           <BottomSheetModalProvider>
             <QueryClientProvider client={queryClient}>
-
               <Navigation />
-
           </QueryClientProvider>
         </BottomSheetModalProvider>
       </GestureHandlerRootView>

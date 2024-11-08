@@ -1,18 +1,32 @@
-import React, { useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { KeyboardTypeOptions, Platform } from "react-native";
-import Button from "../../components/Widgets/Button";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import * as LocalAuthentication from "expo-local-authentication";
+
 import {
   View,
   Text,
   SafeAreaView,
   Switch,
   Pressable,
+  TouchableOpacity,
 } from "../../components/Tailwind";
+import {
+  checkMnemonicValidity,
+  createWalletKeyPairFromMnemonic,
+} from "../../utils/wallet";
+import Crypto from "../../utils/crypto";
 import Input from "../../components/Widgets/Input";
+import Button from "../../components/Widgets/Button";
 import { cn } from "../../utils/cn";
 import Visible from "../../components/Common/Visibility";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { DatabaseConnectionContext } from "../../data/connection";
+import navigation from "../../navigation";
+import useDBqueries from "../../utils/hooks/useDBqueries";
+import { routes } from "../../utils/shared/constant";
+import { useWallet } from "../../states/wallet";
+import { useNavigation } from "@react-navigation/native";
 
 const passwordConfirmation = (
   password: string,
@@ -23,6 +37,9 @@ const passwordConfirmation = (
 
 type Form = {
   seedPhrase: {
+    keyboardType: KeyboardTypeOptions
+    validate: Function;
+    errorMessages: string;
     type: KeyboardTypeOptions;
     value: string;
     valid: boolean;
@@ -31,6 +48,9 @@ type Form = {
   };
 
   password: {
+    keyboardType: KeyboardTypeOptions
+    validate: Function;
+    errorMessages: string;
     type: KeyboardTypeOptions;
     value: string;
     valid: boolean;
@@ -39,6 +59,9 @@ type Form = {
   };
 
   passwordConfirmation: {
+    keyboardType: KeyboardTypeOptions
+    validate: Function;
+    errorMessages: string;
     type: KeyboardTypeOptions;
     value: string;
     valid: boolean;
@@ -49,7 +72,12 @@ type Form = {
 
 const formDefaultData: Form = {
   seedPhrase: {
-    type: "visible-password",
+    keyboardType: 'default',
+    validate: function (input: string) {
+      return checkMnemonicValidity(input);
+    },
+    errorMessages: "Invalid Phrase mnemonic",
+    type: "default",
     value: "",
     valid: false,
     placeHolder: "Seed phrase",
@@ -57,14 +85,25 @@ const formDefaultData: Form = {
   },
 
   password: {
+    keyboardType: "numeric",
+    errorMessages: "Invalid password",
     type: "visible-password",
     value: "",
+    validate: function (input: string) {
+      const pattern = /^.{5}$/;
+      return pattern.test(input);
+    },
     valid: false,
     placeHolder: "Password",
     validationPattern: /^(?=.*\d)[A-Za-z\d]{6,}$/,
   },
 
   passwordConfirmation: {
+    keyboardType: "numeric",
+    validate: function (input: string, reference: string) {
+      return input === reference && /^.{5}$/.test(input);
+    },
+    errorMessages: "Password don't match",
     type: "visible-password",
     value: "",
     valid: false,
@@ -74,17 +113,86 @@ const formDefaultData: Form = {
 };
 
 const ImportExistingSeedPhrase = () => {
+  const navigation = useNavigation() as any;
+  const { setWallet } = useWallet();
+  const { createWallet, createSettings } = useDBqueries();
+  const { SettingsEntity, WalletEntity } = useContext(
+    DatabaseConnectionContext
+  );
+  const [allowBiometrics, setAllowBiometrics] = useState(false);
   const [form, setForm] = useState<Form>(formDefaultData);
-  const [includeFaceRecognition, setIncludeFaceRecognition] =
-    useState<boolean>(false);
 
-  const onInputChange = (
+  const [
+    hasConfirmedBiometricAuthorization,
+    setHasConfirmedBiometricAuthorization,
+  ] = useState(false);
+
+  const onInputChange = async (
     key: "password" | "seedPhrase" | "passwordConfirmation",
     value: string
   ) => {
     const prevFormVal = { ...form };
+
+    console.log(value);
+
+    const validation = prevFormVal[key].validate(value, form.password.value);
+    prevFormVal[key].valid = validation;
     prevFormVal[key].value = value;
     setForm(prevFormVal);
+  };
+
+  const confirmBiomtricCredientials = useCallback(async () => {
+    if (hasConfirmedBiometricAuthorization) return;
+
+    const authenticate = await LocalAuthentication.authenticateAsync();
+    setHasConfirmedBiometricAuthorization(true);
+    if (authenticate.success) {
+      setHasConfirmedBiometricAuthorization(true);
+    }
+  }, [hasConfirmedBiometricAuthorization]);
+
+  const setupWallet = async () => {
+    if (SettingsEntity && WalletEntity) {
+      try {
+        const { address, privateKey, publicKey } =
+          await createWalletKeyPairFromMnemonic(form.seedPhrase.value);
+        const {
+          encryptedMessage: encryptedPassword,
+          iv: passwordIv,
+          salt: passwordSalt,
+        } = Crypto.encrypt({
+          message: form.password.value,
+          key: form.password.value.toString(),
+        }); //encrypt password
+
+        await createSettings({
+          passwordIv,
+          passwordSalt,
+          password: encryptedPassword!,
+          hasConfirguredWallet: false,
+          allowBiomtricCrediential: allowBiometrics,
+        });
+
+        await createWallet({
+          mnemonic: form.seedPhrase.value || "",
+          privateKey: privateKey,
+          publicKey: publicKey,
+          seedPhrase: "",
+          address: address,
+        });
+
+        setWallet({
+          address: address,
+          publicKey: publicKey,
+          privateKey: privateKey,
+        });
+
+        navigation.goBack();
+        navigation.navigate(routes.home, { screen: 'Wallet' } as never);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   return (
@@ -107,51 +215,73 @@ const ImportExistingSeedPhrase = () => {
           {Object.keys(form).map((key) => (
             <View key={key} className="mt-5">
               <Input
+                multiline={key === "seedPhrase"}
+                style={[
+                  key === "seedPhrase" && [
+                    { height: 300, backgroundColor: "red" },
+                  ],
+                ]}
                 onChangeText={(text) =>
                   onInputChange(
-                    key as "password" | "seedPhrase" | "passwordConfirmation",
+                    key as keyof typeof form,
                     text
                   )
                 }
+
+                keyboardType={form[key as keyof typeof form].keyboardType}
+
                 prefix={
                   key === "passwordConfirmation" &&
                   form[
-                    key as "password" | "seedPhrase" | "passwordConfirmation"
+                    key as keyof typeof form
                   ].valid ? (
                     <AntDesign name="check" size={24} color="#50a050" />
                   ) : (
-                    <>
-                      {key === "seedPhrase" && (
-                        <Pressable className="mx-2">
+                      <View className="h-full">
+                        {key === "seedPhrase" && form[key].valid && (
+                          <AntDesign name="check" size={24} color="#50a050" />
+                        )}
+
+                        {key === "seedPhrase" && !form[key].valid && (
+                          <TouchableOpacity className="mx-2">
                           <Ionicons name="scan" size={20} color="#353434" />
-                        </Pressable>
+                          </TouchableOpacity>
                       )}
-                    </>
+                      </View>
                   )
                 }
                 hiddePasswordView={key === "passwordConfirmation"}
+
                 InputType={
                   form[
-                    key as "password" | "seedPhrase" | "passwordConfirmation"
+                    key as keyof typeof form
                   ].type
                 }
                 value={
                   form[
-                    key as "password" | "seedPhrase" | "passwordConfirmation"
+                    key as keyof typeof form
                   ].value
                 }
                 placeholder={
                   form[
-                    key as "password" | "seedPhrase" | "passwordConfirmation"
+                    key as keyof typeof form
                   ].placeHolder
                 }
-                className="mt-10"
+                errorMessage={
+                  !form[key as keyof typeof form].valid &&
+                    form[key as keyof typeof form].value
+                    ? form[key as keyof typeof form].errorMessages
+                    : ""
+                }
+                maxLength={key !== 'seedPhrase' ? 5 : Infinity}
+                containerClassName={cn({ "h-[150px]": key === "seedPhrase" })}
+                className="h-full bg-red-500"
               />
             </View>
           ))}
         </View>
 
-        <View className="justify-between flex flex-row w-full mt-10">
+        <View className="justify-between flex flex-row w-full mt-10 relative z-50">
           <Text
             style={{ fontFamily: "Nunito-Regular" }}
             className="text-[17px] text-slate-700"
@@ -159,8 +289,21 @@ const ImportExistingSeedPhrase = () => {
             Sign in with Face ID?
           </Text>
           <Switch
-            value={includeFaceRecognition}
-            onChange={() => setIncludeFaceRecognition(!includeFaceRecognition)}
+            trackColor={{ false: "#e2e2e2cc", true: "#8da9eeb6" }}
+            thumbColor={
+              Platform.OS === "android"
+                ? allowBiometrics
+                  ? "#3a6be8"
+                  : "#ccc"
+                : ""
+            }
+            value={allowBiometrics}
+            onValueChange={(value) => {
+              if (value) {
+                confirmBiomtricCredientials();
+              }
+              setAllowBiometrics(!allowBiometrics);
+            }}
           />
         </View>
 
@@ -173,7 +316,15 @@ const ImportExistingSeedPhrase = () => {
               </Text>
             </Pressable>
           </Text>
-          <Button label="Import" />
+          <Button
+            disabled={
+              !form.password.valid ||
+              !form.passwordConfirmation.valid ||
+              !form.seedPhrase.valid
+            }
+            onPress={setupWallet}
+            label="Import"
+          />
         </View>
       </View>
     </SafeAreaView>
@@ -181,3 +332,6 @@ const ImportExistingSeedPhrase = () => {
 };
 
 export default ImportExistingSeedPhrase;
+
+
+// loud proud among airport rocket kingdom curtain spin before garbage matter chapter bus lion guitar copy memory address simple swift design fun fatigue guess

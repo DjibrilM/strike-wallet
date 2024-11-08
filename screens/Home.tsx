@@ -41,22 +41,25 @@ const fetcher = (url: string) => fetch(url).then(async (res) => {
 });
 
 const Home = () => {
+
   const { address } = useWallet()
   const { nativeUsdBalance, showBalance, toggleBalanceVisibility, getThereumTokensTotalBalance, ethereumTokens } = useWallet();
   const queryClient = useQueryClient()
-  const { isLoading, data: ethereumNativeToken, isRefetching, error, refetch } = useQuery<CoinGeckoTokenData>({ queryKey: [queryKeys.tokens], queryFn: () => fetcher(`${backendBaseuRL}tokens/get-native-token`) });
+  const { isLoading, data: ethereumNativeToken, isRefetching, error } = useQuery<CoinGeckoTokenData>({ queryKey: [queryKeys.tokens], queryFn: () => fetcher(`${backendBaseuRL}tokens/get-native-token`) });
   const { tokens } = useTokensStore()
   const navigation = useNavigation() as any;
   const { colorScheme } = useColorScheme();
 
-  const onRefresh = () => {
-    refetch();
-    queryClient.invalidateQueries({ queryKey: [queryKeys.tokens, queryKeys.erc20Refresher] });
+  const onRefresh = async () => {
+    await queryClient.invalidateQueries({ queryKey: [queryKeys.nativeBalance] });
+    await queryClient.invalidateQueries({ queryKey: [queryKeys.tokens] });
   }
 
   const balance = useMemo(() => {
+    console.log({ balance })
     return (getThereumTokensTotalBalance() + (nativeUsdBalance || 0)).toLocaleString();
-  }, [ethereumTokens]);
+  }, [ethereumTokens, nativeUsdBalance]);
+
 
 
 
@@ -65,7 +68,7 @@ const Home = () => {
       <StatusBar />
       <AnimatedScrollView
         refreshing={isRefetching}
-        onRefresh={() => onRefresh()}
+        onRefresh={async () => await onRefresh()}
         searchBar
         searchBardPrefix={
           <View className="flex flex-row gap-3">
@@ -134,7 +137,7 @@ const Home = () => {
             <View className="">
               <Text className="text-slate-600">Failed to load the balance</Text>
 
-              <TouchableOpacity onPress={() => refetch()} className="mt-5 relative top-2 flex-row gap-1 items-center">
+              <TouchableOpacity onPress={() => onRefresh()} className="mt-5 relative top-2 flex-row gap-1 items-center">
                 <Text className="text-blue-600">Retry</Text>
                 <EvilIcons name="refresh" size={20} color="#334155" />
               </TouchableOpacity>

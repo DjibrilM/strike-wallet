@@ -1,0 +1,4 @@
+- [ ] Add account events listner 
+- [ ] Implement seedphrase recovery
+- [ ] Implement ERC-20 token importatio using Moralis
+- [ ] Implement address scanning 

@@ -14,7 +14,7 @@ export const useTokensStore = create<State & Actions>((set, get) => ({
   },
 
   addToken: (token) => {
-    const prevValue = get().tokens;
+    const prevValue = [...get().tokens];
     prevValue.push(token);
     set({ tokens: prevValue });
   },

@@ -15,6 +15,7 @@ import { cn } from "../utils/cn";
 import Visible from "./Common/Visibility";
 import { EthereumToken } from "../utils/shared/types";
 import { useWallet } from "../states/wallet";
+import queryKeys from "../utils/queryKeys";
 
 
 interface Props {
@@ -25,6 +26,7 @@ interface Props {
   onSelect?: (token: MoralisToken) => void;
   showBalance: boolean;
   enableFetch?: boolean
+  selected?: boolean
 }
 
 
@@ -44,6 +46,7 @@ const fetchFn = async ({ userAddress }: { userAddress: string }) => {
 
 const TokenListElement: React.FC<Props> = memo(
   ({
+    selected,
     dta,
     index,
     tokenClickAction = false,
@@ -55,7 +58,6 @@ const TokenListElement: React.FC<Props> = memo(
     const { appendToEthereumToken, address } = useWallet()
     const navigation = useNavigation() as any;
     const [pending, startTransition] = useTransition();
-    const [selected, setSelected] = useState<boolean>(false);
 
 
     const { data: token, error, refetch, isLoading, isRefetching } = useQuery({
@@ -63,7 +65,7 @@ const TokenListElement: React.FC<Props> = memo(
       queryFn: async () => {
         const token = await fetchFn({ userAddress: address });
         return token;
-      }, queryKey: [dta.contract_address]
+      }, queryKey: [dta.contract_address, queryKeys.erc20Refresher]
     });
 
     useEffect(() => {
@@ -75,12 +77,7 @@ const TokenListElement: React.FC<Props> = memo(
 
     const onTokenPress = () => {
       if (selectable) {
-        setSelected(!selected);
-
-        startTransition(() => {
-          onSelect?.(dta);
-        });
-
+        onSelect?.(dta);
       } else {
         switch (tokenClickAction) {
           case "Send":
@@ -123,8 +120,6 @@ const TokenListElement: React.FC<Props> = memo(
         }
       }
     };
-
-
 
     return (
       <Pressable
@@ -196,7 +191,7 @@ const TokenListElement: React.FC<Props> = memo(
           </Visible>
         </View>
 
-        <Visible condition={showBalance && !isLoading && !!token && !isRefetching}>
+        <Visible condition={showBalance && !isLoading && !!token && !isRefetching && !error}>
           <View className="flex-1 flex justify-center items-end">
 
             <View className="flex items-center flex-row gap-2">
@@ -234,7 +229,7 @@ const TokenListElement: React.FC<Props> = memo(
           </Visible>
 
 
-          <Visible condition={!!error}>
+          <Visible condition={!!error && !token && !isLoading && !isRefetching}>
             <Pressable onPress={() => refetch()} className="absolute h-full items-center flex flex-col justify-center gap-2 right-4">
               <EvilIcons name="refresh" size={24} color="#334155" />
               <Text className="text-sm text-slate-700">Refresh</Text>
