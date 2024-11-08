@@ -229,7 +229,7 @@ const TokenListElement: React.FC<Props> = memo(
           </Visible>
 
 
-          <Visible condition={!!error && !token && !isLoading && !isRefetching}>
+          <Visible condition={!!error && !token && !isLoading}>
             <Pressable onPress={() => refetch()} className="absolute h-full items-center flex flex-col justify-center gap-2 right-4">
               <EvilIcons name="refresh" size={24} color="#334155" />
               <Text className="text-sm text-slate-700">Refresh</Text>
