@@ -125,7 +125,7 @@ const NativeTokenListElement: React.FC<Props> = ({ dta, index, tokenClickAction,
         return (amount && dta && ((amount / 10 ** 18) * Number(dta.current_price)).toFixed(4))
     }, [amount])
 
-    console.log({ isRefetching })
+
     return (
         <Skeleton.Group show={loading}>
             <Visible condition={loading}>

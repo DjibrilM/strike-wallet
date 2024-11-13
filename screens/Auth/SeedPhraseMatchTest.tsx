@@ -6,7 +6,7 @@ import { useAuthSetps } from "../../states/authSteps.state";
 import AuthHeader from "../../components/AuthHeader";
 
 import { Text } from "../../components/Tailwind";
-import { routes, seedPhrase } from "../../utils/shared/constant";
+import { routes } from "../../utils/shared/constant";
 
 import {
   View,
@@ -15,28 +15,31 @@ import {
   ScrollView,
 } from "../../components/Tailwind";
 import { cn } from "../../utils/cn";
+import { useWallet } from "../../states/wallet";
 
 const SeedPhraseMatchTest = () => {
   const navigation = useNavigation();
+  const { mnemonicArray: seedPhrase } = useWallet();
   const [selectionAre, setSelectionArea] = useState([
-    ...seedPhrase.map((el, index) => ({
+    ...seedPhrase!.map((el, index) => ({
       hasPriority: false,
       word: el,
       selected: index === 0 ? true : false,
       match: "",
     })),
   ]);
-  const randomSeedPhrase = useMemo<{ word: string; index: number }[]>(() => {
-    const pharsesPool: { word: string; index: number }[] = [];
 
-    seedPhrase.forEach((word) => {
-      pharsesPool.push({
+  const randomSeedPhrase = useMemo<{ word: string; index: number }[]>(() => {
+    const phrasesPool: { word: string; index: number }[] = [];
+
+    seedPhrase!.forEach((word) => {
+      phrasesPool.push({
         word: word,
-        index: Math.floor(Math.random() * seedPhrase.length),
+        index: Math.floor(Math.random() * seedPhrase!.length),
       });
     });
 
-    return pharsesPool.sort((a, b) => a.index - b.index);
+    return phrasesPool.sort((a, b) => a.index - b.index);
   }, []);
 
   const { updateSteps } = useAuthSetps();
@@ -161,7 +164,7 @@ const SeedPhraseMatchTest = () => {
             label="Continue"
             disabled={
               !(
-                seedPhrase.join("") ===
+                seedPhrase!.join("") ===
                 selectionAre.map((obj) => obj.match).join("")
               )
             }

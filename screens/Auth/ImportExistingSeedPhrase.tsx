@@ -133,8 +133,6 @@ const ImportExistingSeedPhrase = () => {
   ) => {
     const prevFormVal = { ...form };
 
-    console.log(value);
-
     const validation = prevFormVal[key].validate(value, form.password.value);
     prevFormVal[key].valid = validation;
     prevFormVal[key].value = value;
@@ -273,7 +271,7 @@ const ImportExistingSeedPhrase = () => {
                     ? form[key as keyof typeof form].errorMessages
                     : ""
                 }
-                maxLength={key !== 'seedPhrase' ? 5 : Infinity}
+                maxLength={key !== 'seedPhrase' ? 5 : 100**3}
                 containerClassName={cn({ "h-[150px]": key === "seedPhrase" })}
                 className="h-full bg-red-500"
               />
