@@ -85,8 +85,6 @@ const useDBqueries = () => {
       where: { contract_address: token.contract_address },
     });
 
-    console.log({ findExisting });
-
     if (findExisting) return null;
 
     const newToken = new databaseContext.tokenEntity!();

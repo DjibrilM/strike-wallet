@@ -56,7 +56,6 @@ const Home = () => {
   }
 
   const balance = useMemo(() => {
-    console.log({ balance })
     return (getThereumTokensTotalBalance() + (nativeUsdBalance || 0)).toLocaleString();
   }, [ethereumTokens, nativeUsdBalance]);
 
