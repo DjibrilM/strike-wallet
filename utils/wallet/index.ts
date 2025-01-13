@@ -2,6 +2,7 @@ import { generateMnemonic, mnemonicToSeed, validateMnemonic } from "bip39";
 import "@ethersproject/shims";
 import { ethers, HDNodeWallet, Mnemonic } from "ethers";
 
+
 export const createMnemonic = async () => {
   const mnemonic = generateMnemonic();
   const seed = await mnemonicToSeed(mnemonic);
