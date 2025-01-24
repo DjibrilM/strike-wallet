@@ -11,6 +11,7 @@ export const AuthScreenHeader: NativeStackNavigationOptions = {
   headerStyle: {
     backgroundColor: "#fff",
   },
+  
 
   headerShadowVisible: false,
   headerRight: () => {
