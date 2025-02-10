@@ -17,7 +17,6 @@ import {
 import { styled } from "nativewind";
 
 
-
 export const View = styled(NativeView);
 export const Text = styled(NativeText);
 export const Pressable = styled(NativePressable);
