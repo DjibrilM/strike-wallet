@@ -14,6 +14,7 @@ interface Entities {
   transations: typeof Transaction | null | undefined
 }
 
+
 export const DatabaseConnectionContext = createContext<Entities>(
   {} as Entities
 );
