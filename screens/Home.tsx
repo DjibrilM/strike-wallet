@@ -25,7 +25,6 @@ import {
   TouchableOpacity,
 } from "../components/Tailwind";
 
-
 import Visible from "../components/Common/Visibility";
 import { useNavigation } from "@react-navigation/native";
 import { routes } from "../utils/shared/constant";
