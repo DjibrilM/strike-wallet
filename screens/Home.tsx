@@ -40,7 +40,6 @@ const fetcher = (url: string) => fetch(url).then(async (res) => {
 });
 
 const Home = () => {
-
   const { address } = useWallet()
   const { nativeUsdBalance, showBalance, toggleBalanceVisibility, getThereumTokensTotalBalance, ethereumTokens } = useWallet();
   const queryClient = useQueryClient()
