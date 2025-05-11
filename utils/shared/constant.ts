@@ -20,6 +20,7 @@ export const onboarding_screen_data = [
     description:
       "Trust Strike Wallet to safeguard your digital assets. Our robust security measures provide the peace of mind you deserve.",
   },
+  
   {
     id: "bd7a3ad5cbeaae-d5-3abb28ba-c1b1-46c2-",
     title: "Web3 In Your Hand",
