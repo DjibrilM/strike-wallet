@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { ActivityIndicator } from "react-native";
 import { useColorScheme } from "nativewind";
 import Ionicons from "@expo/vector-icons/Ionicons";
-
 import { routes } from "../utils/shared/constant";
 import { SafeAreaView } from "../components/Tailwind";
 import WalletSetup from "../screens/Auth/WalletSetup";
